@@ -2,6 +2,8 @@ package com.munchies.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "orders")
@@ -11,10 +13,14 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long order_id;
 
-    @Column(name = "order_creator", nullable = false)
+    @Column(name = "order_creator")
+    @NotNull
+    @Size(min = 3,max = 50)
     private String orderCreator;
 
-    @Column(name = "order_item", nullable = false)
+    @Column(name = "order_item")
+    @NotNull
+    @Size(min = 4, max = 50 )
     private String orderItem;
 
     @ManyToOne

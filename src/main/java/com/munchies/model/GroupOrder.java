@@ -1,6 +1,8 @@
 package com.munchies.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -11,13 +13,15 @@ public class GroupOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long group_order_id;
 
-    @Column(name = "creator", nullable = false)
+    @Column(name = "creator")
+    @NotNull
+    @Size(min =3, max = 50 )
     private String creator;
 
-    @Column(name = "order_timeout", nullable = false)
+    @Column(name = "order_timeout")
     private Integer order_timeout;
 
-    @Column(name = "order_url", nullable = false)
+    @Column(name = "order_url")
     private String order_url;
 
     @ManyToOne

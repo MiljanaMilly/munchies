@@ -16,22 +16,22 @@ public class User {
     private Long users_id;
 
     @Column(name = "first_name")
-    @Size(min =5, max = 10 , message = "{User.firstName.size}")
+    @Size(min =5, max = 10)
     @NotNull(message= "{User.firstName.notNull}")
     private String firstName;
 
     @Column(name = "last_name")
-    @Size(min =5, max = 10,message = "{User.lastName.size}")
-    @NotNull(message= "{User.lastName.notNull}")
+    @Size(min =5, max = 10)
+    @NotNull
     private String lastName;
 
     @Column(name = "email", nullable = false)
-    @NotNull(message= "{User.email.notNull}")
+    @NotNull
     @Email
     private String email;
 
     @Column(name = "password", nullable = false)
-    @NotNull(message= "{User.password.notNull}")
+    @NotNull
     @Size(min = 7, max = 15)
     private String password;
 
