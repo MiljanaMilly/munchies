@@ -2,6 +2,7 @@ package com.munchies.model;
 
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -12,8 +13,11 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int roles_id;
 
-    @ManyToMany(mappedBy = "roles")
+
     private String name;
+
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
 
     public Role() {
     }
