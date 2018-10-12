@@ -42,19 +42,10 @@ CREATE TABLE if not exists `users_role` (
 
 
 
-
-
-CREATE TABLE if not exists `restaurant` (
-  `restaurant_id` bigint(20) primary key auto_increment NOT NULL,
-  `name` varchar(50) NOT NULL,
-  `address` varchar(50) NOT NULL,
-  `phone_number` varchar(15) NOT NULL,
-  `menu_url` varchar(500) NOT NULL,
-  `group_order_id` bigint(20) NOT NULL,
-  foreign key (group_order_id) references group_order(group_order_id),
-  `delivery_time` varchar(10) DEFAULT NULL,
-  `additional_charges` varchar(100) DEFAULT NULL,
-  `delivery_info` varchar(250) DEFAULT NULL
+CREATE TABLE if not exists `orders` (
+  `order_id` bigint(20) primary key auto_increment NOT NULL,
+  `order_creator` varchar(50) NOT NULL,
+  `order_item` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE if not exists `group_order` (
@@ -66,13 +57,24 @@ CREATE TABLE if not exists `group_order` (
   foreign key (order_id) references orders(order_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-
-CREATE TABLE if not exists `orders` (
-  `order_id` bigint(20) primary key auto_increment NOT NULL,
-  `order_creator` varchar(50) NOT NULL,
-  `order_item` varchar(50) NOT NULL
+CREATE TABLE if not exists `restaurant` (
+  `restaurant_id` bigint(20) primary key auto_increment NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  `phone_number` varchar(15) NOT NULL,
+  `menu_url` varchar(500) NOT NULL,
+  `group_order_id` bigint(20) NOT NULL,
+  foreign key (group_order_id) references group_order(group_order_id),
+  `delivery_time` varchar(50) DEFAULT NULL,
+  `additional_charges` varchar(100) DEFAULT NULL,
+  `delivery_info` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+
+
+
+
 
 
 CREATE TABLE if not exists `flyway_schema_history` (
