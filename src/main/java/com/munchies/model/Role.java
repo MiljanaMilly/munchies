@@ -13,7 +13,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int roles_id;
 
-
+    @Column(name = "name")
     private String name;
 
     @ManyToMany(mappedBy = "roles")
