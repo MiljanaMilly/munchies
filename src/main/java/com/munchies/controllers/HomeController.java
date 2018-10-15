@@ -19,12 +19,19 @@ public class HomeController {
 
     }
 
-    @GetMapping("/login?error")
-    public String loginError(String error, Model model) {
-        error = "Error! ";
-        model.addAttribute("error", error);
+    @PostMapping("/login?error")
+    public String loginError(@RequestParam(value = "error") String err, Model model) {
+        err = "Invalid Username/password";
+        model.addAttribute("err", err);
+
         return "login";
 //
+
+    }
+
+    @GetMapping("home")
+    public String homePage() {
+        return "home";
 
     }
 

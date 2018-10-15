@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Home Page</title>
+    <meta
+            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+            name="viewport"/>
+    <link rel="stylesheet"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"/>
+
+    <link rel="stylesheet" th:href="@{../static/css/styles.css}"/>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">
+
+</div>
+<div class="container">
+    <div layout:fragment="content">
+        <h1>Static content for prototyping purposes only</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Praesent scelerisque neque neque, ac elementum quam dignissim interdum.
+
+        </p>
+    </div>
+
+</div>
+<div sec:authorize="isAuthenticated()">
+    <div th:replace="fragments/footer-admin :: footer-admin"></div>
+</div>
+<div sec:authorize="isAnonymous()">
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+
+<script th:src="@{/webjars/jquery/3.1.1/jquery.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+</body>
+</html>

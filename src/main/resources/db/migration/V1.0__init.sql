@@ -11,8 +11,6 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
-
-
 CREATE TABLE if not exists `roles` (
   `roles_id` int(100) primary key auto_increment NOT NULL,
   `role_name` varchar(20) DEFAULT NULL
@@ -41,7 +39,6 @@ CREATE TABLE if not exists `users_role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-
 CREATE TABLE if not exists `orders` (
   `order_id` bigint(20) primary key auto_increment NOT NULL,
   `order_creator` varchar(50) NOT NULL,
@@ -52,7 +49,7 @@ CREATE TABLE if not exists `group_order` (
   `group_order_id` bigint(20) primary key auto_increment NOT NULL,
   `creator` varchar(50) NOT NULL,
   `order_timeout` int(20) DEFAULT '10',
-  `order_url` varchar(500) NOT NULL,
+  `order_url` varchar(500),
   order_id bigint not null,
   foreign key (order_id) references orders(order_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -69,12 +66,6 @@ CREATE TABLE if not exists `restaurant` (
   `additional_charges` varchar(100) DEFAULT NULL,
   `delivery_info` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-
-
-
-
 
 
 CREATE TABLE if not exists `flyway_schema_history` (
