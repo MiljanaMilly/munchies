@@ -36,15 +36,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     protected void configure(HttpSecurity http) throws Exception{
-    http.headers()
+    http.csrf().disable().headers()
             .and().authorizeRequests()
             .antMatchers("/", "/login","/home").permitAll()
             .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')").anyRequest().authenticated()
             .and().exceptionHandling().accessDeniedPage("/403").and()
             .formLogin()
             .loginPage("/login")
-            .defaultSuccessUrl("/home").usernameParameter("email").passwordParameter("password")
-            .failureUrl("/error").permitAll()
+            .defaultSuccessUrl("/home")
+            .usernameParameter("email").passwordParameter("password")
+           .failureUrl("/login?error").permitAll()
             .and()
             .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll();
 

@@ -15,7 +15,7 @@ public class Order {
 
     @Column(name = "order_creator")
     @NotNull
-    @Size(min = 3,max = 50)
+    @Size(min = 3,max = 50,message = "Size must be ")
     private String orderCreator;
 
     @Column(name = "order_item")
