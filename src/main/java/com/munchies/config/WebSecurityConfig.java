@@ -17,18 +17,16 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true, proxyTargetClass = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService customUserDetailsService;
 
-    @Autowired
-    private DataSource dataSource;
-
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public BCryptPasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder;
     }
 
     @Autowired
@@ -38,10 +36,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     protected void configure(HttpSecurity http) throws Exception{
-    http.headers().frameOptions().sameOrigin().and().authorizeRequests().antMatchers("/", "/login","/home").permitAll()
-            .antMatchers("/admin/**").hasRole("ROLE_ADMIN").anyRequest().authenticated()
-            .and().formLogin().loginPage("/login").defaultSuccessUrl("/home").failureUrl("/error").permitAll()
-            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/login")).logoutSuccessUrl("/login");
+    http.headers()
+            .and().authorizeRequests()
+            .antMatchers("/", "/login","/home").permitAll()
+            .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')").anyRequest().authenticated()
+            .and().exceptionHandling().accessDeniedPage("/403").and()
+            .formLogin()
+            .loginPage("/login")
+            .defaultSuccessUrl("/home").usernameParameter("email").passwordParameter("password")
+            .failureUrl("/error").permitAll()
+            .and()
+            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout").permitAll();
 
 
     }
