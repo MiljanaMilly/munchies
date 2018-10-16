@@ -39,7 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception{
     http.csrf().disable().headers()
             .and().authorizeRequests()
-            .antMatchers("/", "/login","/home").permitAll()
+            .antMatchers("/", "/login", "/home", "/signup").permitAll()
             .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')").anyRequest().authenticated()
             .and().exceptionHandling().accessDeniedPage("/403").and()
             .formLogin()

@@ -17,7 +17,7 @@ import java.util.Optional;
 public class HomeController {
 
     @Autowired
-    public RestaurantService restaurantService;
+    private RestaurantService restaurantService;
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public ModelAndView goHome(ModelAndView mav) {
@@ -39,9 +39,7 @@ public class HomeController {
     public String loginError(Model model) {
         String err = "Invalid Username/password";
         model.addAttribute("err", err);
-
         return "login";
-//
 
     }
 
