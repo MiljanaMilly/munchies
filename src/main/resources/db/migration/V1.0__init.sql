@@ -45,14 +45,6 @@ CREATE TABLE if not exists `orders` (
   `order_item` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE if not exists `group_order` (
-  `group_order_id` bigint(20) primary key auto_increment NOT NULL,
-  `creator` varchar(50) NOT NULL,
-  `order_timeout` int(20) DEFAULT '10',
-  `order_url` varchar(500),
-  order_id bigint not null,
-  foreign key (order_id) references orders(order_id)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE if not exists `restaurant` (
   `restaurant_id` bigint(20) primary key auto_increment NOT NULL,
@@ -60,14 +52,24 @@ CREATE TABLE if not exists `restaurant` (
   `address` varchar(50) NOT NULL,
   `phone_number` varchar(15) NOT NULL,
   `menu_url` varchar(500) NOT NULL,
-  `group_order_id` bigint(20) NOT NULL,
-  foreign key (group_order_id) references group_order(group_order_id),
   `delivery_time` varchar(50) DEFAULT NULL,
   `additional_charges` varchar(100) DEFAULT NULL,
   `delivery_info` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+CREATE TABLE if not exists `group_order` (
+  `group_order_id` bigint(20) primary key auto_increment NOT NULL,
+  `creator` varchar(50) NOT NULL,
+  `order_timeout` int(20) DEFAULT '10',
+  `order_url` varchar(500),
+  order_id bigint,
+  foreign key (order_id) references orders(order_id),
+  `restaurant_id` bigint(20),
+  foreign key (restaurant_id) references restaurant(restaurant_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+drop table if exists `flyway_schema_history`;
 CREATE TABLE if not exists `flyway_schema_history` (
   `installed_rank` int(11) NOT NULL,
   `version` varchar(50) DEFAULT NULL,
@@ -82,14 +84,11 @@ CREATE TABLE if not exists `flyway_schema_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-
-INSERT INTO `flyway_schema_history` (`installed_rank`, `version`, `description`, `type`, `script`, `checksum`, `installed_by`, `installed_on`, `execution_time`, `success`) VALUES
-(1, '1', '<< Flyway Baseline >>', 'BASELINE', '<< Flyway Baseline >>', NULL, 'root', '2018-10-11 14:14:13', 0, 1);
-
-
-
 ALTER TABLE `flyway_schema_history`
   ADD PRIMARY KEY (`installed_rank`),
   ADD KEY `flyway_schema_history_s_idx` (`success`);
+
+  INSERT INTO `flyway_schema_history` ( `version`, `description`, `type`, `script`, `checksum`, `installed_by`, `installed_on`, `execution_time`, `success`) VALUES
+( '1', '<< Flyway Baseline >>', 'BASELINE', '<< Flyway Baseline >>', NULL, 'root', '2018-10-11 14:14:13', 0, 1);
 
 

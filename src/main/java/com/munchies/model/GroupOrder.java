@@ -24,7 +24,7 @@ public class GroupOrder {
     @Column(name = "order_url")
     private String order_url;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
