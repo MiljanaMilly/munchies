@@ -6,10 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Home Page</title>
-    <meta
-            content="width=device-width, initial-scale=1, maximum-scale=1"
-            name="viewport"/>
-    <!-- Latest compiled and minified CSS -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -17,49 +14,54 @@
 </head>
 
 <body>
-<div sec:authorize="isAuthenticated()">
-    <div th:replace="admin/header :: header"></div>
-</div>
-<div sec:authorize="isAnonymous()">
-    <div th:replace="fragments/header :: header"></div>
-</div>
-
-
 <div class="container">
     <div class="row">
-        <table border="1">
-            <tr style="font-size: 13">
-                <td>Name</td>
-                <td>Address</td>
-                <td>Phone Number</td>
-                <td>Menu URL</td>
-                <td>Delivery Time</td>
-                <td>Order</td>
-            </tr>
-            <tr th:each="rest :  ${restaurants}">
-                <td><p th:text="${rest.name}"/></td>
-                <td><p th:text="${rest.address}"/></td>
-                <td><p th:text="${rest.phoneNumber}"/></td>
-                <td><p th:text="${rest.menuURL}"/></td>
-                <td><p th:text="${rest.deliveryTime}"/></td>
-                <td>
-                    <form action="#" th:action="@{'/createnewgrouporder'+ ${rest.restaurant_id}}" method="post"
-                          th:value="${rest.restaurant_id}">
-                        <button type="submit">
-                            Create Group order
-                        </button>
-                    </form>
-                </td>
-
-
-            </tr>
-        </table>
-
+        <div sec:authorize="isAuthenticated()">
+            <div th:replace="admin/header :: header"></div>
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <div th:replace="fragments/header :: header"></div>
+        </div>
     </div>
 
-    <div th:replace="fragments/footer :: footer"></div>
-</div>
 
+    <div class="container">
+        <div class="row ">
+            <table class="table table-bordered">
+                <tr style="font-size: 13">
+                    <td>Name</td>
+                    <td>Address</td>
+                    <td>Phone Number</td>
+                    <td>Menu URL</td>
+                    <td>Delivery Time</td>
+                    <td>Order</td>
+                </tr>
+                <tr th:each="rest :  ${restaurants}">
+                    <td><p th:text="${rest.name}"/></td>
+                    <td><p th:text="${rest.address}"/></td>
+                    <td><p th:text="${rest.phoneNumber}"/></td>
+                    <td><p th:text="${rest.menuURL}"/></td>
+                    <td><p th:text="${rest.deliveryTime}"/></td>
+                    <td>
+                        <form action="#" th:action="@{'/createnewgrouporder'+ ${rest.restaurant_id}}" method="post"
+                              th:value="${rest.restaurant_id}">
+                            <button type="submit">
+                                Create Group order
+                            </button>
+                        </form>
+                    </td>
+
+
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="container ">
+        <div class="row">
+            <div th:replace="fragments/footer :: footer"></div>
+        </div>
+    </div>
+</div>
 
 <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"

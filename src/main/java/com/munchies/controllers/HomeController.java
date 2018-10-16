@@ -36,8 +36,8 @@ public class HomeController {
     }
 
     @PostMapping("/login?error")
-    public String loginError(@RequestParam(value = "error") String err, Model model) {
-        err = "Invalid Username/password";
+    public String loginError(Model model) {
+        String err = "Invalid Username/password";
         model.addAttribute("err", err);
 
         return "login";
@@ -51,6 +51,13 @@ public class HomeController {
 
     }
 
+    @GetMapping(value = "/signup")
+    public String signupform(User user, Model model) {
+        model.addAttribute(user);
+        return "signup";
+
+    }
+
     @GetMapping("/createnewgrouporder/{restaurantId}")
     public ModelAndView createGroupOrder(@PathVariable("restaurantId") Long id, ModelAndView mav) {
         Optional<Restaurant> r = restaurantService.getOne(id);
@@ -58,6 +65,12 @@ public class HomeController {
         mav.setViewName("createnewgrouporder");
         return mav;
 
+
+    }
+
+    @GetMapping(value = "/logout")
+    public String logout() {
+        return "home";
 
     }
 
