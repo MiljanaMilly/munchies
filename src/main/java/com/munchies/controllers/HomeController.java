@@ -1,17 +1,19 @@
 package com.munchies.controllers;
 
+import com.munchies.model.GroupOrder;
 import com.munchies.model.Restaurant;
 import com.munchies.model.User;
 import com.munchies.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
+
 import java.util.List;
-import java.util.Optional;
+
 
 @Controller
 public class HomeController {
@@ -19,10 +21,11 @@ public class HomeController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
-    public ModelAndView goHome(ModelAndView mav) {
+    @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
+    public ModelAndView goHome(ModelAndView mav, Restaurant restaurant) {
         List<Restaurant> restList = restaurantService.getAllRest();
         mav.addObject("restaurants", restList);
+        mav.addObject("rest", restaurant);
         mav.setViewName("home");
         return mav;
 
@@ -42,15 +45,16 @@ public class HomeController {
         return "login";
 
     }
-
-    @GetMapping("/home")
-    public ModelAndView homePage(ModelAndView mav) {
-        List<Restaurant> restList = restaurantService.getAllRest();
-        mav.addObject("restaurants", restList);
-        mav.setViewName("home");
-        return mav;
-
-    }
+//
+//    @GetMapping("/home")
+//    public ModelAndView homePage(ModelAndView mav , Restaurant restaurant) {
+//        List<Restaurant> restList = restaurantService.getAllRest();
+//        mav.addObject("restaurants", restList);
+//        mav.addObject("onerest",restaurant);
+//        mav.setViewName("home");
+//        return mav;
+//
+//    }
 
     @GetMapping(value = "/signup")
     public String signupform(User user, Model model) {
@@ -59,14 +63,34 @@ public class HomeController {
 
     }
 
-    @GetMapping("/createnewgrouporder{restaurantId}")
-    public ModelAndView createGroupOrder(@PathVariable("restaurantId") Long id, ModelAndView mav) {
-        Optional<Restaurant> r = restaurantService.getOne(id);
-        mav.addObject("restaurant", r);
+    @RequestMapping(value = "/home", method = RequestMethod.POST)
+    public ModelAndView createNewGroupOrder(@RequestParam(name = "restaurantID") Long id, ModelAndView mav, GroupOrder groupOrder) {
+        mav.addObject("groupOrder", groupOrder);
+        mav.addObject("rest", restaurantService.getOne(id));
         mav.setViewName("createnewgrouporder");
         return mav;
 
+    }
 
+    @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.GET)
+    public ModelAndView newGroupOrder(@ModelAttribute Restaurant rest, ModelAndView mav) {
+        mav.addObject("rest", rest);
+        mav.setViewName("createnewgrouporder");
+        return mav;
+
+    }
+
+    @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
+    public ModelAndView groupOrder(ModelAndView mav) {
+        mav.setViewName("createnewgrouporder");
+        return mav;
+
+    }
+
+    @RequestMapping(value = "/viewrestdetails", method = RequestMethod.GET)
+    public ModelAndView newGroupOrder(ModelAndView mav) {
+        mav.setViewName("viewRestDetails");
+        return mav;
     }
 
     @GetMapping(value = "/logout")

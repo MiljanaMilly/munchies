@@ -28,32 +28,33 @@
 
 <div class="container" th:fragment="content">
     <div class="panel panel-default">
-        <div class="panel-heading text-center">Panel heading</div>
+        <div class="panel-heading text-center"><h3>Restorani</h3></div>
         <div class="panel-body text-center">
-            <p>Spisak dostupnih restorana</p>
+            <h3>Spisak dostupnih restorana</h3>
         </div>
     </div>
-    <div class="row customRow">
+    <div class="row">
             <table class="table table-bordered">
                 <tr style="font-size: 13">
                     <td>Name</td>
+                    <td>Short Name</td>
                     <td>Address</td>
                     <td>Phone Number</td>
                     <td>Menu URL</td>
-                    <td>Delivery Time</td>
                     <td>Order</td>
                 </tr>
                 <tr th:each="rest :  ${restaurants}">
-                    <td><p th:text="${rest.name}"/></td>
-                    <td><p th:text="${rest.address}"/></td>
-                    <td><p th:text="${rest.phoneNumber}"/></td>
-                    <td><p th:text="${rest.menuURL}"/></td>
-                    <td><p th:text="${rest.deliveryTime}"/></td>
+                    <td><p th:text="${rest.name}"></p></td>
+                    <td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>
+                    <td><p th:text="${rest.address}"></p></td>
+                    <td><p th:text="${rest.phoneNumber}"></p></td>
+                    <td><p th:text="${rest.menuURL}"></p></td>
                     <td>
-                        <form action="#" th:action="@{'/createnewgrouporder'+ ${rest.restaurant_id}}" method="post"
-                              th:value="${rest.restaurant_id}">
-                            <button type="submit">
-                                Create Group order
+                        <!--<a href="#" th:href="@{/createnewgrouporder(restaurantId=${rest.restaurant_id})}"></a>-->
+                        <form action="/home" th:action="@{/home(restaurantID = ${rest.restaurant_id})}" method="post"
+                              th:object="${rest}">
+                            <input type="hidden" name="restaurantID" th:field="${rest.restaurant_id}"/>
+                            <button type="submit" class="btn btn-sm"> New Group Order
                             </button>
                         </form>
                     </td>
@@ -63,8 +64,9 @@
             </table>
         </div>
     </div>
+
     <div class="container ">
-        <div class="row customRow">
+        <div class="row">
             <div th:replace="fragments/footer :: footer"></div>
         </div>
     </div>

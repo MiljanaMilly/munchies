@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>New group Order</title>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Home Page</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div sec:authorize="isAuthenticated()">
+            <div th:replace="admin/header :: header"></div>
+        </div>
+        <div sec:authorize="isAnonymous()">
+            <div th:replace="fragments/header :: header"></div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center"><h3>Group orders</h3></div>
+        <div class="panel-body text-center">
+            <h3>Create new group order</h3>
+        </div>
+    </div>
+    <div class="row col-lg-5 col-md-5"></div>
+
+    <div class="row col-lg-4 col-md-4 ">
+        <div class="input-group" th:object="${rest}">
+            <label>Narucujete u restoranu: </label>
+        </div>
+        <form action="#" th:action="@{/createnewgrouporder}" name="form" id="form" class="form-horizontal"
+              method="POST" th:object="${groupOrder}">
+            <div class="input-group">
+                <input id="creator" type="text" class="form-control" name="creator" value=""
+                       placeholder="Group order creator"
+                       th:field="*{creator}">
+            </div>
+            <br>
+            <div class="input-group">
+                <input id="order_timeout" type="timeout" class="form-control" name="order_timeout"
+                       placeholder="Order timeout"
+                       th:field="*{order_timeout}">
+            </div>
+            <br>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">
+                    Submit order
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+    <div class="row col-lg-3 col-md-3"></div>
+
+
+</div>
+<div class="container ">
+    <div class="row">
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</div>
+
+</body>
+</html>
