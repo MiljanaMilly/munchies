@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("admin")
 public class AdminController {
 
 
@@ -27,7 +27,7 @@ public class AdminController {
     public ModelAndView zaposleniPage(ModelAndView model) {
         List<User> usersList = userService.getAllUsers();
         model.addObject("usersList", usersList);
-        model.setViewName("zaposleni");
+        model.setViewName("admin/zaposleni");
         return model;
     }
 
@@ -35,7 +35,7 @@ public class AdminController {
     public ModelAndView restoraniPage(ModelAndView model) {
         List<Restaurant> restList = restaurantService.getAllRest();
         model.addObject("restList", restList);
-        model.setViewName("restorani");
+        model.setViewName("admin/restorani");
         return model;
     }
 

@@ -44,8 +44,11 @@ public class HomeController {
     }
 
     @GetMapping("/home")
-    public String homePage() {
-        return "home";
+    public ModelAndView homePage(ModelAndView mav) {
+        List<Restaurant> restList = restaurantService.getAllRest();
+        mav.addObject("restaurants", restList);
+        mav.setViewName("home");
+        return mav;
 
     }
 
@@ -56,7 +59,7 @@ public class HomeController {
 
     }
 
-    @GetMapping("/createnewgrouporder/{restaurantId}")
+    @GetMapping("/createnewgrouporder{restaurantId}")
     public ModelAndView createGroupOrder(@PathVariable("restaurantId") Long id, ModelAndView mav) {
         Optional<Restaurant> r = restaurantService.getOne(id);
         mav.addObject("restaurant", r);
