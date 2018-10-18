@@ -1,11 +1,91 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Group order</title>
 </head>
 <body>
-Group order
+<div class="container">
+    <div class="row">
+        <div sec:authorize="isAnonymous()">
+            <div th:replace="fragments/header :: header"></div>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <div th:replace="admin/header :: header"></div>
+        </div>
+
+    </div>
+</div>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">Restoran</div>
+        <div class="panel-body text-center">
+            <h3>Porucujete iz restorana: </h3>
+            <h1 th:utext="${grouporder.restaurant.name}">Name</h1>
+        </div>
+    </div>
+    <div class="row col-lg-4 col-md-4"></div>
+    <!--Order information: order URL, order timeout-->
+    <!--(always 10 mins since the order start), order-->
+    <!--creator, restaurant name, restaurant phone no.,-->
+    <!--menu URL-->
+    <!--2. Add selection form which is used by other-->
+    <!--employees to add their selection to the order. This-->
+    <!--form has fields for: employee name, item name,-->
+    <!--and price.-->
+    <div class="row col-lg-4 col-md-4 ">
+        <form action="#" th:action="@{/newgrouporder}" name="form" id="form" class="form-horizontal"
+              method="POST" th:object="${grouporder}">
+            <div class="input-group">
+                <input type="text" class="form-control" name="orderUrl" th:value="${#httpServletRequest.requestURI}"
+                       disabled/>
+
+            </div>
+            <br>
+            <div class="input-group">
+                <input type="text" class="form-control" name="creator"
+                       placeholder="Order timeout"
+                       th:value="${grouporder.creator}">
+            </div>
+            <br>
+            <div class="input-group">
+                <input type="text" class="form-control" name="order_timeout"
+                       placeholder="Order timeout"
+                       th:value="${grouporder.restaurant.name}">
+            </div>
+            <br>
+            <div class="input-group">
+                <input type="text" class="form-control" name="order_timeout"
+                       placeholder="Order timeout"
+                       th:value="${grouporder.restaurant.phoneNumber}">
+            </div>
+            <br>
+            <div class="input-group">
+                <input type="text" class="form-control" name="order_timeout"
+                       placeholder="Order timeout"
+                       th:value="${grouporder.restaurant.menuURL}">
+            </div>
+            <!--<div class="input-group-btn">-->
+            <!--<button type="submit" class="btn btn-primary">-->
+            <!--Submit order-->
+            <!--</button>-->
+
+            <!--</div>-->
+
+        </form>
+    </div>
+    <div class="row col-lg-4 col-md-4"></div>
+
+
+</div>
+<div class="container ">
+    <div class="row">
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
+</div>
 
 </body>
 </html>

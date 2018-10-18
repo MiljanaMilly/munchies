@@ -36,7 +36,7 @@ public class AdminController {
     public ModelAndView restoraniPage(ModelAndView model) {
         List<Restaurant> restList = restaurantService.getAllRest();
         model.addObject("restList", restList);
-        model.setViewName("admin/restorani");
+        model.setViewName("classpath:resources/templates/admin/restorani");
         return model;
     }
 

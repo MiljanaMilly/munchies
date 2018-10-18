@@ -16,12 +16,13 @@
 <body>
 <div class="container">
     <div class="row">
-        <div sec:authorize="isAuthenticated()">
-            <div th:replace="admin/header :: header"></div>
-        </div>
         <div sec:authorize="isAnonymous()">
             <div th:replace="fragments/header :: header"></div>
         </div>
+        <div sec:authorize="isAuthenticated()">
+            <div th:replace="admin/header :: header"></div>
+        </div>
+
     </div>
 </div>
 
@@ -50,13 +51,16 @@
                     <td><p th:text="${rest.phoneNumber}"></p></td>
                     <td><p th:text="${rest.menuURL}"></p></td>
                     <td>
-                        <!--<a href="#" th:href="@{/createnewgrouporder(restaurantId=${rest.restaurant_id})}"></a>-->
-                        <form action="/home" th:action="@{/home(restaurantID = ${rest.restaurant_id})}" method="post"
-                              th:object="${rest}">
-                            <input type="hidden" name="restaurantID" th:field="${rest.restaurant_id}"/>
-                            <button type="submit" class="btn btn-sm"> New Group Order
-                            </button>
-                        </form>
+                        <div class="row"><a href="#" th:href="@{'/createnewgrouporder?id=' + ${rest.restaurant_id}}">
+                            New Group Order </a></div>
+                        <div class="row"><a href="#" th:href="@{'/viewrestdetails?id=' + ${rest.restaurant_id}}"> View
+                            Details </a></div>
+                        <!--<form action="/home" th:action="@{/home(restaurantID = ${rest.restaurant_id})}" method="post"-->
+                        <!--th:object="${rest}">-->
+                        <!--<input type="hidden" name="restaurantID" th:field="${rest.restaurant_id}"/>-->
+                        <!--<button type="submit" class="btn btn-sm"> New Group Order-->
+                        <!--</button>-->
+                        <!--</form>-->
                     </td>
 
 

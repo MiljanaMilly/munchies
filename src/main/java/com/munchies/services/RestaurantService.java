@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface RestaurantService {
     List<Restaurant> getAllRest();
 
-    Optional<Restaurant> getOne(Long id);
+    Restaurant getOne(Long id);
 
 }

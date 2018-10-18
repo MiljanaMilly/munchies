@@ -19,8 +19,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     }
 
-    public Optional<Restaurant> getOne(Long id) {
-        return restaurantRepository.findById(id);
+    public Restaurant getOne(Long id) {
+        return restaurantRepository.getOne(id);
 
     }
 }

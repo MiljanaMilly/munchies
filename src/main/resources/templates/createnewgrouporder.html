@@ -15,27 +15,26 @@
 <body>
 <div class="container">
     <div class="row">
-        <div sec:authorize="isAuthenticated()">
-            <div th:replace="admin/header :: header"></div>
-        </div>
         <div sec:authorize="isAnonymous()">
             <div th:replace="fragments/header :: header"></div>
         </div>
+        <div sec:authorize="isAuthenticated()">
+            <div th:replace="admin/header :: header"></div>
+        </div>
+
     </div>
 </div>
 <div class="container">
     <div class="panel panel-default">
-        <div class="panel-heading text-center"><h3>Group orders</h3></div>
+        <div class="panel-heading text-center">Restoran</div>
         <div class="panel-body text-center">
-            <h3>Create new group order</h3>
+            <h3>Porucujete iz restorana: </h3>
+            <h1 th:utext="${groupOrder.restaurant.name}">Name</h1>
         </div>
     </div>
     <div class="row col-lg-5 col-md-5"></div>
 
     <div class="row col-lg-4 col-md-4 ">
-        <div class="input-group" th:object="${rest}">
-            <label>Narucujete u restoranu: </label>
-        </div>
         <form action="#" th:action="@{/createnewgrouporder}" name="form" id="form" class="form-horizontal"
               method="POST" th:object="${groupOrder}">
             <div class="input-group">
@@ -50,7 +49,7 @@
                        th:field="*{order_timeout}">
             </div>
             <br>
-            <div class="form-group">
+            <div class="input-group-btn">
                 <button type="submit" class="btn btn-primary">
                     Submit order
                 </button>

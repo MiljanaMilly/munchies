@@ -14,34 +14,88 @@
 <body>
 <div class="container">
     <div class="row">
-        <div sec:authorize="isAuthenticated()">
-            <div th:replace="admin/header :: header"></div>
-        </div>
         <div sec:authorize="isAnonymous()">
             <div th:replace="fragments/header :: header"></div>
         </div>
+        <div sec:authorize="isAuthenticated()">
+            <div th:replace="admin/header :: header"></div>
+        </div>
+
     </div>
 </div>
-<div class="row">
-    <table class="table table-bordered">
-        <tr style="font-size: 13">
-            <td>Name</td>
-            <td>Short Name</td>
-            <td>Address</td>
-            <td>Phone Number</td>
-            <td>Menu URL</td>
-            <td>Order</td>
-        </tr>
-        <!--<tr th:each="rest :  ${restaurants}">-->
-        <!--<td><p th:text="${rest.name}"> </p></td>-->
-        <!--<td><p th:utext="${#strings.replace(rest.name,' ','_')}"> </p> </td>-->
-        <!--<td><p th:text="${rest.address}"> </p></td>-->
-        <!--<td><p th:text="${rest.phoneNumber}"> </p></td>-->
-        <!--<td><p th:text="${rest.menuURL}"> </p></td>-->
+<br>
+<br>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center">Restoran</div>
+        <div class="panel-body text-center">
+            <h3>Porucujete iz restorana: </h3>
+            <h1 th:utext="${onerest.name}">Name</h1>
+        </div>
+    </div>
+    <div class="row col-lg-6 col-md-6"></div>
+    <div class="row  col-lg-3 col-md-3" th:object="${onerest}">
 
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Name:</label>
+                <div class="col-sm-10">
+                    <label class="col-sm-2 control-label" th:utext="${onerest.name}">Name</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Short Name:</label>
+                <div class="col-sm-10">
+                    <label class="col-sm-2 control-label"
+                           th:utext="${#strings.replace(onerest.name,' ','_')}">Name</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Address:</label>
+                <div class="col-sm-10">
+                    <label class="col-sm-2 control-label" th:utext="${onerest.address}">Name</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Phone number:</label>
+                <div class="col-sm-10">
+                    <label class="col-sm-2 control-label" th:utext="${onerest.phoneNumber}">Name</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Menu URL: </label>
+                <div class="col-sm-10">
+                    <label class="col-sm-2 control-label" th:utext="${onerest.menuURL}">Name</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Additional charges: </label>
+                <div class="col-sm-10">
+                    <label class="col-sm-2 control-label" th:utext="${onerest.additionalCharges}">Name</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Delivery Time: </label>
+                <div class="col-sm-10">
+                    <label class="col-sm-2 control-label" th:utext="${onerest.deliveryTime}">Name</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Delivery Info: </label>
+                <div class="col-sm-10">
+                    <label class="col-sm-2 control-label" th:utext="${onerest.deliveryInfo}">Name</label>
+                </div>
+            </div>
 
-        <!--</tr>-->
-    </table>
+        </form>
+        <br>
+    </div>
+    <div class="row col-lg-3 col-md-3"></div>
+</div>
+<div class="container ">
+    <div class="row">
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
 </div>
 
 </body>

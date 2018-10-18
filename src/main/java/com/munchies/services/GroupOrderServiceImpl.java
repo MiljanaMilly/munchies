@@ -12,5 +12,9 @@ public class GroupOrderServiceImpl implements GroupOrderService {
     @Autowired
     private GroupOrderRepository groupOrderRepository;
 
+    public GroupOrder save(GroupOrder groupOrder) {
+        return groupOrderRepository.saveAndFlush(groupOrder);
+
+    }
 
 }

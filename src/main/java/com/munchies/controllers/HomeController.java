@@ -3,15 +3,17 @@ package com.munchies.controllers;
 import com.munchies.model.GroupOrder;
 import com.munchies.model.Restaurant;
 import com.munchies.model.User;
+import com.munchies.services.GroupOrderService;
 import com.munchies.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -20,6 +22,9 @@ public class HomeController {
 
     @Autowired
     private RestaurantService restaurantService;
+
+    @Autowired
+    private GroupOrderService groupOrderService;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public ModelAndView goHome(ModelAndView mav, Restaurant restaurant) {
@@ -45,16 +50,6 @@ public class HomeController {
         return "login";
 
     }
-//
-//    @GetMapping("/home")
-//    public ModelAndView homePage(ModelAndView mav , Restaurant restaurant) {
-//        List<Restaurant> restList = restaurantService.getAllRest();
-//        mav.addObject("restaurants", restList);
-//        mav.addObject("onerest",restaurant);
-//        mav.setViewName("home");
-//        return mav;
-//
-//    }
 
     @GetMapping(value = "/signup")
     public String signupform(User user, Model model) {
@@ -63,32 +58,42 @@ public class HomeController {
 
     }
 
-    @RequestMapping(value = "/home", method = RequestMethod.POST)
-    public ModelAndView createNewGroupOrder(@RequestParam(name = "restaurantID") Long id, ModelAndView mav, GroupOrder groupOrder) {
-        mav.addObject("groupOrder", groupOrder);
-        mav.addObject("rest", restaurantService.getOne(id));
-        mav.setViewName("createnewgrouporder");
-        return mav;
-
-    }
-
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.GET)
-    public ModelAndView newGroupOrder(@ModelAttribute Restaurant rest, ModelAndView mav) {
-        mav.addObject("rest", rest);
+    public ModelAndView createNewGroupOrder(@RequestParam("id") Long id, ModelAndView mav, GroupOrder groupOrder) {
+        Restaurant restaurant = restaurantService.getOne(id);
+        groupOrder.setRestaurant(restaurant);
+        mav.addObject("groupOrder", groupOrder);
+        mav.addObject("rest", restaurant);
         mav.setViewName("createnewgrouporder");
         return mav;
 
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
-    public ModelAndView groupOrder(ModelAndView mav) {
-        mav.setViewName("createnewgrouporder");
+    public ModelAndView groupOrder(@Valid @ModelAttribute("groupOrder") GroupOrder groupOrder, BindingResult bindingResult, ModelAndView mav) {
+        if (!bindingResult.hasErrors()) {
+            GroupOrder go = groupOrderService.save(groupOrder);
+            mav.addObject("grouporder", go);
+            mav.setViewName("newgrouporder");
+        } else {
+            mav.setViewName("/home");
+        }
+        return mav;
+
+    }
+
+    @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
+    public ModelAndView groupOrderForm(@ModelAttribute("grouporder") GroupOrder groupOrder, ModelAndView mav) {
+        mav.addObject("grouporder", groupOrder);
+        mav.setViewName("newgrouporder");
         return mav;
 
     }
 
     @RequestMapping(value = "/viewrestdetails", method = RequestMethod.GET)
-    public ModelAndView newGroupOrder(ModelAndView mav) {
+    public ModelAndView newGroupOrder(@RequestParam("id") Long id, ModelAndView mav) {
+        Restaurant r = restaurantService.getOne(id);
+        mav.addObject("onerest", r);
         mav.setViewName("viewRestDetails");
         return mav;
     }
