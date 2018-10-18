@@ -17,7 +17,7 @@ public class User {
 
     @Column(name = "first_name")
     @Size(min =5, max = 10)
-    @NotNull(message= "{User.firstName.notNull}")
+    @NotNull
     private String firstName;
 
     @Column(name = "last_name")
@@ -25,14 +25,14 @@ public class User {
     @NotNull
     private String lastName;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     @NotNull
     @Email
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     @NotNull
-    @Size(min = 7, max = 15)
+    @Size(min = 7)
     private String password;
 
 

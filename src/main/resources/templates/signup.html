@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>SignUp form</title>
@@ -10,6 +11,84 @@
     <!--<link rel="stylesheet" href="../static/css/styles.css"/>-->
 </head>
 <body>
+<div class="container">
+    <div class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand" th:href="@{/home}">Munchies</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" th:href="@{/login}">
+                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Log in
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="col-lg-4 col-md-4"></div>
+    <div class="col-lg-4 col-md-4">
+        <br>
+        <form action="#" th:action="@{/signup}" name="form" id="form" class="form-horizontal"
+              enctype="multipart/form-data" method="POST" th:object="${us}">
+
+            <div class="input-group">
+                <input id="firstName" type="text" class="form-control" name="firstName" value=""
+                       placeholder="First Name"
+                       th:field="*{firstName}">
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('firstName')}"
+                   th:error="*{firstName}">Validation error</p>
+            </div>
+
+            <br>
+            <div class="input-group">
+                <input id="lastName" type="text" class="form-control" name="lastName" value="" placeholder="Last name"
+                       th:field="*{lastName}">
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('lastName')}"
+                   th:error="*{lastName}">Validation error</p>
+            </div>
+
+            <br>
+            <div class="input-group">
+                <input id="email" type="text" class="form-control" name="email" value="" placeholder="E-mail address"
+                       th:field="*{email}">
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('email')}"
+                   th:error="*{email}">Validation error</p>
+            </div>
+
+            <br>
+
+
+            <div class="input-group">
+                <input id="password" type="password" class="form-control" name="password" placeholder="Password"
+                       th:field="*{password}">
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('password')}"
+                   th:error="*{password}">Validation error</p>
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                <div class="col-sm-12 controls">
+                    <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i>
+                        Submit
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div class="col-lg-4 col-md-4"></div>
+
+</div>
 
 </body>
 </html>

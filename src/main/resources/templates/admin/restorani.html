@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="row">
-    <div th:replace="header :: header"></div>
+    <div th:replace="admin/header :: header"></div>
 </div>
 <div class="container" th:fragment="content">
     <div class="panel panel-default">
@@ -25,26 +25,26 @@
         </div>
     </div>
 
-    <div class="container" th:fragment="content">
-        <div class="row ">
-            <table class="table table-bordered">
-                <tr style="font-size: 13">
-                    <td>Name</td>
-                    <td>Short Name</td>
-                    <td>Address</td>
-                    <td>Phone Number</td>
-                    <td>Menu URL</td>
-                </tr>
-                <tr th:each="rest : ${restList}">
-                    <td><p th:text="${rest.name}"></p></td>
-                    <td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>
-                    <td><p th:text="${rest.address}"></p></td>
-                    <td><p th:text="${rest.phoneNumber}"></p></td>
-                    <td><p th:text="${rest.menuURL}"></p></td>
-                </tr>
-            </table>
-        </div>
-    </div>
+    <!--<div class="container" th:fragment="content">-->
+    <!--<div class="row ">-->
+    <!--<table class="table table-bordered">-->
+    <!--<tr style="font-size: 13">-->
+    <!--<td>Name</td>-->
+    <!--<td>Short Name</td>-->
+    <!--<td>Address</td>-->
+    <!--<td>Phone Number</td>-->
+    <!--<td>Menu URL</td>-->
+    <!--</tr>-->
+    <!--<tr th:each="rest : ${restList}">-->
+    <!--<td><p th:text="${rest.name}"></p></td>-->
+    <!--<td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>-->
+    <!--<td><p th:text="${rest.address}"></p></td>-->
+    <!--<td><p th:text="${rest.phoneNumber}"></p></td>-->
+    <!--<td><p th:text="${rest.menuURL}"></p></td>-->
+    <!--</tr>-->
+    <!--</table>-->
+    <!--</div>-->
+    <!--</div>-->
 
 </div>
 <script

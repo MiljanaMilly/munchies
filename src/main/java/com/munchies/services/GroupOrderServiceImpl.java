@@ -6,6 +6,8 @@ import com.munchies.repositories.GroupOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class GroupOrderServiceImpl implements GroupOrderService {
 
@@ -14,6 +16,11 @@ public class GroupOrderServiceImpl implements GroupOrderService {
 
     public GroupOrder save(GroupOrder groupOrder) {
         return groupOrderRepository.saveAndFlush(groupOrder);
+
+    }
+
+    public GroupOrder findOne(Long id) {
+        return groupOrderRepository.getOne(id);
 
     }
 

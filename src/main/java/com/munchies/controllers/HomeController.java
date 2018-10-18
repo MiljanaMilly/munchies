@@ -2,10 +2,13 @@ package com.munchies.controllers;
 
 import com.munchies.model.GroupOrder;
 import com.munchies.model.Restaurant;
+import com.munchies.model.Role;
 import com.munchies.model.User;
 import com.munchies.services.GroupOrderService;
 import com.munchies.services.RestaurantService;
+import com.munchies.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -26,6 +30,11 @@ public class HomeController {
     @Autowired
     private GroupOrderService groupOrderService;
 
+    @Autowired
+    private UserService userService;
+
+
+
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public ModelAndView goHome(ModelAndView mav, Restaurant restaurant) {
         List<Restaurant> restList = restaurantService.getAllRest();
@@ -38,7 +47,7 @@ public class HomeController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView loginPage(ModelAndView mav) {
-        mav.addObject("user", new User());
+        mav.addObject("newuser", new User());
         mav.setViewName("login");
         return mav;
     }
@@ -53,8 +62,22 @@ public class HomeController {
 
     @GetMapping(value = "/signup")
     public String signupform(User user, Model model) {
-        model.addAttribute(user);
+        model.addAttribute("us", user);
         return "signup";
+
+    }
+
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public ModelAndView signup(@Valid @ModelAttribute("us") User user, BindingResult bindingResult, User newUser, ModelAndView mav) {
+        if (!bindingResult.hasErrors()) {
+            userService.saveUser(user);
+            mav.addObject("newuser", newUser);
+            mav.setViewName("/login");
+        } else {
+            mav.setViewName("/signup");
+        }
+        return mav;
+
 
     }
 
@@ -70,22 +93,34 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
-    public ModelAndView groupOrder(@Valid @ModelAttribute("groupOrder") GroupOrder groupOrder, BindingResult bindingResult, ModelAndView mav) {
+    public ModelAndView groupOrder(@Valid @ModelAttribute GroupOrder groupOrder, BindingResult bindingResult, ModelAndView mav) {
         if (!bindingResult.hasErrors()) {
             GroupOrder go = groupOrderService.save(groupOrder);
             mav.addObject("grouporder", go);
-            mav.setViewName("newgrouporder");
+            mav.setViewName("newgrouporder?id=" + groupOrder.getGroup_order_id());
         } else {
-            mav.setViewName("/home");
+            mav.setViewName("home");
         }
         return mav;
-
     }
 
+    //    @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
+//    public ModelAndView groupOrderForm(@ModelAttribute GroupOrder groupOrder, ModelAndView mav) {
+//        mav.addObject("grouporder", groupOrder);
+//        mav.setViewName("newgrouporder");
+//        return mav;
+//
+//    }
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
-    public ModelAndView groupOrderForm(@ModelAttribute("grouporder") GroupOrder groupOrder, ModelAndView mav) {
-        mav.addObject("grouporder", groupOrder);
-        mav.setViewName("newgrouporder");
+    public ModelAndView sendGroupOrderForm(GroupOrder groupOrder, ModelAndView mav, HttpServletRequest request) {
+        String id = request.getParameter("id");
+        if (id != null) {
+            groupOrder = groupOrderService.findOne(Long.parseLong(id));
+            mav.addObject("grouporder", groupOrder);
+            mav.setViewName("newgrouporder");
+        }
+
+
         return mav;
 
     }

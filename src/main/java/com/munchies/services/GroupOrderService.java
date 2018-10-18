@@ -6,5 +6,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface GroupOrderService {
 
-    public GroupOrder save(GroupOrder groupOrder);
+    GroupOrder save(GroupOrder groupOrder);
+
+    GroupOrder findOne(Long id);
 }
+

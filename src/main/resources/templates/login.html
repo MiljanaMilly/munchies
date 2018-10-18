@@ -34,7 +34,7 @@
     <div class="col-lg-4 col-md-4">
         <br>
         <form action="#" th:action="@{/login}" name="form" id="form" class="form-horizontal"
-              enctype="multipart/form-data" method="POST" th:object="${user}">
+              enctype="multipart/form-data" method="POST" th:object="${newuser}">
 
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -67,18 +67,6 @@
     <div class="col-lg-4 col-md-4"></div>
 
 </div>
-<!--<form action="#" th:action="@{/login}" method="post" th:object="${user}">-->
-<!--<label for="email">Email</label>-->
-<!--<input type="text" id="email" name="email" th:field="*{email}"/> <br/>-->
-<!--<label for="password">Password</label>-->
-<!--<input type="password" id="password" name="password" th:field="*{password}"/> <br/>-->
-
-<!--&lt;!&ndash;<div th:if="${err != null}" th:text="${err.toString()}">&ndash;&gt;-->
-
-<!--</div>-->
-
-<!--<input type="submit" value="Log in"/>-->
-<!--</form>-->
 
 </body>
 </html>

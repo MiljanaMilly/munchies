@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping("/admin")
 public class AdminController {
 
 
@@ -32,11 +31,11 @@ public class AdminController {
         return model;
     }
 
-    @RequestMapping(value = "admin/restorani", method = RequestMethod.GET)
+    @GetMapping("/restorani")
     public ModelAndView restoraniPage(ModelAndView model) {
         List<Restaurant> restList = restaurantService.getAllRest();
         model.addObject("restList", restList);
-        model.setViewName("classpath:resources/templates/admin/restorani");
+        model.setViewName("admin/restorani");
         return model;
     }
 
