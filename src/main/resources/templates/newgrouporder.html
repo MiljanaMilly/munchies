@@ -73,7 +73,19 @@
             <!--Submit order-->
             <!--</button>-->
 
-            <!--</div>-->
+            <!--</div>
+
+             <button onclick="postmessage();" >Button</button>
+
+  <script>
+    function postmessage() {
+        $.ajax({
+            method: 'POST',
+            data: {},
+            url: 'http://localhost:8080/suggested-events/vote'
+        });
+    }
+  </script>-->
 
         </form>
     </div>

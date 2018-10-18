@@ -46,8 +46,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView loginPage(ModelAndView mav) {
-        mav.addObject("newuser", new User());
+    public ModelAndView loginPage(ModelAndView mav, User user) {
+        mav.addObject("newuser", user);
         mav.setViewName("login");
         return mav;
     }
@@ -104,13 +104,6 @@ public class HomeController {
         return mav;
     }
 
-    //    @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
-//    public ModelAndView groupOrderForm(@ModelAttribute GroupOrder groupOrder, ModelAndView mav) {
-//        mav.addObject("grouporder", groupOrder);
-//        mav.setViewName("newgrouporder");
-//        return mav;
-//
-//    }
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
     public ModelAndView sendGroupOrderForm(GroupOrder groupOrder, ModelAndView mav, HttpServletRequest request) {
         String id = request.getParameter("id");

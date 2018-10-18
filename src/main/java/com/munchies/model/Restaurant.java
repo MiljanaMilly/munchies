@@ -16,18 +16,18 @@ public class Restaurant {
 
 
     @Column(name = "name")
-    @Size(min = 10, max = 50)
+    @Size(min = 5, max = 50)
     @NotNull
     private String name;
 
-    @Size(min = 10, max = 50)
+    @Size(min = 5, max = 50)
     @NotNull
     @Column(name = "address")
     private String address;
 
     @Size(min = 6, max = 15)
     @NotNull
-    @Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")
+//    @Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")
     //format +(123) - 456-78-90
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -35,7 +35,7 @@ public class Restaurant {
     @Column(name = "menu_url")
     @NotNull
     @Size(max = 500)
-    @Pattern(regexp = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
+//    @Pattern(regexp = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
     private String menuURL;
 
     @OneToMany(mappedBy = "restaurant")

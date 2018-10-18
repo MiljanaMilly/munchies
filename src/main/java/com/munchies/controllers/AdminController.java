@@ -6,11 +6,11 @@ import com.munchies.services.RestaurantService;
 import com.munchies.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -37,6 +37,57 @@ public class AdminController {
         model.addObject("restList", restList);
         model.setViewName("admin/restorani");
         return model;
+    }
+
+    @GetMapping("/createnewrestaurant")
+    public ModelAndView createnewrestaurant(ModelAndView mav, Restaurant restaurant) {
+        mav.addObject("newrest", restaurant);
+        mav.setViewName("admin/createnewrestaurant");
+        return mav;
+
+    }
+
+    @PostMapping("/createnewrestaurant")
+    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") Restaurant restaurant, BindingResult bindingResult, Restaurant rest, ModelAndView mav) {
+        if (!bindingResult.hasErrors()) {
+            restaurantService.saveOne(restaurant);
+            mav.setViewName("redirect:/restorani");
+        } else {
+            mav.addObject("newrest", rest);
+            mav.setViewName("admin/createnewrestaurant");
+        }
+        return mav;
+
+    }
+
+    @GetMapping("/deleterest")
+    public ModelAndView deleteRest(@RequestParam("id") Long id, ModelAndView mav) {
+        restaurantService.deleteRestById(id);
+        mav.setViewName("redirect:/restorani");
+        return mav;
+
+    }
+
+    @GetMapping("/editrestaurant")
+    public ModelAndView editRest(@RequestParam("id") Long id, ModelAndView mav) {
+        mav.addObject("editrest", restaurantService.getOne(id));
+        System.out.println(id.toString());
+        mav.setViewName("admin/editrestaurant");
+        return mav;
+
+    }
+
+    @PostMapping("/editrestaurant")
+    public ModelAndView editRestaurant(@Valid @ModelAttribute Restaurant restaurant, BindingResult bindingResult, ModelAndView mav) {
+        if (!bindingResult.hasErrors()) {
+            restaurantService.editOne(restaurant);
+            mav.setViewName("redirect:/restorani");
+        } else {
+            mav.addObject("editrest", restaurant);
+            mav.setViewName("redirect:/editrestaurant");
+        }
+        return mav;
+
     }
 
 
