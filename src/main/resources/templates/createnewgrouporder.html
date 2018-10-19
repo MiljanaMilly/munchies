@@ -43,7 +43,7 @@
                        th:field="*{creator}">
                 <p class="error-message"
                    th:if="${#fields.hasErrors('creator')}"
-                   th:errors="*{creator}">Validation error</p>
+                   th:errors="#{NotNull.groupOrder.creator}">Validation error</p>
             </div>
             <br>
             <div class="input-group">
