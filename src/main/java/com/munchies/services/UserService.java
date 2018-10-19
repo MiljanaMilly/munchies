@@ -10,5 +10,5 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    public User saveUser(User user);
+    User saveUser(User user);
 }

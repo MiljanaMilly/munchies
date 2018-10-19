@@ -34,7 +34,6 @@ public class HomeController {
     private UserService userService;
 
 
-
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public ModelAndView goHome(ModelAndView mav, Restaurant restaurant) {
         List<Restaurant> restList = restaurantService.getAllRest();
@@ -46,7 +45,10 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView loginPage(ModelAndView mav, User user) {
+    public ModelAndView loginPage(ModelAndView mav, User user, @RequestParam(value = "error", required = false) String error) {
+        if (error != null) {
+            mav.addObject("error", "Invalid username and password!");
+        }
         mav.addObject("newuser", user);
         mav.setViewName("login");
         return mav;

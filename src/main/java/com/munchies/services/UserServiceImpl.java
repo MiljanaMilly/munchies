@@ -25,13 +25,10 @@ public class UserServiceImpl implements UserService {
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
-
-
     }
 
     public User saveUser(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//        user.setRoles(roleRepository.findAll());
         return userRepository.save(user);
 
     }

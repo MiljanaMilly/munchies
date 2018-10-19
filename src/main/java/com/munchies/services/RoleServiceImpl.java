@@ -11,7 +11,7 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    public RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     public List<Role> findAll() {
         return roleRepository.findAll();

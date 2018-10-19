@@ -23,19 +23,19 @@ public class AdminController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping("/zaposleni")
-    public ModelAndView zaposleniPage(ModelAndView model) {
+    @GetMapping("/employees")
+    public ModelAndView employeesPage(ModelAndView model) {
         List<User> usersList = userService.getAllUsers();
         model.addObject("usersList", usersList);
-        model.setViewName("admin/zaposleni");
+        model.setViewName("admin/employees");
         return model;
     }
 
-    @GetMapping("/restorani")
-    public ModelAndView restoraniPage(ModelAndView model) {
+    @GetMapping("/restaurants")
+    public ModelAndView restaurantsPage(ModelAndView model) {
         List<Restaurant> restList = restaurantService.getAllRest();
         model.addObject("restList", restList);
-        model.setViewName("admin/restorani");
+        model.setViewName("admin/restaurants");
         return model;
     }
 
@@ -51,7 +51,7 @@ public class AdminController {
     public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") Restaurant restaurant, BindingResult bindingResult, Restaurant rest, ModelAndView mav) {
         if (!bindingResult.hasErrors()) {
             restaurantService.saveOne(restaurant);
-            mav.setViewName("redirect:/restorani");
+            mav.setViewName("redirect:/restaurants");
         } else {
             mav.addObject("newrest", rest);
             mav.setViewName("admin/createnewrestaurant");
@@ -63,7 +63,7 @@ public class AdminController {
     @GetMapping("/deleterest")
     public ModelAndView deleteRest(@RequestParam("id") Long id, ModelAndView mav) {
         restaurantService.deleteRestById(id);
-        mav.setViewName("redirect:/restorani");
+        mav.setViewName("redirect:/restaurants");
         return mav;
 
     }
@@ -81,7 +81,7 @@ public class AdminController {
     public ModelAndView editRestaurant(@Valid @ModelAttribute("editrest") Restaurant restaurant, BindingResult bindingResult, ModelAndView mav) {
         if (!bindingResult.hasErrors()) {
             restaurantService.editOne(restaurant);
-            mav.setViewName("redirect:/restorani");
+            mav.setViewName("redirect:/restaurants");
         } else {
             mav.addObject("editrest", restaurant);
             mav.setViewName("redirect:/editrestaurant");

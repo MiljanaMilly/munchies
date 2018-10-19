@@ -40,7 +40,7 @@
                 <input type="text" class="form-control" name="firstName"
                        placeholder="First Name"
                        th:field="*{firstName}">
-                <p class="error-message"
+                <p class="error"
                    th:if="${#fields.hasErrors('firstName')}"
                    th:errors="*{firstName}">Validation error</p>
             </div>
@@ -50,7 +50,7 @@
                 <input for="*{lastName}" type="text" class="form-control" name="lastName" value=""
                        placeholder="Last name"
                        th:field="*{lastName}">
-                <p class="error-message"
+                <p class="error"
                    th:if="${#fields.hasErrors('lastName')}"
                    th:errors="*{lastName}">Validation error</p>
             </div>
@@ -60,7 +60,7 @@
                 <input for="*{email}" type="text" class="form-control" name="email" value=""
                        placeholder="E-mail address"
                        th:field="*{email}">
-                <p class="error-message"
+                <p class="error"
                    th:if="${#fields.hasErrors('email')}"
                    th:errors="*{email}">Validation error</p>
             </div>
@@ -71,7 +71,7 @@
             <div class="input-group">
                 <input for="*{password}" type="password" class="form-control" name="password" placeholder="Password"
                        th:field="*{password}">
-                <p class="error-message"
+                <p class="error"
                    th:if="${#fields.hasErrors('password')}"
                    th:errors="*{password}">Validation error</p>
             </div>
