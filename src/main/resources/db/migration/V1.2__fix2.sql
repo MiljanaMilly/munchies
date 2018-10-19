@@ -1,7 +1,6 @@
-Alter table roles drop column role_name;
-Alter table roles drop column name;
 
-Alter table roles add column name default 'ADMIN';
+
+Alter table roles add column role_name varchar(150) default 'ADMIN';
 
 drop table users_role;
 
