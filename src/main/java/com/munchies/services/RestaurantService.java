@@ -10,6 +10,7 @@ import java.util.Optional;
 public interface RestaurantService {
 
     List<Restaurant> getAllRest();
+
     Restaurant getOne(Long id);
 
     Restaurant saveOne(Restaurant restaurant);

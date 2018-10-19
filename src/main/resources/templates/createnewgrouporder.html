@@ -18,7 +18,7 @@
         <div sec:authorize="isAnonymous()">
             <div th:replace="fragments/header :: header"></div>
         </div>
-        <div sec:authorize="hasRole('ADMIN')">
+        <div sec:authorize="isAuthenticated()">
             <div th:replace="admin/header :: header"></div>
         </div>
 

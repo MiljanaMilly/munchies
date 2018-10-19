@@ -1,6 +1,7 @@
 package com.munchies.repositories;
 
 import com.munchies.model.GroupOrder;
+import com.munchies.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +13,6 @@ import java.util.List;
 public interface GroupOrderRepository extends JpaRepository<GroupOrder,Long> {
 
 
-    @Query("select group_order_id from group_order go where go.restaurant_id like :id")
-    List<GroupOrder> findGroupOrdersByRestaurantId(@Param("id") Long id);
+    @Query("select group_order_id from GroupOrder go where go.restaurant like :restaurant")
+    List<GroupOrder> findGroupOrdersByRestaurant(@Param("restaurant") Restaurant restaurant);
 }

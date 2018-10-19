@@ -58,4 +58,12 @@ public class Order {
     public void setOrderItem(String orderItem) {
         this.orderItem = orderItem;
     }
+
+    public GroupOrder getGroupOrder() {
+        return groupOrder;
+    }
+
+    public void setGroupOrder(GroupOrder groupOrder) {
+        this.groupOrder = groupOrder;
+    }
 }

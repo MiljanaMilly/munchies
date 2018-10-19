@@ -94,9 +94,6 @@ public class HomeController {
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
     public ModelAndView groupOrder(@Valid @ModelAttribute("groupOrder") GroupOrder groupOrder, BindingResult bindingResult, @ModelAttribute("rest") Restaurant restaurant, ModelAndView mav) {
-        //ne cuva se id restorana u group order
-        //
-        //
         if (!bindingResult.hasErrors()) {
             GroupOrder go = groupOrderService.save(groupOrder);
             mav.addObject("grouporder", go);
@@ -108,10 +105,9 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
-    public ModelAndView sendGroupOrderForm(GroupOrder groupOrder, ModelAndView mav, HttpServletRequest request) {
-        String id = request.getParameter("id");
+    public ModelAndView sendGroupOrderForm(@RequestParam("id") Long id, GroupOrder groupOrder, ModelAndView mav, HttpServletRequest request) {
         if (id != null) {
-            groupOrder = groupOrderService.findOne(Long.parseLong(id));
+            groupOrder = groupOrderService.findOne(id);
             mav.addObject("grouporder", groupOrder);
             mav.setViewName("newgrouporder");
         }

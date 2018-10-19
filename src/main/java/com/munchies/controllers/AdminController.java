@@ -78,7 +78,7 @@ public class AdminController {
     }
 
     @PostMapping("/editrestaurant")
-    public ModelAndView editRestaurant(@Valid @ModelAttribute Restaurant restaurant, BindingResult bindingResult, ModelAndView mav) {
+    public ModelAndView editRestaurant(@Valid @ModelAttribute("editrest") Restaurant restaurant, BindingResult bindingResult, ModelAndView mav) {
         if (!bindingResult.hasErrors()) {
             restaurantService.editOne(restaurant);
             mav.setViewName("redirect:/restorani");
