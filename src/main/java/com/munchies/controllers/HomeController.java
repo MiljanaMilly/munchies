@@ -54,13 +54,13 @@ public class HomeController {
         return mav;
     }
 
-    @PostMapping("/login?error")
-    public String loginError(Model model) {
-        String err = "Invalid Username/password";
-        model.addAttribute("err", err);
-        return "login";
-
-    }
+//    @PostMapping("/login?error")
+//    public String loginError(Model model) {
+//        String err = "Invalid Username/password";
+//        model.addAttribute("err", err);
+//        return "login";
+//
+//    }
 
     @GetMapping(value = "/signup")
     public String signupform(User user, Model model) {

@@ -42,18 +42,20 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public void deleteRestById(Long id) {
-//        List<GroupOrder> groupOrders = groupOrderRepository.findGroupOrdersByRestaurant(restaurantRepository.getOne(id));
-//        for (GroupOrder go : groupOrders) {
-//            List<Order> lo = orderRepository.findOrdersByGroupOrder(groupOrderRepository.getOne(go.getGroup_order_id()));
-//            if(!lo.isEmpty()){
-//                for (Order o : lo) {
-//                    orderRepository.delete(o);
-//                }
-//            }
-//            groupOrderRepository.delete(go);
-//
-//        }
-        restaurantRepository.deleteById(id);
+        Restaurant r = restaurantRepository.getOne(id);
+        List<GroupOrder> groupOrders = groupOrderRepository.findGroupOrdersByRestaurant(r);
+
+        for (GroupOrder go : groupOrders) {
+            List<Order> lo = orderRepository.findOrdersByGroupOrder(groupOrderRepository.getOne(go.getGroup_order_id()));
+            if (!lo.isEmpty()) {
+                for (Order o : lo) {
+                    orderRepository.delete(o);
+                }
+            }
+            groupOrderRepository.delete(go);
+
+        }
+        restaurantRepository.delete(r);
 
     }
 

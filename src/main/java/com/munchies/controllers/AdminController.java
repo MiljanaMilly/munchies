@@ -62,6 +62,7 @@ public class AdminController {
 
     @GetMapping("/deleterest")
     public ModelAndView deleteRest(@RequestParam("id") Long id, ModelAndView mav) {
+        System.out.println(id);
         restaurantService.deleteRestById(id);
         mav.setViewName("redirect:/restaurants");
         return mav;

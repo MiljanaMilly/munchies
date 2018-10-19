@@ -70,6 +70,7 @@ CREATE TABLE if not exists `group_order` (
 
 
 drop table if exists `flyway_schema_history`;
+
 CREATE TABLE if not exists `flyway_schema_history` (
   `installed_rank` int(11) NOT NULL,
   `version` varchar(50) DEFAULT NULL,

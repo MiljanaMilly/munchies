@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface GroupOrderRepository extends JpaRepository<GroupOrder,Long> {
 
-    @Query("select group_order_id from GroupOrder go where go.restaurant like :restaurant")
+    @Query("From GroupOrder go where go.restaurant like :restaurant")
     List<GroupOrder> findGroupOrdersByRestaurant(@Param("restaurant") Restaurant restaurant);
 }
