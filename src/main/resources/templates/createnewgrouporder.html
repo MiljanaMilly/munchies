@@ -18,7 +18,7 @@
         <div sec:authorize="isAnonymous()">
             <div th:replace="fragments/header :: header"></div>
         </div>
-        <div sec:authorize="isAuthenticated()">
+        <div sec:authorize="hasRole('ADMIN')">
             <div th:replace="admin/header :: header"></div>
         </div>
 
@@ -41,12 +41,18 @@
                 <input id="creator" type="text" class="form-control" name="creator" value=""
                        placeholder="Group order creator"
                        th:field="*{creator}">
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('creator')}"
+                   th:errors="*{creator}">Validation error</p>
             </div>
             <br>
             <div class="input-group">
                 <input id="order_timeout" type="timeout" class="form-control" name="order_timeout"
                        placeholder="Order timeout"
                        th:field="*{order_timeout}">
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('order_timeout')}"
+                   th:errors="*{order_timeout}">Validation error</p>
             </div>
             <br>
             <div class="input-group-btn">

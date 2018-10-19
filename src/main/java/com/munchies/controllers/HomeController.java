@@ -93,7 +93,10 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
-    public ModelAndView groupOrder(@Valid @ModelAttribute GroupOrder groupOrder, BindingResult bindingResult, ModelAndView mav) {
+    public ModelAndView groupOrder(@Valid @ModelAttribute("groupOrder") GroupOrder groupOrder, BindingResult bindingResult, @ModelAttribute("rest") Restaurant restaurant, ModelAndView mav) {
+        //ne cuva se id restorana u group order
+        //
+        //
         if (!bindingResult.hasErrors()) {
             GroupOrder go = groupOrderService.save(groupOrder);
             mav.addObject("grouporder", go);

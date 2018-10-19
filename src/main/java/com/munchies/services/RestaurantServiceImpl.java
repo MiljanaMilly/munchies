@@ -1,12 +1,15 @@
 package com.munchies.services;
 
 import com.munchies.model.GroupOrder;
+import com.munchies.model.Order;
 import com.munchies.model.Restaurant;
 import com.munchies.repositories.GroupOrderRepository;
+import com.munchies.repositories.OrderRepository;
 import com.munchies.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.acl.Group;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +17,13 @@ import java.util.Optional;
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
-    public RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private GroupOrderRepository groupOrderRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
 
     public List<Restaurant> getAllRest() {
@@ -33,6 +42,15 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public void deleteRestById(Long id) {
+        List<GroupOrder> groupOrders = groupOrderRepository.findGroupOrdersByRestaurantId(id);
+        for (GroupOrder go : groupOrders) {
+            List<Order> lo = orderRepository.findOrdersByGroupOrderId(go.getGroup_order_id());
+            for (Order o : lo) {
+                orderRepository.delete(o);
+            }
+            groupOrderRepository.delete(go);
+
+        }
         restaurantRepository.deleteById(id);
 
     }
@@ -49,6 +67,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant1.setAdditionalCharges(restaurant.getAdditionalCharges());
         restaurantRepository.save(restaurant1);
 
-
     }
+
 }

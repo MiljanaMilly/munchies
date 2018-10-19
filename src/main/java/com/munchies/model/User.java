@@ -16,8 +16,8 @@ public class User {
     private Long users_id;
 
     @Column(name = "first_name")
-    @Size(min =5, max = 10)
     @NotNull
+    @Size(min = 5, max = 10)
     private String firstName;
 
     @Column(name = "last_name")

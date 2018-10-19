@@ -37,41 +37,43 @@
               enctype="multipart/form-data" method="POST" th:object="${us}">
 
             <div class="input-group">
-                <input id="firstName" type="text" class="form-control" name="firstName" value=""
+                <input type="text" class="form-control" name="firstName"
                        placeholder="First Name"
                        th:field="*{firstName}">
                 <p class="error-message"
                    th:if="${#fields.hasErrors('firstName')}"
-                   th:error="*{firstName}">Validation error</p>
+                   th:errors="*{firstName}">Validation error</p>
             </div>
 
             <br>
             <div class="input-group">
-                <input id="lastName" type="text" class="form-control" name="lastName" value="" placeholder="Last name"
+                <input for="*{lastName}" type="text" class="form-control" name="lastName" value=""
+                       placeholder="Last name"
                        th:field="*{lastName}">
                 <p class="error-message"
                    th:if="${#fields.hasErrors('lastName')}"
-                   th:error="*{lastName}">Validation error</p>
+                   th:errors="*{lastName}">Validation error</p>
             </div>
 
             <br>
             <div class="input-group">
-                <input id="email" type="text" class="form-control" name="email" value="" placeholder="E-mail address"
+                <input for="*{email}" type="text" class="form-control" name="email" value=""
+                       placeholder="E-mail address"
                        th:field="*{email}">
                 <p class="error-message"
                    th:if="${#fields.hasErrors('email')}"
-                   th:error="*{email}">Validation error</p>
+                   th:errors="*{email}">Validation error</p>
             </div>
 
             <br>
 
 
             <div class="input-group">
-                <input id="password" type="password" class="form-control" name="password" placeholder="Password"
+                <input for="*{password}" type="password" class="form-control" name="password" placeholder="Password"
                        th:field="*{password}">
                 <p class="error-message"
                    th:if="${#fields.hasErrors('password')}"
-                   th:error="*{password}">Validation error</p>
+                   th:errors="*{password}">Validation error</p>
             </div>
 
             <br>
