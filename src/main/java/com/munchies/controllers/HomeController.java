@@ -1,6 +1,7 @@
 package com.munchies.controllers;
 
 import com.munchies.model.GroupOrder;
+import com.munchies.model.Order;
 import com.munchies.model.Restaurant;
 import com.munchies.model.User;
 import com.munchies.services.GroupOrderService;
@@ -82,22 +83,23 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.GET)
-    public ModelAndView createNewGroupOrder(@RequestParam("id") Long id, ModelAndView mav, GroupOrder groupOrder) {
-        Restaurant restaurant = restaurantService.getOne(id);
+    public ModelAndView createNewGroupOrder(@RequestParam("id") Long id, ModelAndView mav, GroupOrder groupOrder,Restaurant restaurant) {
+        restaurant = restaurantService.getOne(id);
         groupOrder.setRestaurant(restaurant);
         mav.addObject("groupOrder", groupOrder);
-        mav.addObject("rest", restaurant);
         mav.setViewName("createnewgrouporder");
         return mav;
 
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
-    public ModelAndView groupOrder(@Valid @ModelAttribute("groupOrder") GroupOrder groupOrder, BindingResult bindingResult, @ModelAttribute("rest") Restaurant restaurant, ModelAndView mav) {
-        if (!bindingResult.hasErrors()) {
+    public ModelAndView groupOrder(@Valid @ModelAttribute("groupOrder")GroupOrder groupOrder, BindingResult bindingResult, ModelAndView mav) {
+        Restaurant r = restaurantService.getOne(groupOrder.getRestaurant().getRestaurant_id());
+    if (!bindingResult.hasErrors()) {
+            groupOrder.setRestaurant(r);
             GroupOrder go = groupOrderService.save(groupOrder);
             mav.addObject("grouporder", go);
-            mav.setViewName("newgrouporder?id=" + groupOrder.getGroup_order_id());
+            mav.setViewName("newgrouporder");
         } else {
             mav.setViewName("home");
         }
@@ -105,15 +107,13 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
-    public ModelAndView sendGroupOrderForm(@RequestParam("id") Long id, GroupOrder groupOrder, ModelAndView mav, HttpServletRequest request) {
-        if (id != null) {
-            groupOrder = groupOrderService.findOne(id);
+    public ModelAndView sendGroupOrderForm(@ModelAttribute("grouporder") GroupOrder groupOrder, Order order, ModelAndView mav) {
+        Restaurant r = restaurantService.getOne(groupOrder.getRestaurant().getRestaurant_id());
+            mav.addObject("rest", r);
             mav.addObject("grouporder", groupOrder);
+            mav.addObject("order", order);
             mav.setViewName("newgrouporder");
-        }
-
-
-        return mav;
+            return mav;
 
     }
 

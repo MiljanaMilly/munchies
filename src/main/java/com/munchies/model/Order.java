@@ -23,6 +23,11 @@ public class Order {
     @Size(min = 4, max = 50 )
     private String orderItem;
 
+    @Column(name = "item_price")
+    @NotNull
+    @Size(min = 50, max = 1000 )
+    private String itemPrice;
+
     @ManyToOne
     @JoinColumn(name = "group_order_id")
     private GroupOrder groupOrder;
@@ -65,5 +70,13 @@ public class Order {
 
     public void setGroupOrder(GroupOrder groupOrder) {
         this.groupOrder = groupOrder;
+    }
+
+    public String getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(String itemPrice) {
+        this.itemPrice = itemPrice;
     }
 }

@@ -24,12 +24,13 @@
 
     </div>
 </div>
-<div class="container">
+<div class="container" th:object="${groupOrder.restaurant}">
     <div class="panel panel-default">
         <div class="panel-heading text-center">Restoran</div>
-        <div class="panel-body text-center">
+        <div class="panel-body text-center" >
             <h3>Porucujete iz restorana: </h3>
             <h1 th:utext="${groupOrder.restaurant.name}">Name</h1>
+            <input type="hidden" th:value="${groupOrder.restaurant.restaurant_id}">
         </div>
     </div>
     <div class="row col-lg-5 col-md-5"></div>
@@ -54,6 +55,7 @@
                    th:if="${#fields.hasErrors('order_timeout')}"
                    th:errors="*{order_timeout}">Validation error</p>
             </div>
+            <input type="hidden" th:field="${groupOrder.restaurant.restaurant_id}">
             <br>
             <div class="input-group-btn">
                 <button type="submit" class="btn btn-primary">
@@ -73,6 +75,14 @@
         <div th:replace="fragments/footer :: footer"></div>
     </div>
 </div>
+
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>

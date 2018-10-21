@@ -41,6 +41,18 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     private List<GroupOrder> groupOrder;
 
+    public List<GroupOrder> getGroupOrder() {
+        return groupOrder;
+    }
+
+    public void setGroupOrder(List<GroupOrder> groupOrder) {
+        this.groupOrder = groupOrder;
+    }
+
+    public void setDeliveryInfo(String deliveryInfo) {
+        this.deliveryInfo = deliveryInfo;
+    }
+
     @Column(name = "delivery_time")
     @NotNull
     @Size(max = 50)
@@ -127,7 +139,4 @@ public class Restaurant {
         return deliveryInfo;
     }
 
-    public void setDeliveryInfo(String deliveryInfo) {
-        this.deliveryInfo = deliveryInfo;
-    }
 }

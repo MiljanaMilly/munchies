@@ -6,6 +6,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Group order</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
@@ -47,26 +50,22 @@
             <br>
             <div class="input-group">
                 <input type="text" class="form-control" name="creator"
-                       placeholder="Order timeout"
-                       th:value="${grouporder.creator}">
+                       th:field="${grouporder.creator}">
             </div>
             <br>
             <div class="input-group">
-                <input type="text" class="form-control" name="order_timeout"
-                       placeholder="Order timeout"
-                       th:value="${grouporder.restaurant.name}">
+                <input type="text" class="form-control" name="restaurantname"
+                       th:field="${grouporder.restaurant.name}">
             </div>
             <br>
             <div class="input-group">
-                <input type="text" class="form-control" name="order_timeout"
-                       placeholder="Order timeout"
-                       th:value="${grouporder.restaurant.phoneNumber}">
+                <input type="text" class="form-control" name="phonenumber"
+                       th:field="${grouporder.restaurant.phoneNumber}">
             </div>
             <br>
             <div class="input-group">
-                <input type="text" class="form-control" name="order_timeout"
-                       placeholder="Order timeout"
-                       th:value="${grouporder.restaurant.menuURL}">
+                <input type="text" class="form-control" name="menuurl"
+                       th:field="${grouporder.restaurant.menuURL}">
             </div>
             <!--<div class="input-group-btn">-->
             <!--<button type="submit" class="btn btn-primary">-->
@@ -86,18 +85,79 @@
         });
     }
   </script>-->
-
         </form>
     </div>
     <div class="row col-lg-4 col-md-4"></div>
 
+    <div class="panel-body text-center">
+        <form action="#" th:action="@{/newgrouporder}" name="form" id="forma" class="form-horizontal"
+              enctype="multipart/form-data" method="POST" th:object="${order}">
 
+            <div class="input-group">
+                <input type="text" class="form-control" name="firstName"
+                       placeholder="First Name"
+                       th:field="*{orderCreator}">
+                <p class="error"
+                   th:if="${#fields.hasErrors('firstName')}"
+                   th:errors="*{orderItem}">Validation error</p>
+            </div>
+
+            <br>
+            <div class="input-group">
+                <input for="*{lastName}" type="text" class="form-control" name="lastName" value=""
+                       placeholder="Last name"
+                       th:field="*{lastName}">
+                <p class="error"
+                   th:if="${#fields.hasErrors('lastName')}"
+                   th:errors="*{lastName}">Validation error</p>
+            </div>
+
+            <br>
+            <div class="input-group">
+                <input for="*{email}" type="text" class="form-control" name="email" value=""
+                       placeholder="E-mail address"
+                       th:field="*{email}">
+                <p class="error"
+                   th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}">Validation error</p>
+            </div>
+
+            <br>
+
+
+            <div class="input-group">
+                <input for="*{password}" type="password" class="form-control" name="password" placeholder="Password"
+                       th:field="*{password}">
+                <p class="error"
+                   th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}">Validation error</p>
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                <div class="col-sm-12 controls">
+                    <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i>
+                        Submit
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
 </div>
 <div class="container ">
     <div class="row">
         <div th:replace="fragments/footer :: footer"></div>
     </div>
 </div>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>
