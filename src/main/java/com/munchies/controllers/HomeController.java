@@ -5,6 +5,7 @@ import com.munchies.model.Order;
 import com.munchies.model.Restaurant;
 import com.munchies.model.User;
 import com.munchies.services.GroupOrderService;
+import com.munchies.services.OrderService;
 import com.munchies.services.RestaurantService;
 import com.munchies.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class HomeController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
 
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
@@ -93,27 +97,55 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
-    public ModelAndView groupOrder(@Valid @ModelAttribute("groupOrder")GroupOrder groupOrder, BindingResult bindingResult, ModelAndView mav) {
+    public String submitGroupOrder(@Valid @ModelAttribute("groupOrder")GroupOrder groupOrder, BindingResult bindingResult,Order order, Model mav) {
         Restaurant r = restaurantService.getOne(groupOrder.getRestaurant().getRestaurant_id());
     if (!bindingResult.hasErrors()) {
             groupOrder.setRestaurant(r);
             GroupOrder go = groupOrderService.save(groupOrder);
-            mav.addObject("grouporder", go);
-            mav.setViewName("newgrouporder");
+            mav.addAttribute("grouporder", go);
+            mav.addAttribute("order", order);
+           return "redirect:/newgrouporder?id=" + go.getGroup_order_id();
         } else {
-            mav.setViewName("home");
-        }
-        return mav;
+        return "home";
+    }
     }
 
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
-    public ModelAndView sendGroupOrderForm(@ModelAttribute("grouporder") GroupOrder groupOrder, Order order, ModelAndView mav) {
-        Restaurant r = restaurantService.getOne(groupOrder.getRestaurant().getRestaurant_id());
+    public ModelAndView getGroupOrderForm(@RequestParam("id") Long id,Order order, ModelAndView mav) {
+        Restaurant r = restaurantService.getOne(id);
+        System.out.println(id);
+        GroupOrder groupOrder = groupOrderService.findOne(id);
+        order.setGroupOrder(groupOrder);
+//            order = orderService.saveOne(order);
             mav.addObject("rest", r);
-            mav.addObject("grouporder", groupOrder);
-            mav.addObject("order", order);
+            mav.addObject("o", order);
+        mav.addObject("orders", groupOrder.getOrder());
+            mav.addObject("grouporder", groupOrder );
             mav.setViewName("newgrouporder");
             return mav;
+
+    }
+    @RequestMapping(value = "/newgrouporder", method = RequestMethod.POST)
+    public ModelAndView submitOrderForm(@Valid @ModelAttribute("o")Order o,BindingResult bindingResult, Order order, ModelAndView mav){
+        GroupOrder groupOrder = groupOrderService.findOne(o.getGroupOrder().getGroup_order_id());
+        System.out.println(groupOrder.getGroup_order_id());
+        if(!bindingResult.hasErrors()){
+            o.setGroupOrder(groupOrder);
+            List<Order> orders = groupOrder.getOrder();
+            orders.add(o);
+            orderService.saveOne(o);
+            groupOrder.setOrder(orders);
+            groupOrderService.save(groupOrder);
+            mav.addObject("orders", orders);
+            mav.addObject("o", order);
+            mav.setViewName("redirect:/newgrouporder?id=" + groupOrder.getGroup_order_id());
+        } else{
+            mav.addObject("orders", groupOrder.getOrder());
+            mav.addObject("grouporder", groupOrder);
+            mav.addObject("o", order);
+            mav.setViewName("redirect:/newgrouporder?id=" + groupOrder.getGroup_order_id());
+        }
+        return mav;
 
     }
 

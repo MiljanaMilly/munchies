@@ -40,8 +40,8 @@
     <!--form has fields for: employee name, item name,-->
     <!--and price.-->
     <div class="row col-lg-4 col-md-4 ">
-        <form action="#" th:action="@{/newgrouporder}" name="form" id="form" class="form-horizontal"
-              method="POST" th:object="${grouporder}">
+        <!--<form action="#" th:action="@{/newgrouporder}" name="form" id="form" class="form-horizontal"-->
+              <!--method="POST" th:object="${grouporder}">-->
             <div class="input-group">
                 <!--<input type="text" class="form-control" name="orderUrl" th:value="${#httpServletRequest.requestURI}"
                        disabled/> -->
@@ -85,65 +85,68 @@
         });
     }
   </script>-->
-        </form>
+        <!--</form>-->
     </div>
     <div class="row col-lg-4 col-md-4"></div>
-
+    <br>
     <div class="panel-body text-center">
-        <form action="#" th:action="@{/newgrouporder}" name="form" id="forma" class="form-horizontal"
-              enctype="multipart/form-data" method="POST" th:object="${order}">
-
+        <form action="#" th:action="@{/newgrouporder}" name="form" id="form" class="form-horizontal"
+              method="POST" th:object="${o}">
             <div class="input-group">
-                <input type="text" class="form-control" name="firstName"
-                       placeholder="First Name"
+                <input type="text" class="form-control" name="orderCreator" value=""
+                       placeholder="Order Creator"
                        th:field="*{orderCreator}">
                 <p class="error"
-                   th:if="${#fields.hasErrors('firstName')}"
-                   th:errors="*{orderItem}">Validation error</p>
+                   th:if="${#fields.hasErrors('orderCreator')}"
+                   th:errors="${o.orderCreator}">Validation error</p>
             </div>
-
             <br>
             <div class="input-group">
-                <input for="*{lastName}" type="text" class="form-control" name="lastName" value=""
-                       placeholder="Last name"
-                       th:field="*{lastName}">
+                <input type="text" class="form-control" name="orderItem"  value=""
+                       placeholder="Order Item"
+                       th:field="*{orderItem}">
                 <p class="error"
-                   th:if="${#fields.hasErrors('lastName')}"
-                   th:errors="*{lastName}">Validation error</p>
+                   th:if="${#fields.hasErrors('orderItem')}"
+                   th:errors="${o.orderItem}">Validation error</p>
             </div>
-
             <br>
             <div class="input-group">
-                <input for="*{email}" type="text" class="form-control" name="email" value=""
-                       placeholder="E-mail address"
-                       th:field="*{email}">
+                <input type="text" class="form-control" name="itemPrice" value=""
+                       placeholder="Item price"
+                       th:field="*{itemPrice}">
                 <p class="error"
-                   th:if="${#fields.hasErrors('email')}"
-                   th:errors="*{email}">Validation error</p>
+                   th:if="${#fields.hasErrors('itemPrice')}"
+                   th:errors="${o.itemPrice}">Validation error</p>
             </div>
+            <input type="hidden" th:field="${o.groupOrder.group_order_id}">
 
             <br>
-
-
-            <div class="input-group">
-                <input for="*{password}" type="password" class="form-control" name="password" placeholder="Password"
-                       th:field="*{password}">
-                <p class="error"
-                   th:if="${#fields.hasErrors('password')}"
-                   th:errors="*{password}">Validation error</p>
-            </div>
-
-            <br>
-
             <div class="form-group">
                 <div class="col-sm-12 controls">
                     <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i>
-                        Submit
+                        Submit Order
                     </button>
                 </div>
             </div>
 
         </form>
+    </div>
+
+    <div class="row">
+        <table class="table table-bordered">
+            <tr style="font-size: 13">
+                <td>Creator</td>
+                <td>Order Item</td>
+                <td>Item Price</td>
+
+            </tr>
+            <tr th:each="order :  ${orders}">
+                <td><p th:text="${order.orderCreator}"></p></td>
+                <td><p th:text="${order.orderItem}"></p></td>
+                <td><p th:text="${order.itemPrice}"></p></td>
+
+            </tr>
+        </table>
     </div>
 </div>
 <div class="container ">

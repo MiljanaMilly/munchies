@@ -15,18 +15,17 @@ public class Order {
 
     @Column(name = "order_creator")
     @NotNull
-    @Size(min = 3,max = 50,message = "Size must be ")
+    @Size(min = 3, max = 50, message = "Size must be ")
     private String orderCreator;
 
     @Column(name = "order_item")
     @NotNull
-    @Size(min = 4, max = 50 )
+    @Size(min = 4, max = 50)
     private String orderItem;
 
     @Column(name = "item_price")
     @NotNull
-    @Size(min = 50, max = 1000 )
-    private String itemPrice;
+    private Double itemPrice;
 
     @ManyToOne
     @JoinColumn(name = "group_order_id")
@@ -72,11 +71,11 @@ public class Order {
         this.groupOrder = groupOrder;
     }
 
-    public String getItemPrice() {
+    public Double getItemPrice() {
         return itemPrice;
     }
 
-    public void setItemPrice(String itemPrice) {
+    public void setItemPrice(Double itemPrice) {
         this.itemPrice = itemPrice;
     }
 }

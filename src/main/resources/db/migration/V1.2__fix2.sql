@@ -1,6 +1,5 @@
 
 
-Alter table roles add column role_name varchar(150) default 'ADMIN';
 
 drop table users_role;
 
@@ -10,4 +9,11 @@ CREATE TABLE if not exists `users_role` (
   foreign key(roles_id) references roles(roles_id),
   foreign key(users_id) references users(users_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+insert into users_role( roles_id, users_id) values(1,1);
+
+INSERT INTO `restaurant` (`restaurant_id`, `name`, `address`, `phone_number`, `menu_url`, `delivery_time`, `additional_charges`, `delivery_info`) VALUES
+(1, 'Mesecev konak', 'Rentgenova', '6465411232', 'meniurl.com', '30 min', '300 din', '....'),
+(2, 'Cardak', 'Ustanicka', '231215', 'meniurl', '40 min', '400 din', '....'),
+(3, 'Kafana princ', 'Sremska', '564632', 'urlmenija.com', '50 min', '400 din', '...');
 
