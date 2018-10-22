@@ -1,14 +1,4 @@
--- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
---
--- Host: 127.0.0.1
--- Generation Time: Oct 12, 2018 at 10:21 AM
--- Server version: 10.1.9-MariaDB
--- PHP Version: 5.6.15
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
 
 CREATE TABLE if not exists `roles` (
@@ -69,27 +59,6 @@ CREATE TABLE if not exists `group_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-drop table if exists `flyway_schema_history`;
 
-CREATE TABLE if not exists `flyway_schema_history` (
-  `installed_rank` int(11) NOT NULL,
-  `version` varchar(50) DEFAULT NULL,
-  `description` varchar(200) NOT NULL,
-  `type` varchar(20) NOT NULL,
-  `script` varchar(1000) NOT NULL,
-  `checksum` int(11) DEFAULT NULL,
-  `installed_by` varchar(100) NOT NULL,
-  `installed_on` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `execution_time` int(11) NOT NULL,
-  `success` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-ALTER TABLE `flyway_schema_history`
-  ADD PRIMARY KEY (`installed_rank`),
-  ADD KEY `flyway_schema_history_s_idx` (`success`);
-
-  INSERT INTO `flyway_schema_history` ( `version`, `description`, `type`, `script`, `checksum`, `installed_by`, `installed_on`, `execution_time`, `success`) VALUES
-( '1', '<< Flyway Baseline >>', 'BASELINE', '<< Flyway Baseline >>', NULL, 'root', '2018-10-11 14:14:13', 0, 1);
 
 

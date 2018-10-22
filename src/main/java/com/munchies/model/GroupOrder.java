@@ -3,6 +3,7 @@ package com.munchies.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ public class GroupOrder {
     private String creator;
 
     @Column(name = "order_timeout")
-    private Integer order_timeout;
+    private Date order_timeout;
 
     @Column(name = "order_url")
     private String order_url;
@@ -34,7 +35,7 @@ public class GroupOrder {
     public GroupOrder() {
     }
 
-    public GroupOrder(String creator, Integer order_timeout, String order_url, Restaurant restaurant, List<Order> order) {
+    public GroupOrder(String creator, Date order_timeout, String order_url, Restaurant restaurant, List<Order> order) {
         this.creator = creator;
         this.order_timeout = order_timeout;
         this.order_url = order_url;
@@ -58,11 +59,11 @@ public class GroupOrder {
         this.creator = creator;
     }
 
-    public Integer getOrder_timeout() {
+    public Date getOrder_timeout() {
         return order_timeout;
     }
 
-    public void setOrder_timeout(Integer order_timeout) {
+    public void setOrder_timeout(Date order_timeout) {
         this.order_timeout = order_timeout;
     }
 

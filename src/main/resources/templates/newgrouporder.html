@@ -31,17 +31,9 @@
         </div>
     </div>
     <div class="row col-lg-4 col-md-4"></div>
-    <!--Order information: order URL, order timeout-->
-    <!--(always 10 mins since the order start), order-->
-    <!--creator, restaurant name, restaurant phone no.,-->
-    <!--menu URL-->
-    <!--2. Add selection form which is used by other-->
-    <!--employees to add their selection to the order. This-->
-    <!--form has fields for: employee name, item name,-->
-    <!--and price.-->
+
     <div class="row col-lg-4 col-md-4 ">
-        <!--<form action="#" th:action="@{/newgrouporder}" name="form" id="form" class="form-horizontal"-->
-              <!--method="POST" th:object="${grouporder}">-->
+
             <div class="input-group">
                 <!--<input type="text" class="form-control" name="orderUrl" th:value="${#httpServletRequest.requestURI}"
                        disabled/> -->
@@ -67,24 +59,19 @@
                 <input type="text" class="form-control" name="menuurl"
                        th:field="${grouporder.restaurant.menuURL}">
             </div>
-            <!--<div class="input-group-btn">-->
-            <!--<button type="submit" class="btn btn-primary">-->
-            <!--Submit order-->
-            <!--</button>-->
 
-            <!--</div>
 
-             <button onclick="postmessage();" >Button</button>
+        <!--<button onclick="postmessage();" >Button</button>-->
 
-  <script>
-    function postmessage() {
-        $.ajax({
-            method: 'POST',
-            data: {},
-            url: 'http://localhost:8080/suggested-events/vote'
-        });
-    }
-  </script>-->
+        <!--<script>-->
+        <!--function postmessage() {-->
+        <!--$.ajax({-->
+        <!--method: 'POST',-->
+        <!--data: {},-->
+        <!--url: 'http://localhost:8080/suggested-events/vote'-->
+        <!--});-->
+        <!--}-->
+        <!--</script>&ndash;&gt;-->
         <!--</form>-->
     </div>
     <div class="row col-lg-4 col-md-4"></div>
@@ -121,18 +108,22 @@
             <input type="hidden" th:field="${o.groupOrder.group_order_id}">
 
             <br>
+            <div id="timer"></div>
+            <br>
+            <!---->
             <div class="form-group">
-                <div class="col-sm-12 controls">
+                <div class="col-sm-12 controls" th:if="${(#dates.createNow().before(grouporder.order_timeout))}">
                     <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i>
                         Submit Order
                     </button>
                 </div>
+                <p th:if="${grouporder.order_timeout.before(#dates.createNow())}">Group order has expired</p>
             </div>
 
         </form>
     </div>
 
-    <div class="row">
+    <div class="row" id="orders">
         <table class="table table-bordered">
             <tr style="font-size: 13">
                 <td>Creator</td>
@@ -154,6 +145,34 @@
         <div th:replace="fragments/footer :: footer"></div>
     </div>
 </div>
+<script>
+
+    var endDate = new Date([[${grouporder.order_timeout}]]).getTime();
+    var x = setInterval(function () {
+
+        // Get todays date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = endDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="demo"
+        document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timer").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+</script>
+
 <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

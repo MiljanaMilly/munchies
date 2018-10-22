@@ -73,7 +73,7 @@
                        th:field="*{password}">
                 <p class="error"
                    th:if="${#fields.hasErrors('password')}"
-                   th:errors="*{password}">Validation error</p>
+                   th:text="#{Size.user.password}">Validation error</p>
             </div>
 
             <br>

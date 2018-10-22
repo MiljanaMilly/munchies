@@ -49,11 +49,8 @@
             <br>
             <div class="input-group">
                 <input id="order_timeout" type="timeout" class="form-control" name="order_timeout"
-                       placeholder="Order timeout"
-                       th:field="*{order_timeout}">
-                <p class="error-message"
-                   th:if="${#fields.hasErrors('order_timeout')}"
-                   th:errors="*{order_timeout}">Validation error</p>
+                       placeholder="Order timeout" th:value="10"
+                       th:field="*{order_timeout}" disabled>
             </div>
             <input type="hidden" th:field="${groupOrder.restaurant.restaurant_id}">
             <br>
