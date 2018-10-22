@@ -4,6 +4,7 @@ import com.munchies.model.Restaurant;
 import com.munchies.model.User;
 import com.munchies.services.RestaurantService;
 import com.munchies.services.UserService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -40,20 +41,20 @@ public class AdminController {
     }
 
     @GetMapping("/createnewrestaurant")
-    public ModelAndView createnewrestaurant(ModelAndView mav, Restaurant restaurant) {
-        mav.addObject("newrest", restaurant);
+    public ModelAndView createnewrestaurant(ModelAndView mav) {
+        mav.addObject("newrest", new Restaurant());
         mav.setViewName("admin/createnewrestaurant");
         return mav;
 
     }
 
     @PostMapping("/createnewrestaurant")
-    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") Restaurant restaurant, BindingResult bindingResult, Restaurant rest, ModelAndView mav) {
+    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") Restaurant restaurant, BindingResult bindingResult, ModelAndView mav) {
         if (!bindingResult.hasErrors()) {
             restaurantService.saveOne(restaurant);
             mav.setViewName("redirect:/restaurants");
         } else {
-            mav.addObject("newrest", rest);
+            mav.addObject("newrest", new Restaurant());
             mav.setViewName("admin/createnewrestaurant");
         }
         return mav;
@@ -61,7 +62,7 @@ public class AdminController {
     }
 
     @GetMapping("/deleterest")
-    public ModelAndView deleteRest(@RequestParam("id") Long id, ModelAndView mav) {
+    public ModelAndView deleteRest(@RequestParam("id") Long id, ModelAndView mav) throws NotFoundException {
         System.out.println(id);
         restaurantService.deleteRestById(id);
         mav.setViewName("redirect:/restaurants");

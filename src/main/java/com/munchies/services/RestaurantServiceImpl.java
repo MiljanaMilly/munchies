@@ -6,11 +6,14 @@ import com.munchies.model.Restaurant;
 import com.munchies.repositories.GroupOrderRepository;
 import com.munchies.repositories.OrderRepository;
 import com.munchies.repositories.RestaurantRepository;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -37,25 +40,38 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public Restaurant saveOne(Restaurant restaurant) {
-        return restaurantRepository.saveAndFlush(restaurant);
+        return restaurantRepository.save(restaurant);
 
     }
 
-    public void deleteRestById(Long id) {
-        Restaurant r = restaurantRepository.getOne(id);
-        List<GroupOrder> groupOrders = groupOrderRepository.findGroupOrdersByRestaurant(r);
+    @Transactional
+    public void deleteRestById(Long id) throws NotFoundException {
 
-        for (GroupOrder go : groupOrders) {
-            List<Order> lo = orderRepository.findOrdersByGroupOrder(groupOrderRepository.getOne(go.getGroup_order_id()));
-            if (!lo.isEmpty()) {
-                for (Order o : lo) {
-                    orderRepository.delete(o);
-                }
+        Optional<Restaurant> r = restaurantRepository.findById(id);
+        if (r.isPresent()) {
+            for (GroupOrder order : r.get().getGroupOrder()) {
+                //if not active
+                restaurantRepository.delete(r.get());
+
+
             }
-            groupOrderRepository.delete(go);
 
+            List<GroupOrder> groupOrders = groupOrderRepository.findGroupOrdersByRestaurant(r.get());
+
+            for (GroupOrder go : groupOrders) {
+                List<Order> lo = orderRepository.findOrdersByGroupOrder(groupOrderRepository.getOne(go.getGroup_order_id()));
+                if (!lo.isEmpty()) {
+                    for (Order o : lo) {
+                        orderRepository.delete(o);
+                    }
+                }
+                groupOrderRepository.delete(go);
+
+            }
+            restaurantRepository.delete(r.get());
+        } else {
+            throw new NotFoundException("Object with given id doesn't exist!");
         }
-        restaurantRepository.delete(r);
 
     }
 

@@ -124,20 +124,22 @@
         </form>
     </div>
 
-    <div class="row" id="orders">
-        <table class="table table-bordered">
+    <div class="row">
+        <table class="table table-bordered" id="orders">
+            <thead>
             <tr style="font-size: 13">
                 <td>Creator</td>
                 <td>Order Item</td>
                 <td>Item Price</td>
-
             </tr>
-            <tr th:each="order :  ${orders}">
-                <td><p th:text="${order.orderCreator}"></p></td>
-                <td><p th:text="${order.orderItem}"></p></td>
-                <td><p th:text="${order.itemPrice}"></p></td>
-
-            </tr>
+            </thead>
+            <tbody>
+            <!--<tr th:each="order :  ${orders}">-->
+            <!--<td><p th:text="${order.orderCreator}"></p></td>-->
+            <!--<td><p th:text="${order.orderItem}"></p></td>-->
+            <!--<td><p th:text="${order.itemPrice}"></p></td>-->
+            <!--</tr>-->
+            </tbody>
         </table>
     </div>
 </div>
@@ -159,8 +161,6 @@
         var distance = endDate - now;
 
         // Time calculations for days, hours, minutes and seconds
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
@@ -175,6 +175,7 @@
     }, 1000);
 </script>
 
+
 <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -182,6 +183,35 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
+<script>
+
+    $(document).ready(function () {
+        var id = "[[${grouporder.group_order_id}]]";
+        var refreshId = setInterval(function () {
+            $.ajax({
+                type: "GET",
+                url: "api/getAjaxData/" + id,
+                success: function (result) {
+                    $.each(result, function (i, orderItem) {
+                        var orderItem = '<tr>' +
+                            '<td>' + orderItem.creator + '</td>' +
+                            '<td>' + orderItem.orderItem + '</td>' +
+                            '<td>' + orderItem.itemPrice + '</td>'
+                        '</tr>';
+
+                        $('#orders tbody').append(orderItem);
+
+                    });
+                },
+                error: function (e) {
+                    alert("ERROR: ", e);
+                    console.log("ERROR: ", e);
+                }
+            });
+        }, 2000);
+    });
+</script>
+
 
 </body>
 </html>

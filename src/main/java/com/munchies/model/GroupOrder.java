@@ -1,8 +1,11 @@
 package com.munchies.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,8 +32,9 @@ public class GroupOrder {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "groupOrder")
-    private List<Order> order;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "groupOrder", cascade = CascadeType.ALL)
+    private List<Order> order = new ArrayList<>();
 
     public GroupOrder() {
     }

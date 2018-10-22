@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,8 +39,8 @@ public class Restaurant {
 //    @Pattern(regexp = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
     private String menuURL;
 
-    @OneToMany(mappedBy = "restaurant")
-    private List<GroupOrder> groupOrder;
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<GroupOrder> groupOrder = new ArrayList<>();
 
     public List<GroupOrder> getGroupOrder() {
         return groupOrder;

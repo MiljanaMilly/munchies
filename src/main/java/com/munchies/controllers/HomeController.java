@@ -127,7 +127,6 @@ public class HomeController {
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.POST)
     public ModelAndView submitOrderForm(@Valid @ModelAttribute("o")Order o,BindingResult bindingResult, Order order, ModelAndView mav){
         GroupOrder groupOrder = groupOrderService.findOne(o.getGroupOrder().getGroup_order_id());
-        System.out.println(groupOrder.getGroup_order_id());
         if(!bindingResult.hasErrors()){
             o.setGroupOrder(groupOrder);
             List<Order> orders = groupOrder.getOrder();
@@ -147,6 +146,14 @@ public class HomeController {
         return mav;
 
     }
+//    @RequestMapping(value = "/getAjaxData", method = RequestMethod.GET)
+//    @ResponseBody
+//    public String getAjaxData(@RequestParam("id")Long id, Model mav){
+//        GroupOrder groupOrder = groupOrderService.findOne(id);
+//
+//        return "";
+//
+//    }
 
     @RequestMapping(value = "/viewrestdetails", method = RequestMethod.GET)
     public ModelAndView newGroupOrder(@RequestParam("id") Long id, ModelAndView mav) {

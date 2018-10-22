@@ -1,6 +1,8 @@
 package com.munchies.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,7 +12,7 @@ import javax.validation.constraints.Size;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long order_id;
 
     @Column(name = "order_creator")
@@ -27,6 +29,7 @@ public class Order {
     @NotNull
     private Double itemPrice;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "group_order_id")
     private GroupOrder groupOrder;
