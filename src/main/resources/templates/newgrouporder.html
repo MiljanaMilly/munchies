@@ -108,7 +108,7 @@
             <input type="hidden" th:field="${o.groupOrder.group_order_id}">
 
             <br>
-            <div id="timer"></div>
+
             <br>
             <!---->
             <div class="form-group">
@@ -118,6 +118,7 @@
                     </button>
                 </div>
                 <p th:if="${grouporder.order_timeout.before(#dates.createNow())}">Group order has expired</p>
+                <div><p id="timer"></p></div>
             </div>
 
         </form>
@@ -147,7 +148,8 @@
 </div>
 <script>
 
-    var endDate = new Date([[${grouporder.order_timeout}]]).getTime();
+    var date = "[[${grouporder.order_timeout}]]";
+    var endDate = new Date(date).getTime();
     var x = setInterval(function () {
 
         // Get todays date and time
