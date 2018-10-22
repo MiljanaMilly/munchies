@@ -192,9 +192,10 @@
                 type: "GET",
                 url: "api/getAjaxData/" + id,
                 success: function (result) {
+                    $('#orders tbody').empty();
                     $.each(result, function (i, orderItem) {
                         var orderItem = '<tr>' +
-                            '<td>' + orderItem.creator + '</td>' +
+                            '<td>' + orderItem.orderCreator + '</td>' +
                             '<td>' + orderItem.orderItem + '</td>' +
                             '<td>' + orderItem.itemPrice + '</td>'
                         '</tr>';
