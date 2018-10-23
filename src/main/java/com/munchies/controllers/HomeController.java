@@ -104,7 +104,7 @@ public class HomeController {
 
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
     public ModelAndView getGroupOrderForm(@RequestParam("id") Long id, OrderItem orderItem, ModelAndView mav) {
-        Restaurant r = restaurantService.getOne(id).get();
+        Restaurant r = restaurantService.getOne(orderService.findOne(id).getRestaurant().getId()).get();
         Order order = orderService.findOne(id);
         orderItem.setOrder(order);
 //            orderItem = orderService.saveOne(orderItem);
