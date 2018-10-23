@@ -1,7 +1,7 @@
 package com.munchies.repositories;
 
-import com.munchies.model.GroupOrder;
 import com.munchies.model.Order;
+import com.munchies.model.OrderItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order,Long> {
+public interface OrderItemJpaRepository extends JpaRepository<OrderItem, Long> {
 
-    @Query("from Order o where o.groupOrder like :grouporder")
-    List<Order> findOrdersByGroupOrder(@Param("grouporder") GroupOrder groupOrder);
+    @Query("from OrderItem o where o.order like :order")
+    List<OrderItem> findOrdersByGroupOrder(@Param("order") Order order);
 }

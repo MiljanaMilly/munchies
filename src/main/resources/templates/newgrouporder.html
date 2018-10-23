@@ -5,7 +5,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>Group order</title>
+    <title>Group orderItem</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -57,22 +57,8 @@
             <br>
             <div class="input-group">
                 <input type="text" class="form-control" name="menuurl"
-                       th:field="${grouporder.restaurant.menuURL}">
+                       th:field="${grouporder.restaurant.menuUrl}">
             </div>
-
-
-        <!--<button onclick="postmessage();" >Button</button>-->
-
-        <!--<script>-->
-        <!--function postmessage() {-->
-        <!--$.ajax({-->
-        <!--method: 'POST',-->
-        <!--data: {},-->
-        <!--url: 'http://localhost:8080/suggested-events/vote'-->
-        <!--});-->
-        <!--}-->
-        <!--</script>&ndash;&gt;-->
-        <!--</form>-->
     </div>
     <div class="row col-lg-4 col-md-4"></div>
     <br>
@@ -82,42 +68,42 @@
             <div class="input-group">
                 <input type="text" class="form-control" name="orderCreator" value=""
                        placeholder="Order Creator"
-                       th:field="*{orderCreator}">
+                       th:field="*{creator}">
                 <p class="error"
                    th:if="${#fields.hasErrors('orderCreator')}"
-                   th:errors="${o.orderCreator}">Validation error</p>
+                   th:errors="${o.creator}">Validation error</p>
             </div>
             <br>
             <div class="input-group">
-                <input type="text" class="form-control" name="orderItem"  value=""
+                <input type="text" class="form-control" name="orderItem" value=""
                        placeholder="Order Item"
-                       th:field="*{orderItem}">
+                       th:field="*{name}">
                 <p class="error"
                    th:if="${#fields.hasErrors('orderItem')}"
-                   th:errors="${o.orderItem}">Validation error</p>
+                   th:errors="${o.name}">Validation error</p>
             </div>
             <br>
             <div class="input-group">
                 <input type="text" class="form-control" name="itemPrice" value=""
                        placeholder="Item price"
-                       th:field="*{itemPrice}">
+                       th:field="*{price}">
                 <p class="error"
                    th:if="${#fields.hasErrors('itemPrice')}"
-                   th:errors="${o.itemPrice}">Validation error</p>
+                   th:errors="${o.price}">Validation error</p>
             </div>
-            <input type="hidden" th:field="${o.groupOrder.group_order_id}">
+            <input type="hidden" th:field="${o.order.id}">
 
             <br>
 
             <br>
             <!---->
             <div class="form-group">
-                <div class="col-sm-12 controls" th:if="${(#dates.createNow().before(grouporder.order_timeout))}">
+                <div class="col-sm-12 controls" th:if="${(#dates.createNow().before(grouporder.orderTimeout))}">
                     <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i>
                         Submit Order
                     </button>
                 </div>
-                <p th:if="${grouporder.order_timeout.before(#dates.createNow())}">Group order has expired</p>
+                <p th:if="${grouporder.orderTimeout.before(#dates.createNow())}">Group orderItem has expired</p>
                 <div><p id="timer"></p></div>
             </div>
 
@@ -125,7 +111,7 @@
     </div>
 
     <div class="row">
-        <table class="table table-bordered" id="orders">
+        <table class="table table-bordered" id="orderItems">
             <thead>
             <tr style="font-size: 13">
                 <td>Creator</td>
@@ -134,10 +120,10 @@
             </tr>
             </thead>
             <tbody>
-            <!--<tr th:each="order :  ${orders}">-->
-            <!--<td><p th:text="${order.orderCreator}"></p></td>-->
-            <!--<td><p th:text="${order.orderItem}"></p></td>-->
-            <!--<td><p th:text="${order.itemPrice}"></p></td>-->
+            <!--<tr th:each="orderItem :  ${orderItems}">-->
+            <!--<td><p th:text="${orderItem.orderCreator}"></p></td>-->
+            <!--<td><p th:text="${orderItem.orderItem}"></p></td>-->
+            <!--<td><p th:text="${orderItem.itemPrice}"></p></td>-->
             <!--</tr>-->
             </tbody>
         </table>
@@ -154,20 +140,17 @@
     var endDate = new Date(date).getTime();
     var x = setInterval(function () {
 
-        // Get todays date and time
         var now = new Date().getTime();
 
-        // Find the distance between now and the count down date
+
         var distance = endDate - now;
 
-        // Time calculations for days, hours, minutes and seconds
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Display the result in the element with id="demo"
         document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
 
-        // If the count down is finished, write some text
+
         if (distance < 0) {
             clearInterval(x);
             document.getElementById("timer").innerHTML = "EXPIRED";
@@ -184,7 +167,6 @@
         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
         crossorigin="anonymous"></script>
 <script>
-
     $(document).ready(function () {
         var id = "[[${grouporder.group_order_id}]]";
         var refreshId = setInterval(function () {
@@ -192,15 +174,15 @@
                 type: "GET",
                 url: "api/getAjaxData/" + id,
                 success: function (result) {
-                    $('#orders tbody').empty();
+                    $('#orderItems tbody').empty();
                     $.each(result, function (i, orderItem) {
                         var orderItem = '<tr>' +
-                            '<td>' + orderItem.orderCreator + '</td>' +
-                            '<td>' + orderItem.orderItem + '</td>' +
+                            '<td>' + orderItem.creator + '</td>' +
+                            '<td>' + orderItem.name + '</td>' +
                             '<td>' + orderItem.itemPrice + '</td>'
                         '</tr>';
 
-                        $('#orders tbody').append(orderItem);
+                        $('#orderItems tbody').append(orderItem);
 
                     });
                 },

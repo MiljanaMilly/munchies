@@ -1,7 +1,7 @@
 package com.munchies.services;
 
 import com.munchies.model.Role;
-import com.munchies.repositories.RoleRepository;
+import com.munchies.repositories.RoleJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +11,10 @@ import java.util.List;
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleJpaRepository roleJpaRepository;
 
     public List<Role> findAll() {
-        return roleRepository.findAll();
+        return roleJpaRepository.findAll();
 
     }
 }

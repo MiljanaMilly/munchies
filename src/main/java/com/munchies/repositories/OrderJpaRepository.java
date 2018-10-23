@@ -1,6 +1,6 @@
 package com.munchies.repositories;
 
-import com.munchies.model.GroupOrder;
+import com.munchies.model.Order;
 import com.munchies.model.Restaurant;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GroupOrderRepository extends JpaRepository<GroupOrder,Long> {
+public interface OrderJpaRepository extends JpaRepository<Order, Long> {
 
-    @Query("From GroupOrder go where go.restaurant like :restaurant")
-    List<GroupOrder> findGroupOrdersByRestaurant(@Param("restaurant") Restaurant restaurant);
+    @Query("From Order go where go.restaurant like :restaurant")
+    List<Order> findGroupOrdersByRestaurant(@Param("restaurant") Restaurant restaurant);
 
     @Override
-    Page<GroupOrder> findAll(Pageable pageable);
+    Page<Order> findAll(Pageable pageable);
 }

@@ -5,13 +5,14 @@ import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface RestaurantService {
 
     List<Restaurant> getAllRest();
 
-    Restaurant getOne(Long id);
+    Optional<Restaurant> getOne(Long id);
 
     Restaurant saveOne(Restaurant restaurant);
 

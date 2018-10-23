@@ -43,13 +43,13 @@
                 <td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>
                 <td><p th:text="${rest.address}"></p></td>
                 <td><p th:text="${rest.phoneNumber}"></p></td>
-                <td><p th:text="${rest.menuURL}"></p></td>
+                <td><p th:text="${rest.menuUrl}"></p></td>
                 <td>
-                    <div class="row"><a href="#" th:href="@{'/viewrestdetails?id=' + ${rest.restaurant_id}}"> View
+                    <div class="row"><a href="#" th:href="@{'/viewrestdetails?id=' + ${rest.id}}"> View
                         Details </a></div>
-                    <div class="row"><a href="#" th:href="@{'/deleterest?id=' + ${rest.restaurant_id}}"> Delete
+                    <div class="row"><a href="#" th:href="@{'/deleterest?id=' + ${rest.id}}"> Delete
                     </a></div>
-                    <div class="row"><a href="#" th:href="@{'/editrestaurant?id=' + ${rest.restaurant_id}}"> Edit
+                    <div class="row"><a href="#" th:href="@{'/editrestaurant?id=' + ${rest.id}}"> Edit
                     </a></div>
                 </td>
 

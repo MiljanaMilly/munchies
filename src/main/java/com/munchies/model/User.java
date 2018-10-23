@@ -14,7 +14,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy =  GenerationType.AUTO)
-    private Long users_id;
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "first_name")
     @NotNull
@@ -39,9 +40,9 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "users_role",
-            joinColumns = {@JoinColumn(name="users_id")},
-            inverseJoinColumns = {@JoinColumn(name = "roles_id")})
+            name = "users_roles",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private List<Role> roles = new ArrayList<>();
 
     public User() {
@@ -55,12 +56,12 @@ public class User {
         this.roles = roles;
     }
 
-    public Long getUsers_id() {
-        return users_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setUsers_id(Long users_id) {
-        this.users_id = users_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {

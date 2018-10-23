@@ -1,11 +1,11 @@
 package com.munchies.services;
 
-import com.munchies.model.GroupOrder;
 import com.munchies.model.Order;
+import com.munchies.model.OrderItem;
 import com.munchies.model.Restaurant;
-import com.munchies.repositories.GroupOrderRepository;
-import com.munchies.repositories.OrderRepository;
-import com.munchies.repositories.RestaurantRepository;
+import com.munchies.repositories.OrderJpaRepository;
+import com.munchies.repositories.OrderItemJpaRepository;
+import com.munchies.repositories.RestaurantJpaRepository;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,55 +20,55 @@ import java.util.Optional;
 public class RestaurantServiceImpl implements RestaurantService {
 
     @Autowired
-    private RestaurantRepository restaurantRepository;
+    private RestaurantJpaRepository restaurantJpaRepository;
 
     @Autowired
-    private GroupOrderRepository groupOrderRepository;
+    private OrderJpaRepository orderJpaRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderItemJpaRepository orderItemJpaRepository;
 
 
     public List<Restaurant> getAllRest() {
-        return restaurantRepository.findAll();
+        return restaurantJpaRepository.findAll();
 
     }
 
-    public Restaurant getOne(Long id) {
-        return restaurantRepository.getOne(id);
+    public Optional<Restaurant> getOne(Long id) {
+        return restaurantJpaRepository.findById(id);
 
     }
 
     public Restaurant saveOne(Restaurant restaurant) {
-        return restaurantRepository.save(restaurant);
+        return restaurantJpaRepository.save(restaurant);
 
     }
 
     @Transactional
     public void deleteRestById(Long id) throws NotFoundException {
 
-        Optional<Restaurant> r = restaurantRepository.findById(id);
+        Optional<Restaurant> r = restaurantJpaRepository.findById(id);
         if (r.isPresent()) {
-            for (GroupOrder order : r.get().getGroupOrder()) {
+            for (Order order : r.get().getOrders()) {
                 //if not active
-                restaurantRepository.delete(r.get());
+                restaurantJpaRepository.delete(r.get());
 
 
             }
 
-            List<GroupOrder> groupOrders = groupOrderRepository.findGroupOrdersByRestaurant(r.get());
+            List<Order> orders = orderJpaRepository.findGroupOrdersByRestaurant(r.get());
 
-            for (GroupOrder go : groupOrders) {
-                List<Order> lo = orderRepository.findOrdersByGroupOrder(groupOrderRepository.getOne(go.getGroup_order_id()));
+            for (Order go : orders) {
+                List<OrderItem> lo = orderItemJpaRepository.findOrdersByGroupOrder(orderJpaRepository.getOne(go.getId()));
                 if (!lo.isEmpty()) {
-                    for (Order o : lo) {
-                        orderRepository.delete(o);
+                    for (OrderItem o : lo) {
+                        orderItemJpaRepository.delete(o);
                     }
                 }
-                groupOrderRepository.delete(go);
+                orderJpaRepository.delete(go);
 
             }
-            restaurantRepository.delete(r.get());
+            restaurantJpaRepository.delete(r.get());
         } else {
             throw new NotFoundException("Object with given id doesn't exist!");
         }
@@ -76,16 +76,16 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public void editOne(Restaurant restaurant) {
-        Restaurant restaurant1 = new Restaurant();
-        restaurant1.setRestaurant_id(restaurant.getRestaurant_id());
+        Restaurant restaurant1 = restaurantJpaRepository.getOne(restaurant.getId());
+        //restaurant1.setId(restaurant.getId());
         restaurant1.setName(restaurant.getName());
         restaurant1.setAddress(restaurant.getAddress());
         restaurant1.setPhoneNumber(restaurant.getPhoneNumber());
-        restaurant1.setMenuURL(restaurant.getMenuURL());
+        restaurant1.setMenuUrl(restaurant.getMenuUrl());
         restaurant1.setDeliveryInfo(restaurant.getDeliveryInfo());
         restaurant1.setDeliveryTime(restaurant.getDeliveryTime());
         restaurant1.setAdditionalCharges(restaurant.getAdditionalCharges());
-        restaurantRepository.save(restaurant1);
+        restaurantJpaRepository.save(restaurant);
 
     }
 

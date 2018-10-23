@@ -24,7 +24,7 @@
 <div class="row col-lg-3 col-md-3"></div>
 
 <div class="row col-lg-6 col-md-6 ">
-    <form action="#" th:action="@{/editrestaurant}" name="form" id="form" class="form-horizontal"
+    <form action="#" th:action="@{/createnewrestaurant}" name="form" id="form" class="form-horizontal"
           method="POST" th:object="${newrest}">
         <div class="input-group">
             <input id="name" type="text" class="form-control" name="name" value=""
@@ -49,17 +49,17 @@
                    placeholder="Phone number"
                    th:field="*{phoneNumber}">
             <p class="error-message"
-               th:if="${#fields.hasErrors('address')}"
-               th:errors="*{address}">Validation error</p>
+               th:if="${#fields.hasErrors('phoneNumber')}"
+               th:errors="*{phoneNumber}">Validation error</p>
         </div>
         <br>
         <div class="input-group">
             <input id="menuUrl" type="text" class="form-control" name="menuUrl"
                    placeholder="Menu Url"
-                   th:field="*{menuURL}">
+                   th:field="*{menuUrl}">
             <p class="error-message"
-               th:if="${#fields.hasErrors('menuURL')}"
-               th:errors="*{menuURL}">Validation error</p>
+               th:if="${#fields.hasErrors('menuUrl')}"
+               th:errors="*{menuUrl}">Validation error</p>
         </div>
         <br>
         <div class="input-group">
@@ -91,7 +91,7 @@
         <br>
         <div class="input-group-btn">
             <button type="submit" class="btn btn-primary">
-                Submit order
+                Submit orderItem
             </button>
 
         </div>

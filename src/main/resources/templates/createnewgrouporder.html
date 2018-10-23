@@ -24,39 +24,39 @@
 
     </div>
 </div>
-<div class="container" th:object="${groupOrder.restaurant}">
+<div class="container" th:object="${order.restaurant}">
     <div class="panel panel-default">
         <div class="panel-heading text-center">Restoran</div>
         <div class="panel-body text-center" >
             <h3>Porucujete iz restorana: </h3>
-            <h1 th:utext="${groupOrder.restaurant.name}">Name</h1>
-            <input type="hidden" th:value="${groupOrder.restaurant.restaurant_id}">
+            <h1 th:utext="${order.restaurant.name}">Name</h1>
+            <input type="hidden" th:value="${order.restaurant.id}">
         </div>
     </div>
     <div class="row col-lg-5 col-md-5"></div>
 
     <div class="row col-lg-4 col-md-4 ">
         <form action="#" th:action="@{/createnewgrouporder}" name="form" id="form" class="form-horizontal"
-              method="POST" th:object="${groupOrder}">
+              method="POST" th:object="${order}">
             <div class="input-group">
                 <input id="creator" type="text" class="form-control" name="creator" value=""
-                       placeholder="Group order creator"
+                       placeholder="Group orderItem creator"
                        th:field="*{creator}">
                 <p class="error-message"
                    th:if="${#fields.hasErrors('creator')}"
-                   th:errors="#{NotNull.groupOrder.creator}">Validation error</p>
+                   th:errors="#{NotNull.order.creator}">Validation error</p>
             </div>
             <br>
             <div class="input-group">
                 <input id="order_timeout" type="timeout" class="form-control" name="order_timeout"
                        placeholder="Order timeout" th:value="10"
-                       th:field="*{order_timeout}" disabled>
+                       th:field="*{orderTimeout}" disabled>
             </div>
-            <input type="hidden" th:field="${groupOrder.restaurant.restaurant_id}">
+            <input type="hidden" th:field="${order.restaurant.id}">
             <br>
             <div class="input-group-btn">
                 <button type="submit" class="btn btn-primary">
-                    Create new group order
+                    Create new group orderItem
                 </button>
 
             </div>

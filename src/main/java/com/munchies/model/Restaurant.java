@@ -3,17 +3,18 @@ package com.munchies.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "restaurant")
+@Table(name = "restaurants")
 public class Restaurant {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long restaurant_id;
+    @Column(name = "id")
+    private Long id;
 
 
     @Column(name = "name")
@@ -28,7 +29,7 @@ public class Restaurant {
 
     @Size(min = 6, max = 15)
     @NotNull
-//    @Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")
+//  @Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")
     //format +(123) - 456-78-90
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -37,25 +38,13 @@ public class Restaurant {
     @NotNull
     @Size(max = 500)
 //    @Pattern(regexp = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
-    private String menuURL;
+    private String menuUrl;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<GroupOrder> groupOrder = new ArrayList<>();
-
-    public List<GroupOrder> getGroupOrder() {
-        return groupOrder;
-    }
-
-    public void setGroupOrder(List<GroupOrder> groupOrder) {
-        this.groupOrder = groupOrder;
-    }
-
-    public void setDeliveryInfo(String deliveryInfo) {
-        this.deliveryInfo = deliveryInfo;
-    }
+    @OrderBy("name ASC")
+    private List<Order> orders = new ArrayList<>();
 
     @Column(name = "delivery_time")
-    @NotNull
     @Size(max = 50)
     private String deliveryTime;
 
@@ -70,22 +59,23 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(String name, String address, String phoneNumber, String menuURL, String deliveryTime, String additionalCharges, String deliveryInfo) {
+    public Restaurant(@Size(min = 5, max = 50) @NotNull String name, @Size(min = 5, max = 50) @NotNull String address, @Size(min = 6, max = 15) @NotNull String phoneNumber, @NotNull @Size(max = 500) String menuUrl, List<Order> orders, @Size(max = 50) String deliveryTime, @Size(max = 100) String additionalCharges, @Size(max = 250) String deliveryInfo) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.menuURL = menuURL;
+        this.menuUrl = menuUrl;
+        this.orders = orders;
         this.deliveryTime = deliveryTime;
         this.additionalCharges = additionalCharges;
         this.deliveryInfo = deliveryInfo;
     }
 
-    public Long getRestaurant_id() {
-        return restaurant_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setRestaurant_id(Long restaurant_id) {
-        this.restaurant_id = restaurant_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -112,12 +102,20 @@ public class Restaurant {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getMenuURL() {
-        return menuURL;
+    public String getMenuUrl() {
+        return menuUrl;
     }
 
-    public void setMenuURL(String menuURL) {
-        this.menuURL = menuURL;
+    public void setMenuUrl(String menuUrl) {
+        this.menuUrl = menuUrl;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
     public String getDeliveryTime() {
@@ -140,4 +138,7 @@ public class Restaurant {
         return deliveryInfo;
     }
 
+    public void setDeliveryInfo(String deliveryInfo) {
+        this.deliveryInfo = deliveryInfo;
+    }
 }

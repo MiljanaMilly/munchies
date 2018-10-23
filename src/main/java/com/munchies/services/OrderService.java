@@ -6,5 +6,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OrderService {
 
-    public Order saveOne(Order order);
+    Order save(Order order);
+
+    Order findOne(Long id);
 }
+

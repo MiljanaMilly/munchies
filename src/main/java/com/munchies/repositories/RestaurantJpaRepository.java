@@ -1,9 +1,9 @@
 package com.munchies.repositories;
 
-import com.munchies.model.Role;
+import com.munchies.model.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role,Long> {
+public interface RestaurantJpaRepository extends JpaRepository<Restaurant, Long> {
 }

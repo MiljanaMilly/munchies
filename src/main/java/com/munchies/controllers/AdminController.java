@@ -54,7 +54,7 @@ public class AdminController {
             restaurantService.saveOne(restaurant);
             mav.setViewName("redirect:/restaurants");
         } else {
-            mav.addObject("newrest", new Restaurant());
+            mav.addObject("newrest", restaurant);
             mav.setViewName("admin/createnewrestaurant");
         }
         return mav;
@@ -72,8 +72,7 @@ public class AdminController {
 
     @GetMapping("/editrestaurant")
     public ModelAndView editRest(@RequestParam("id") Long id, ModelAndView mav) {
-        mav.addObject("editrest", restaurantService.getOne(id));
-        System.out.println(id.toString());
+        mav.addObject("editrest", restaurantService.getOne(id).get());
         mav.setViewName("admin/editrestaurant");
         return mav;
 
@@ -86,7 +85,7 @@ public class AdminController {
             mav.setViewName("redirect:/restaurants");
         } else {
             mav.addObject("editrest", restaurant);
-            mav.setViewName("redirect:/editrestaurant");
+            mav.setViewName("admin/editrestaurant");
         }
         return mav;
 

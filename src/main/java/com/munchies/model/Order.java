@@ -1,84 +1,98 @@
 package com.munchies.model;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long order_id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
 
-    @Column(name = "order_creator")
+    @Column(name = "creator")
     @NotNull
-    @Size(min = 3, max = 50, message = "Size must be ")
-    private String orderCreator;
+    @Size(min = 3, max = 50)
+    private String creator;
 
-    @Column(name = "order_item")
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String orderItem;
+    @Column(name = "order_timeout")
+    private Date orderTimeout;
 
-    @Column(name = "item_price")
-    @NotNull
-    private Double itemPrice;
+    @Column(name = "order_url")
+    private String orderUrl;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "group_order_id")
-    private GroupOrder groupOrder;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private Restaurant restaurant;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
     public Order() {
     }
 
-    public Order(String orderCreator, String orderItem) {
-        this.orderCreator = orderCreator;
-        this.orderItem = orderItem;
+    public Order(@NotNull @Size(min = 3, max = 50) String creator, Date orderTimeout, String orderUrl, Restaurant restaurant, List<OrderItem> orderItems) {
+        this.creator = creator;
+        this.orderTimeout = orderTimeout;
+        this.orderUrl = orderUrl;
+        this.restaurant = restaurant;
+        this.orderItems = orderItems;
     }
 
-    public Long getOrder_id() {
-        return order_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setOrder_id(Long order_id) {
-        this.order_id = order_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getOrderCreator() {
-        return orderCreator;
+    public String getCreator() {
+        return creator;
     }
 
-    public void setOrderCreator(String orderCreator) {
-        this.orderCreator = orderCreator;
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 
-    public String getOrderItem() {
-        return orderItem;
+    public Date getOrderTimeout() {
+        return orderTimeout;
     }
 
-    public void setOrderItem(String orderItem) {
-        this.orderItem = orderItem;
+    public void setOrderTimeout(Date orderTimeout) {
+        this.orderTimeout = orderTimeout;
     }
 
-    public GroupOrder getGroupOrder() {
-        return groupOrder;
+    public String getOrderUrl() {
+        return orderUrl;
     }
 
-    public void setGroupOrder(GroupOrder groupOrder) {
-        this.groupOrder = groupOrder;
+    public void setOrderUrl(String orderUrl) {
+        this.orderUrl = orderUrl;
     }
 
-    public Double getItemPrice() {
-        return itemPrice;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setItemPrice(Double itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }

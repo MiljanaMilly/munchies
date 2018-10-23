@@ -25,46 +25,68 @@
 <div class="row col-lg-6 col-md-6 ">
     <form action="#" th:action="@{/editrestaurant}" name="form" id="form" class="form-horizontal"
           method="POST" th:object="${editrest}">
+        <input type="hidden" th:field="${editrest.id}">
         <div class="input-group">
             <input id="name" type="text" class="form-control" name="name" value=""
                    placeholder="Restaurant name"
                    th:field="*{name}">
+            <p class="error-message"
+               th:if="${#fields.hasErrors('name')}"
+               th:errors="*{name}">Validation error</p>
         </div>
         <br>
         <div class="input-group">
             <input id="address" type="text" class="form-control" name="address"
                    placeholder="Restaurant Address"
                    th:field="*{address}">
+            <p class="error-message"
+               th:if="${#fields.hasErrors('address')}"
+               th:errors="*{address}">Validation error</p>
         </div>
         <br>
         <div class="input-group">
             <input id="phoneNumber" type="text" class="form-control" name="phoneNumber"
                    placeholder="Phone number"
                    th:field="*{phoneNumber}">
+            <p class="error-message"
+               th:if="${#fields.hasErrors('phoneNumber')}"
+               th:errors="*{phoneNumber}">Validation error</p>
         </div>
         <br>
         <div class="input-group">
             <input id="menuUrl" type="text" class="form-control" name="menuUrl"
                    placeholder="Menu Url"
-                   th:field="*{menuURL}">
+                   th:field="*{menuUrl}">
+            <p class="error-message"
+               th:if="${#fields.hasErrors('menuUrl')}"
+               th:errors="*{menuUrl}">Validation error</p>
         </div>
         <br>
         <div class="input-group">
             <input id="deliveryTime" type="text" class="form-control" name="deliveryTime"
                    placeholder="deliveryTime"
                    th:field="*{deliveryTime}">
+            <p class="error-message"
+               th:if="${#fields.hasErrors('deliveryTime')}"
+               th:errors="*{deliveryTime}">Validation error</p>
         </div>
         <br>
         <div class="input-group">
             <input id="deliveryInfo" type="text" class="form-control" name="deliveryInfo"
                    placeholder="deliveryInfo"
                    th:field="*{deliveryInfo}">
+            <p class="error-message"
+               th:if="${#fields.hasErrors('deliveryInfo')}"
+               th:errors="*{deliveryInfo}">Validation error</p>
         </div>
         <br>
         <div class="input-group">
             <input id="additionalCharges" type="text" class="form-control" name="additionalCharges"
                    placeholder="additionalCharges"
                    th:field="*{additionalCharges}">
+            <p class="error-message"
+               th:if="${#fields.hasErrors('additionalCharges')}"
+               th:errors="*{additionalCharges}">Validation error</p>
         </div>
         <br>
         <div class="input-group-btn">

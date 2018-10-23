@@ -3,7 +3,7 @@ package com.munchies.security;
 import com.munchies.model.Role;
 import com.munchies.model.User;
 
-import com.munchies.repositories.UserRepository;
+import com.munchies.repositories.UserJpaRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,12 +21,12 @@ import java.util.*;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserJpaRepository userJpaRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(s);
+        User user = userJpaRepository.findByEmail(s);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
