@@ -70,7 +70,7 @@
                        placeholder="Order Creator"
                        th:field="*{creator}">
                 <p class="error"
-                   th:if="${#fields.hasErrors('orderCreator')}"
+                   th:if="${#fields.hasErrors('creator')}"
                    th:errors="${o.creator}">Validation error</p>
             </div>
             <br>
@@ -79,7 +79,7 @@
                        placeholder="Order Item"
                        th:field="*{name}">
                 <p class="error"
-                   th:if="${#fields.hasErrors('orderItem')}"
+                   th:if="${#fields.hasErrors('name')}"
                    th:errors="${o.name}">Validation error</p>
             </div>
             <br>
@@ -88,7 +88,7 @@
                        placeholder="Item price"
                        th:field="*{price}">
                 <p class="error"
-                   th:if="${#fields.hasErrors('itemPrice')}"
+                   th:if="${#fields.hasErrors('price')}"
                    th:errors="${o.price}">Validation error</p>
             </div>
             <input type="hidden" th:field="${o.order.id}">
@@ -120,11 +120,11 @@
             </tr>
             </thead>
             <tbody>
-            <!--<tr th:each="orderItem :  ${orderItems}">-->
-            <!--<td><p th:text="${orderItem.orderCreator}"></p></td>-->
-            <!--<td><p th:text="${orderItem.orderItem}"></p></td>-->
-            <!--<td><p th:text="${orderItem.itemPrice}"></p></td>-->
-            <!--</tr>-->
+            <tr th:each="orderItem :  ${orders}">
+                <td><p th:text="${orderItem.creator}"></p></td>
+                <td><p th:text="${orderItem.name}"></p></td>
+                <td><p th:text="${orderItem.price}"></p></td>
+            </tr>
             </tbody>
         </table>
     </div>
@@ -136,7 +136,7 @@
 </div>
 <script>
 
-    var date = "[[${grouporder.order_timeout}]]";
+    var date = "[[${grouporder.orderTimeout}]]";
     var endDate = new Date(date).getTime();
     var x = setInterval(function () {
 
@@ -168,7 +168,7 @@
         crossorigin="anonymous"></script>
 <script>
     $(document).ready(function () {
-        var id = "[[${grouporder.group_order_id}]]";
+        var id = "[[${grouporder.id}]]";
         var refreshId = setInterval(function () {
             $.ajax({
                 type: "GET",
@@ -179,7 +179,7 @@
                         var orderItem = '<tr>' +
                             '<td>' + orderItem.creator + '</td>' +
                             '<td>' + orderItem.name + '</td>' +
-                            '<td>' + orderItem.itemPrice + '</td>'
+                            '<td>' + orderItem.price + '</td>'
                         '</tr>';
 
                         $('#orderItems tbody').append(orderItem);

@@ -1,5 +1,6 @@
 package com.munchies.controllers;
 
+import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import javassist.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,8 +15,18 @@ public class ErrorController {
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView handleNotFound(NotFoundException ex) {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("eroor", ex.getMessage());
+        mv.addObject("error", ex.getMessage());
         mv.setViewName("/error");
         return mv;
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(RestaurantHasActiveOrdersException.class)
+    public ModelAndView restaurantHasActiveOrders(RestaurantHasActiveOrdersException ex) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("error", ex.getMessage());
+        mav.setViewName("/error");
+        return mav;
+
     }
 }

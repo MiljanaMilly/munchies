@@ -1,5 +1,6 @@
 package com.munchies.controllers;
 
+import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Restaurant;
 import com.munchies.model.User;
 import com.munchies.services.RestaurantService;
@@ -62,7 +63,7 @@ public class AdminController {
     }
 
     @GetMapping("/deleterest")
-    public ModelAndView deleteRest(@RequestParam("id") Long id, ModelAndView mav) throws NotFoundException {
+    public ModelAndView deleteRest(@RequestParam("id") Long id, ModelAndView mav) throws NotFoundException, RestaurantHasActiveOrdersException {
         System.out.println(id);
         restaurantService.deleteRestById(id);
         mav.setViewName("redirect:/restaurants");

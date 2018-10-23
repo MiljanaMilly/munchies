@@ -31,8 +31,8 @@ public class OrderItem {
     private Double price;
 
     @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id")
     private Order order;
 
     public OrderItem() {

@@ -1,5 +1,6 @@
 package com.munchies.services;
 
+import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Restaurant;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public interface RestaurantService {
 
     Restaurant saveOne(Restaurant restaurant);
 
-    void deleteRestById(Long id) throws NotFoundException;
+    void deleteRestById(Long id) throws NotFoundException, RestaurantHasActiveOrdersException;
 
     void editOne(Restaurant restaurant);
 

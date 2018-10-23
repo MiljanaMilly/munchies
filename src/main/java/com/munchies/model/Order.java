@@ -30,7 +30,7 @@ public class Order {
     private String orderUrl;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @JsonManagedReference

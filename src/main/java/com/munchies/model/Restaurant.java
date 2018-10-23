@@ -41,7 +41,6 @@ public class Restaurant {
     private String menuUrl;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    @OrderBy("name ASC")
     private List<Order> orders = new ArrayList<>();
 
     @Column(name = "delivery_time")

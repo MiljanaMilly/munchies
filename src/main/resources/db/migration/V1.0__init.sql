@@ -49,8 +49,8 @@ CREATE TABLE if not exists `orders` (
   `creator` varchar(50) NOT NULL,
   `order_timeout` datetime NOT NULL,
   `order_url` varchar(500),
-  order_item_id bigint,
-  foreign key (order_item_id) references order_items(id),
+  order_id bigint,
+  foreign key (order_id) references order_items(id),
   `restaurant_id` bigint(200),
   foreign key (restaurant_id) references restaurants(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

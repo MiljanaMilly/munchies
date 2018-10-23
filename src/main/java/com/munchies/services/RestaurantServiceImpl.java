@@ -1,5 +1,6 @@
 package com.munchies.services;
 
+import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Order;
 import com.munchies.model.OrderItem;
 import com.munchies.model.Restaurant;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,34 +48,30 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Transactional
-    public void deleteRestById(Long id) throws NotFoundException {
+    public void deleteRestById(Long id) throws NotFoundException, RestaurantHasActiveOrdersException {
 
         Optional<Restaurant> r = restaurantJpaRepository.findById(id);
         if (r.isPresent()) {
             for (Order order : r.get().getOrders()) {
-                //if not active
-                restaurantJpaRepository.delete(r.get());
-
-
-            }
-
-            List<Order> orders = orderJpaRepository.findGroupOrdersByRestaurant(r.get());
-
-            for (Order go : orders) {
-                List<OrderItem> lo = orderItemJpaRepository.findOrdersByGroupOrder(orderJpaRepository.getOne(go.getId()));
-                if (!lo.isEmpty()) {
-                    for (OrderItem o : lo) {
-                        orderItemJpaRepository.delete(o);
-                    }
+                LocalDateTime dateTime = LocalDateTime.now();
+                if (dateTime.isAfter(convertToLocalDateTimeViaSqlTimestamp(order.getOrderTimeout()))) {
+                    System.out.println(dateTime);
+                    System.out.println(convertToLocalDateTimeViaSqlTimestamp(order.getOrderTimeout()));
+                    orderJpaRepository.delete(order);
+                } else {
+                    throw new RestaurantHasActiveOrdersException("Restaurant has active orders!!!");
                 }
-                orderJpaRepository.delete(go);
-
             }
             restaurantJpaRepository.delete(r.get());
         } else {
             throw new NotFoundException("Object with given id doesn't exist!");
         }
 
+    }
+
+    static LocalDateTime convertToLocalDateTimeViaSqlTimestamp(Date dateToConvert) {
+        return new java.sql.Timestamp(
+                dateToConvert.getTime()).toLocalDateTime();
     }
 
     public void editOne(Restaurant restaurant) {
