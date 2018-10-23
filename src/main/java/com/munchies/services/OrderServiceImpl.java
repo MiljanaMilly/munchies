@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -30,5 +31,14 @@ public class OrderServiceImpl implements OrderService {
         return orderJpaRepository.getOne(id);
 
     }
+
+    public List<Order> getActiveOrders() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        Date timeNow = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+        return orderJpaRepository.findByOrderTimeoutIsAfter(timeNow);
+
+    }
+
+
 
 }

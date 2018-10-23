@@ -147,6 +147,21 @@ public class HomeController {
         return mav;
     }
 
+    @RequestMapping(value = "/getlistofactiveorders", method = RequestMethod.GET)
+    public ModelAndView getActiveOrders() {
+        ModelAndView mav = new ModelAndView();
+        List<Order> activeOrders = orderService.getActiveOrders();
+        if (!activeOrders.isEmpty()) {
+            mav.addObject("activeOrders", activeOrders);
+            mav.setViewName("/ListOfActiveOrders");
+        } else {
+            mav.setViewName("/home");
+        }
+        return mav;
+
+
+    }
+
     @GetMapping(value = "/logout")
     public String logout() {
         return "home";

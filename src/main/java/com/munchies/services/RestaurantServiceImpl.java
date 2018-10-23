@@ -54,9 +54,9 @@ public class RestaurantServiceImpl implements RestaurantService {
         if (r.isPresent()) {
             for (Order order : r.get().getOrders()) {
                 LocalDateTime dateTime = LocalDateTime.now();
-                if (dateTime.isAfter(convertToLocalDateTimeViaSqlTimestamp(order.getOrderTimeout()))) {
+                if (dateTime.isAfter(convertToLocalDateTime(order.getOrderTimeout()))) {
                     System.out.println(dateTime);
-                    System.out.println(convertToLocalDateTimeViaSqlTimestamp(order.getOrderTimeout()));
+                    System.out.println(convertToLocalDateTime(order.getOrderTimeout()));
                     orderJpaRepository.delete(order);
                 } else {
                     throw new RestaurantHasActiveOrdersException("Restaurant has active orders!!!");
@@ -69,7 +69,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     }
 
-    static LocalDateTime convertToLocalDateTimeViaSqlTimestamp(Date dateToConvert) {
+    public static LocalDateTime convertToLocalDateTime(Date dateToConvert) {
         return new java.sql.Timestamp(
                 dateToConvert.getTime()).toLocalDateTime();
     }
