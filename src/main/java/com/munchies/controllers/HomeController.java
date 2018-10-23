@@ -48,6 +48,7 @@ public class HomeController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView loginPage(ModelAndView mav, User user, @RequestParam(value = "error", required = false) String error) {
+        //default error login url is /login?error - Web Security Config
         if (error != null) {
             mav.addObject("error", "Invalid username and password!");
         }

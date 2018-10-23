@@ -1,5 +1,6 @@
 package com.munchies.services;
 
+import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Order;
 import com.munchies.model.OrderItem;
@@ -42,8 +43,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     }
 
-    public Restaurant saveOne(Restaurant restaurant) {
-        return restaurantJpaRepository.save(restaurant);
+    public Restaurant saveOne(Restaurant restaurant) throws RestaurantExistsException {
+        Restaurant rest = restaurantJpaRepository.findByNameLike(restaurant.getName()).get();
+        if (rest == null) {
+            return restaurantJpaRepository.save(restaurant);
+        } else {
+            throw new RestaurantExistsException("Restaurant already exists!!! ");
+
+        }
 
     }
 

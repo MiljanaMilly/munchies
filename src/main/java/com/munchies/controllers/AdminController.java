@@ -1,5 +1,6 @@
 package com.munchies.controllers;
 
+import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Restaurant;
 import com.munchies.model.User;
@@ -50,7 +51,7 @@ public class AdminController {
     }
 
     @PostMapping("/createnewrestaurant")
-    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") Restaurant restaurant, BindingResult bindingResult, ModelAndView mav) {
+    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") Restaurant restaurant, BindingResult bindingResult, ModelAndView mav) throws RestaurantExistsException {
         if (!bindingResult.hasErrors()) {
             restaurantService.saveOne(restaurant);
             mav.setViewName("redirect:/restaurants");

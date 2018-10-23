@@ -1,5 +1,6 @@
 package com.munchies.services;
 
+import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Restaurant;
 import javassist.NotFoundException;
@@ -15,7 +16,7 @@ public interface RestaurantService {
 
     Optional<Restaurant> getOne(Long id);
 
-    Restaurant saveOne(Restaurant restaurant);
+    Restaurant saveOne(Restaurant restaurant) throws RestaurantExistsException;
 
     void deleteRestById(Long id) throws NotFoundException, RestaurantHasActiveOrdersException;
 
