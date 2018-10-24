@@ -28,7 +28,7 @@
     <div class="panel panel-default">
         <div class="panel-heading text-center">Restoran</div>
         <div class="panel-body text-center" >
-            <h3>Porucujete iz restorana: </h3>
+            <h3>Create new group order: </h3>
             <h1 th:utext="${order.restaurant.name}">Name</h1>
         </div>
     </div>
@@ -39,11 +39,11 @@
               method="POST" th:object="${order}">
             <div class="input-group">
                 <input id="creator" type="text" class="form-control" name="creator" value=""
-                       placeholder="Group orderItem creator"
+                       placeholder="Full name"
                        th:field="*{creator}">
                 <p class="error-message"
                    th:if="${#fields.hasErrors('creator')}"
-                   th:errors="#{NotNull.order.creator}">Validation error</p>
+                   th:errors="${order.creator}">Validation error</p>
             </div>
             <br>
             <div class="input-group">
@@ -55,7 +55,7 @@
             <br>
             <div class="input-group-btn">
                 <button type="submit" class="btn btn-primary">
-                    Create new group orderItem
+                    Create new group order
                 </button>
 
             </div>
@@ -66,6 +66,8 @@
 
 
 </div>
+<br>
+<br>
 <div class="container ">
     <div class="row">
         <div th:replace="fragments/footer :: footer"></div>

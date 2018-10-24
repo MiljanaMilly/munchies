@@ -39,13 +39,12 @@
                 <td>Creator</td>
                 <td>Timeout</td>
                 <td>Restaurant</td>
-                <td>Menu URL</td>
-                <td>Order</td>
+                <td>Group Order</td>
             </tr>
             <tr th:each="active :  ${activeOrders}">
                 <td><p th:text="${active.creator}"></p></td>
                 <td><p th:text="${active.orderTimeout}"></p></td>
-                <td><p th:text="${active.restaurant.id}"></p></td>
+                <td><p th:text="${active.restaurant.name}"></p></td>
                 <td>
                     <div class="row"><a href="#" th:href="@{'/newgrouporder?id=' + ${active.id}}">
                         Go to Group Order </a></div>

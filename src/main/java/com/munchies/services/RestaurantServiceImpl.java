@@ -76,7 +76,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     }
 
-    public static LocalDateTime convertToLocalDateTime(Date dateToConvert) {
+    static LocalDateTime convertToLocalDateTime(Date dateToConvert) {
         return new java.sql.Timestamp(
                 dateToConvert.getTime()).toLocalDateTime();
     }

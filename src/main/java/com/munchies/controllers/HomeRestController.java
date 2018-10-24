@@ -19,9 +19,6 @@ public class HomeRestController {
     public List<OrderItem> getAllOrders(@PathVariable Long id) {
         Order order = orderService.findOne(id);
         List<OrderItem> orderItems = order.getOrderItems();
-//        if(orderItems.isEmpty()){
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
         return orderItems;
 
 

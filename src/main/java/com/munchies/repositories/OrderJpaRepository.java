@@ -7,12 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
 @Repository
+@RepositoryRestResource
 public interface OrderJpaRepository extends JpaRepository<Order, Long> {
 
     @Query("From Order go where go.restaurant like :restaurant")
@@ -20,7 +22,6 @@ public interface OrderJpaRepository extends JpaRepository<Order, Long> {
 
     @Override
     Page<Order> findAll(Pageable pageable);
-
 
     List<Order> findByOrderTimeoutIsAfter(Date date);
 }

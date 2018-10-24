@@ -1,5 +1,6 @@
 package com.munchies.controllers;
 
+import com.munchies.exceptions.OrderIsNotActiveException;
 import com.munchies.model.Order;
 import com.munchies.model.OrderItem;
 import com.munchies.model.Restaurant;
@@ -8,6 +9,7 @@ import com.munchies.services.OrderService;
 import com.munchies.services.OrderItemService;
 import com.munchies.services.RestaurantService;
 import com.munchies.services.UserService;
+import com.munchies.services.dtoMappers.RestaurantMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +36,10 @@ public class HomeController {
 
     @Autowired
     private OrderItemService orderItemService;
+
+    @Autowired
+    private RestaurantMapper restaurantMapper;
+
 
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
@@ -98,7 +104,8 @@ public class HomeController {
         mav.addAttribute("order", orderItem);
         return "redirect:/newgrouporder?id=" + go.getId();
         } else {
-        return "home";
+        mav.addAttribute("order", order);
+        return "/createnewgrouporder";
     }
     }
 
@@ -107,27 +114,26 @@ public class HomeController {
         Restaurant r = restaurantService.getOne(orderService.findOne(id).getRestaurant().getId()).get();
         Order order = orderService.findOne(id);
         orderItem.setOrder(order);
-//            orderItem = orderService.saveOne(orderItem);
-            mav.addObject("rest", r);
+        mav.addObject("rest", r);
         mav.addObject("o", orderItem);
         mav.addObject("orders", order.getOrderItems());
         mav.addObject("grouporder", order);
-            mav.setViewName("newgrouporder");
-            return mav;
+        mav.setViewName("newgrouporder");
+        return mav;
 
     }
 
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.POST)
-    public ModelAndView submitOrderForm(@Valid @ModelAttribute("o") OrderItem o, BindingResult bindingResult, OrderItem orderItem, ModelAndView mav) {
+    public ModelAndView submitOrderForm(@Valid @ModelAttribute("o") OrderItem o, BindingResult bindingResult, OrderItem orderItem, ModelAndView mav) throws OrderIsNotActiveException {
         Order order = orderService.findOne(o.getOrder().getId());
         if(!bindingResult.hasErrors()){
             o.setOrder(order);
-            List<OrderItem> orderItems = order.getOrderItems();
-            orderItems.add(o);
+//            List<OrderItem> orderItems = order.getOrderItems();
+//            orderItems.add(o);
             orderItemService.saveOne(o);
-            order.setOrderItems(orderItems);
-            orderService.save(order);
-            mav.addObject("orders", orderItems);
+//            order.setOrderItems(orderItems);
+//            orderService.save(order);
+            mav.addObject("orders", order.getOrderItems());
             mav.addObject("o", orderItem);
             mav.setViewName("redirect:/newgrouporder?id=" + order.getId());
         } else{
