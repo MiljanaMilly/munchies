@@ -1,5 +1,6 @@
 package com.munchies.services;
 
+import com.munchies.dto.UserFormDto;
 import com.munchies.model.User;
 import org.springframework.stereotype.Service;
 
@@ -10,5 +11,5 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    User saveUser(User user);
+    User saveUser(UserFormDto user);
 }

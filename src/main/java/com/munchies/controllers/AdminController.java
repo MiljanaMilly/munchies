@@ -6,7 +6,6 @@ import com.munchies.model.Restaurant;
 import com.munchies.model.User;
 import com.munchies.services.RestaurantService;
 import com.munchies.services.UserService;
-import com.munchies.services.dtoMappers.RestaurantMapper;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

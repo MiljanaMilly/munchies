@@ -1,6 +1,6 @@
 package com.munchies.dto;
 
-public class UserDto {
+public class UserListDto {
 
     private Long id;
 
@@ -10,10 +10,10 @@ public class UserDto {
 
     private String email;
 
-    public UserDto() {
+    public UserListDto() {
     }
 
-    public UserDto(Long id, String firstName, String lastName, String email) {
+    public UserListDto(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

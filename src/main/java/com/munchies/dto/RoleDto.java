@@ -1,33 +1,24 @@
-package com.munchies.model;
+package com.munchies.dto;
 
+import com.munchies.model.User;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "roles")
-public class Role {
+public class RoleDto {
 
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
 
-    public Role() {
+    public RoleDto() {
     }
 
-    public Role(String name) {
-        this.name = name;
+    public RoleDto(List<User> users) {
+        this.users = users;
     }
-
 
     public int getId() {
         return id;
@@ -51,14 +42,5 @@ public class Role {
 
     public void setUsers(List<User> users) {
         this.users = users;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", users=" + users +
-                '}';
     }
 }

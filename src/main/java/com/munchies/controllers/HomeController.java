@@ -1,6 +1,7 @@
 package com.munchies.controllers;
 
 import com.munchies.dto.RestaurantListDto;
+import com.munchies.dto.UserFormDto;
 import com.munchies.exceptions.OrderIsNotActiveException;
 import com.munchies.model.Order;
 import com.munchies.model.OrderItem;
@@ -10,17 +11,13 @@ import com.munchies.services.OrderService;
 import com.munchies.services.OrderItemService;
 import com.munchies.services.RestaurantService;
 import com.munchies.services.UserService;
-import com.munchies.services.dtoMappers.RestaurantMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,10 +35,6 @@ public class HomeController {
 
     @Autowired
     private OrderItemService orderItemService;
-
-
-
-
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public ModelAndView goHome(ModelAndView mav, Restaurant restaurant) {
@@ -65,14 +58,14 @@ public class HomeController {
     }
 
     @GetMapping(value = "/signup")
-    public String signupform(User user, Model model) {
+    public String signupform(UserFormDto user, Model model) {
         model.addAttribute("us", user);
         return "signup";
 
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ModelAndView signup(@Valid @ModelAttribute("us") User user, BindingResult bindingResult, User newUser, ModelAndView mav) {
+    public ModelAndView signup(@Valid @ModelAttribute("us") UserFormDto user, BindingResult bindingResult, User newUser, ModelAndView mav) {
         if (!bindingResult.hasErrors()) {
             userService.saveUser(user);
             mav.addObject("newuser", newUser);

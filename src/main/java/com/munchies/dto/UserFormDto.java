@@ -1,54 +1,29 @@
-package com.munchies.model;
+package com.munchies.dto;
 
+import com.munchies.model.Role;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "users")
-public class User {
+public class UserFormDto {
 
-    @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "first_name")
-    @NotNull
-    @Size(min = 5, max = 10)
     private String firstName;
 
-    @Column(name = "last_name")
-    @Size(min =5, max = 10)
-    @NotNull
     private String lastName;
 
-    @Column(name = "email")
-    @NotNull
-    @Email
     private String email;
 
-    @Column(name = "password")
-    @NotNull
-    @Size(min = 7)
     private String password;
 
+    private List<RoleDto> roles = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private List<Role> roles = new ArrayList<>();
-
-    public User() {
+    public UserFormDto() {
     }
 
-    public User(String firstName, String lastName, String email, String password, List<Role> roles) {
+    public UserFormDto(Long id, String firstName, String lastName, String email, String password, List<RoleDto> roles) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -96,16 +71,13 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public List<RoleDto> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<RoleDto> roles) {
         this.roles = roles;
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
 
-    }
 }
