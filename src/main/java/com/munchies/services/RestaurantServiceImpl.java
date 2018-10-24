@@ -1,5 +1,6 @@
 package com.munchies.services;
 
+import com.munchies.dto.RestaurantListDto;
 import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Order;
@@ -8,6 +9,7 @@ import com.munchies.model.Restaurant;
 import com.munchies.repositories.OrderJpaRepository;
 import com.munchies.repositories.OrderItemJpaRepository;
 import com.munchies.repositories.RestaurantJpaRepository;
+import com.munchies.services.dtoMappers.RestaurantMapper;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,10 +35,20 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     private OrderItemJpaRepository orderItemJpaRepository;
 
+    @Autowired
+    private RestaurantMapper restaurantMapper;
+
 
     public List<Restaurant> getAllRest() {
         return restaurantJpaRepository.findAll();
+    }
 
+    public List<RestaurantListDto> getAllRestListDto() {
+        List<RestaurantListDto> restListDto = new ArrayList<>();
+        for (Restaurant r : restaurantJpaRepository.findAll()) {
+            restListDto.add(restaurantMapper.mapRestToRestListDto(r));
+        }
+        return restListDto;
     }
 
     public Optional<Restaurant> getOne(Long id) {

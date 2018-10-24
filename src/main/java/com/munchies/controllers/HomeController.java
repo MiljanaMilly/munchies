@@ -1,5 +1,6 @@
 package com.munchies.controllers;
 
+import com.munchies.dto.RestaurantListDto;
 import com.munchies.exceptions.OrderIsNotActiveException;
 import com.munchies.model.Order;
 import com.munchies.model.OrderItem;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,16 +39,15 @@ public class HomeController {
     @Autowired
     private OrderItemService orderItemService;
 
-    @Autowired
-    private RestaurantMapper restaurantMapper;
+
 
 
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public ModelAndView goHome(ModelAndView mav, Restaurant restaurant) {
-        List<Restaurant> restList = restaurantService.getAllRest();
-        mav.addObject("restaurants", restList);
-        mav.addObject("rest", restaurant);
+        List<RestaurantListDto> restListDto = restaurantService.getAllRestListDto();
+        mav.addObject("restaurants", restListDto);
+        //mav.addObject("rest", restaurant);
         mav.setViewName("home");
         return mav;
 

@@ -27,9 +27,6 @@ public class AdminController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @Autowired
-    private RestaurantMapper restaurantMapper;
-
     @GetMapping("/employees")
     public ModelAndView employeesPage(ModelAndView model) {
         List<User> usersList = userService.getAllUsers();

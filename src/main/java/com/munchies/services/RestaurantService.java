@@ -1,5 +1,6 @@
 package com.munchies.services;
 
+import com.munchies.dto.RestaurantListDto;
 import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Restaurant;
@@ -13,6 +14,8 @@ import java.util.Optional;
 public interface RestaurantService {
 
     List<Restaurant> getAllRest();
+
+    List<RestaurantListDto> getAllRestListDto();
 
     Optional<Restaurant> getOne(Long id);
 
