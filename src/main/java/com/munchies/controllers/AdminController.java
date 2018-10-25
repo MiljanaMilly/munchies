@@ -61,7 +61,6 @@ public class AdminController {
             mav.setViewName("admin/createnewrestaurant");
         }
         return mav;
-
     }
 
     @GetMapping("/deleterest")
@@ -75,14 +74,14 @@ public class AdminController {
 
     @GetMapping("/editrestaurant")
     public ModelAndView editRest(@RequestParam("id") Long id, ModelAndView mav) {
-        mav.addObject("editrest", restaurantService.getOne(id).get());
+        mav.addObject("editrest", restaurantService.getOneRestDto(id));
         mav.setViewName("admin/editrestaurant");
         return mav;
 
     }
 
     @PostMapping("/editrestaurant")
-    public ModelAndView editRestaurant(@Valid @ModelAttribute("editrest") Restaurant restaurant, BindingResult bindingResult, ModelAndView mav) {
+    public ModelAndView editRestaurant(@Valid @ModelAttribute("editrest") RestaurantDto restaurant, BindingResult bindingResult, ModelAndView mav) {
         if (!bindingResult.hasErrors()) {
             restaurantService.editOne(restaurant);
             mav.setViewName("redirect:/restaurants");

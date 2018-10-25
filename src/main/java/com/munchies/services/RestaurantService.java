@@ -17,12 +17,16 @@ public interface RestaurantService {
 
     List<RestaurantDto> getAllRestListDto();
 
+    RestaurantDto getOneRestDto(Long id);
+
+    RestaurantDto getOneRestaurantDto(Long id);
+
     Optional<Restaurant> getOne(Long id);
 
     RestaurantDto saveOne(RestaurantDto restaurant) throws RestaurantExistsException;
 
     void deleteRestById(Long id) throws NotFoundException, RestaurantHasActiveOrdersException;
 
-    void editOne(Restaurant restaurant);
+    void editOne(RestaurantDto restaurant);
 
 }

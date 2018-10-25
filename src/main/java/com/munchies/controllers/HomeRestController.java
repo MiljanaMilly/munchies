@@ -1,5 +1,7 @@
 package com.munchies.controllers;
 
+import com.munchies.dto.OrderDto;
+import com.munchies.dto.OrderItemDto;
 import com.munchies.model.Order;
 import com.munchies.model.OrderItem;
 import com.munchies.services.OrderService;
@@ -16,9 +18,9 @@ public class HomeRestController {
     private OrderService orderService;
 
     @RequestMapping(value = "/getAjaxData/{id}", method = RequestMethod.GET)
-    public List<OrderItem> getAllOrders(@PathVariable Long id) {
-        Order order = orderService.findOne(id);
-        List<OrderItem> orderItems = order.getOrderItems();
+    public List<OrderItemDto> getAllOrders(@PathVariable Long id) {
+        OrderDto order = orderService.findOne(id);
+        List<OrderItemDto> orderItems = order.getOrderItems();
         return orderItems;
 
 

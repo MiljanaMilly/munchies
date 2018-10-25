@@ -20,7 +20,7 @@ public class OrderItemDto {
     @NotNull
     private Double price;
 
-    private Order order;
+    private OrderDto order;
 
     public OrderItemDto() {
     }
@@ -64,11 +64,11 @@ public class OrderItemDto {
         this.price = price;
     }
 
-    public Order getOrder() {
+    public OrderDto getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(OrderDto order) {
         this.order = order;
     }
 }

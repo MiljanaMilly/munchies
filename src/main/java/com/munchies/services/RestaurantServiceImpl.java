@@ -51,6 +51,24 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restListDto;
     }
 
+    public RestaurantDto getOneRestDto(Long id) {
+        Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
+        RestaurantDto restaurantDto = new RestaurantDto();
+        if (restaurant.isPresent()) {
+            restaurantDto = new RestaurantMapper().mapEntityToRestDto(restaurant.get());
+        }
+        return restaurantDto;
+    }
+
+    public RestaurantDto getOneRestaurantDto(Long id) {
+        Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
+        RestaurantDto restaurantDto = new RestaurantDto();
+        if (restaurant.isPresent()) {
+            restaurantDto = new RestaurantMapper().mapEntityToDtos(restaurant.get());
+        }
+        return restaurantDto;
+    }
+
     public Optional<Restaurant> getOne(Long id) {
         return restaurantJpaRepository.findById(id);
     }
@@ -93,18 +111,18 @@ public class RestaurantServiceImpl implements RestaurantService {
                 dateToConvert.getTime()).toLocalDateTime();
     }
 
-    public void editOne(Restaurant restaurant) {
-
+    public void editOne(RestaurantDto restaurant) {
+        Restaurant r = new RestaurantMapper().mapRestDtoToEntity(restaurant);
         Restaurant restaurant1 = restaurantJpaRepository.getOne(restaurant.getId());
-        //restaurant1.setId(restaurant.getId());
-        restaurant1.setName(restaurant.getName());
-        restaurant1.setAddress(restaurant.getAddress());
-        restaurant1.setPhoneNumber(restaurant.getPhoneNumber());
-        restaurant1.setMenuUrl(restaurant.getMenuUrl());
-        restaurant1.setDeliveryInfo(restaurant.getDeliveryInfo());
-        restaurant1.setDeliveryTime(restaurant.getDeliveryTime());
-        restaurant1.setAdditionalCharges(restaurant.getAdditionalCharges());
-        restaurantJpaRepository.save(restaurant);
+        //restaurant1.setId(r.getId());
+        restaurant1.setName(r.getName());
+        restaurant1.setAddress(r.getAddress());
+        restaurant1.setPhoneNumber(r.getPhoneNumber());
+        restaurant1.setMenuUrl(r.getMenuUrl());
+        restaurant1.setDeliveryInfo(r.getDeliveryInfo());
+        restaurant1.setDeliveryTime(r.getDeliveryTime());
+        restaurant1.setAdditionalCharges(r.getAdditionalCharges());
+        restaurantJpaRepository.save(r);
 
     }
 

@@ -24,6 +24,19 @@ public class RestaurantMapper {
         return restaurant;
     }
 
+    public Restaurant mapDtosToEntity(RestaurantDto restaurantDto) {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(restaurantDto.getId());
+        restaurant.setName(restaurantDto.getName());
+        restaurant.setAddress(restaurantDto.getAddress());
+        restaurant.setPhoneNumber(restaurantDto.getPhoneNumber());
+        restaurant.setMenuUrl(restaurantDto.getMenuUrl());
+        restaurant.setAdditionalCharges(restaurantDto.getAdditionalCharges());
+        restaurant.setDeliveryInfo(restaurantDto.getDeliveryInfo());
+        restaurant.setDeliveryTime(restaurantDto.getDeliveryTime());
+        return restaurant;
+    }
+
     public RestaurantDto mapEntityToRestDto(Restaurant restaurant) {
         RestaurantDto restaurantDto = new RestaurantDto();
         restaurantDto.setId(restaurant.getId());
@@ -34,7 +47,21 @@ public class RestaurantMapper {
         restaurantDto.setAdditionalCharges(restaurant.getAdditionalCharges());
         restaurantDto.setDeliveryInfo(restaurant.getDeliveryInfo());
         restaurantDto.setDeliveryTime(restaurant.getDeliveryTime());
-        restaurantDto.setOrders(new OrderMapper().mapEntitiesToDtoOrders(restaurant.getOrders()));
+        //restaurantDto.setOrders(restaurant.getOrders());
+        return restaurantDto;
+    }
+
+    public RestaurantDto mapEntityToDtos(Restaurant restaurant) {
+        RestaurantDto restaurantDto = new RestaurantDto();
+        restaurantDto.setId(restaurant.getId());
+        restaurantDto.setName(restaurant.getName());
+        restaurantDto.setAddress(restaurant.getAddress());
+        restaurantDto.setPhoneNumber(restaurant.getPhoneNumber());
+        restaurantDto.setMenuUrl(restaurant.getMenuUrl());
+        restaurantDto.setAdditionalCharges(restaurant.getAdditionalCharges());
+        restaurantDto.setDeliveryInfo(restaurant.getDeliveryInfo());
+        restaurantDto.setDeliveryTime(restaurant.getDeliveryTime());
+        restaurantDto.setOrders(new OrderMapper().mapEntitiesToDtos(restaurant.getOrders()));
         return restaurantDto;
     }
 
@@ -55,6 +82,15 @@ public class RestaurantMapper {
         }
         return restaurantDtos;
 
+    }
+
+    public List<RestaurantDto> mapEntitiesToDtos(List<Restaurant> restaurantList) {
+        List<RestaurantDto> restaurantDtos = new ArrayList<>();
+        RestaurantMapper restaurantMapper = new RestaurantMapper();
+        for (Restaurant r : restaurantList) {
+            restaurantDtos.add(restaurantMapper.mapEntityToRestDto(r));
+        }
+        return restaurantDtos;
 
     }
 

@@ -1,5 +1,7 @@
 package com.munchies.controllers;
 
+import com.munchies.dto.OrderDto;
+import com.munchies.dto.OrderItemDto;
 import com.munchies.dto.RestaurantDto;
 import com.munchies.dto.UserDto;
 import com.munchies.exceptions.EmailExistsException;
@@ -80,8 +82,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.GET)
-    public ModelAndView createNewGroupOrder(@RequestParam("id") Long id, ModelAndView mav, Order order) {
-        Restaurant restaurant = restaurantService.getOne(id).get();
+    public ModelAndView createNewGroupOrder(@RequestParam("id") Long id, ModelAndView mav, OrderDto order) {
+        RestaurantDto restaurant = restaurantService.getOneRestDto(id);
         order.setRestaurant(restaurant);
         mav.addObject("order", order);
         mav.setViewName("createnewgrouporder");
@@ -90,11 +92,11 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
-    public String submitGroupOrder(@Valid @ModelAttribute("order") Order order, BindingResult bindingResult, OrderItem orderItem, Model mav) {
-        Restaurant r = restaurantService.getOne(order.getRestaurant().getId()).get();
+    public String submitGroupOrder(@Valid @ModelAttribute("order") OrderDto order, BindingResult bindingResult, OrderItemDto orderItem, Model mav) {
+        RestaurantDto r = restaurantService.getOneRestDto(order.getRestaurant().getId());
     if (!bindingResult.hasErrors()) {
         order.setRestaurant(r);
-        Order go = orderService.save(order);
+        OrderDto go = orderService.save(order);
             mav.addAttribute("grouporder", go);
         mav.addAttribute("order", orderItem);
         return "redirect:/newgrouporder?id=" + go.getId();
@@ -104,10 +106,14 @@ public class HomeController {
     }
     }
 
+    //oooooooooooooo
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
-    public ModelAndView getGroupOrderForm(@RequestParam("id") Long id, OrderItem orderItem, ModelAndView mav) {
-        Restaurant r = restaurantService.getOne(orderService.findOne(id).getRestaurant().getId()).get();
-        Order order = orderService.findOne(id);
+    public ModelAndView getGroupOrderForm(@RequestParam("id") Long id, OrderItemDto orderItem, ModelAndView mav) {
+        System.out.println(id);
+        OrderDto orderDto = orderService.findOne(id);
+        Long restId = orderDto.getRestaurant().getId();
+        RestaurantDto r = restaurantService.getOneRestaurantDto(restId);
+        OrderDto order = orderService.findOne(id);
         orderItem.setOrder(order);
         mav.addObject("rest", r);
         mav.addObject("o", orderItem);
@@ -119,8 +125,8 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.POST)
-    public ModelAndView submitOrderForm(@Valid @ModelAttribute("o") OrderItem o, BindingResult bindingResult, OrderItem orderItem, ModelAndView mav) throws OrderIsNotActiveException {
-        Order order = orderService.findOne(o.getOrder().getId());
+    public ModelAndView submitOrderForm(@Valid @ModelAttribute("o") OrderItemDto o, BindingResult bindingResult, OrderItemDto orderItem, ModelAndView mav) throws OrderIsNotActiveException {
+        OrderDto order = orderService.findOne(o.getOrder().getId());
         if(!bindingResult.hasErrors()){
             o.setOrder(order);
 //            List<OrderItem> orderItems = order.getOrderItems();
@@ -143,7 +149,7 @@ public class HomeController {
 
     @RequestMapping(value = "/viewrestdetails", method = RequestMethod.GET)
     public ModelAndView newGroupOrder(@RequestParam("id") Long id, ModelAndView mav) {
-        Restaurant r = restaurantService.getOne(id).get();
+        RestaurantDto r = restaurantService.getOneRestDto(id);
         mav.addObject("onerest", r);
         mav.setViewName("viewRestDetails");
         return mav;
@@ -160,8 +166,6 @@ public class HomeController {
             mav.setViewName("/home");
         }
         return mav;
-
-
     }
 
     @GetMapping(value = "/logout")

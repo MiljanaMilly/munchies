@@ -39,11 +39,20 @@ public class UserMapper {
 
     public List<UserDto> mapEntitiesToDtoList(List<User> userList) {
         List<UserDto> userDtos = new ArrayList<>();
-        UserMapper um = new UserMapper();
         for (User u : userList) {
-            userDtos.add(um.mapEntityToUserFormDto(u));
+            userDtos.add(new UserMapper().mapEntityToUserFormDto(u));
         }
         return userDtos;
+
+    }
+
+    public List<User> mapDtoListToEntities(List<UserDto> userDtos) {
+        List<User> userList = new ArrayList<>();
+        for (UserDto userDto : userDtos) {
+            userList.add(new UserMapper().mapUserFormDtoToEntity(userDto));
+        }
+        return userList;
+
 
     }
 }

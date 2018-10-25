@@ -21,7 +21,7 @@ public class OrderDto {
 
     private String orderUrl;
 
-    private Restaurant restaurant;
+    private RestaurantDto restaurant;
 
     private List<OrderItemDto> orderItems = new ArrayList<>();
 
@@ -30,7 +30,7 @@ public class OrderDto {
     public OrderDto() {
     }
 
-    public OrderDto(Long id, @NotNull @Size(min = 3, max = 50) String creator, Date orderTimeout, String orderUrl, Restaurant restaurant, List<OrderItemDto> orderItems) {
+    public OrderDto(Long id, @NotNull @Size(min = 3, max = 50) String creator, Date orderTimeout, String orderUrl, RestaurantDto restaurant, List<OrderItemDto> orderItems) {
         this.id = id;
         this.creator = creator;
         this.orderTimeout = orderTimeout;
@@ -71,11 +71,11 @@ public class OrderDto {
         this.orderUrl = orderUrl;
     }
 
-    public Restaurant getRestaurant() {
+    public RestaurantDto getRestaurant() {
         return restaurant;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
+    public void setRestaurant(RestaurantDto restaurant) {
         this.restaurant = restaurant;
     }
 
