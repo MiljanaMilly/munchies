@@ -1,6 +1,7 @@
 package com.munchies.services;
 
-import com.munchies.dto.UserFormDto;
+import com.munchies.dto.UserDto;
+import com.munchies.exceptions.EmailExistsException;
 import com.munchies.model.User;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @Service
 public interface UserService {
 
-    List<User> getAllUsers();
+    List<UserDto> getAllDtoUsers();
 
-    User saveUser(UserFormDto user);
+    User saveUser(UserDto user) throws EmailExistsException;
 }

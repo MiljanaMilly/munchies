@@ -1,14 +1,26 @@
 package com.munchies.dto;
 
+import com.munchies.model.Order;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class OrderItemDto {
 
     private Long id;
 
+    @NotNull
+    @Size(min = 3, max = 50)
     private String creator;
 
+    @NotNull
+    @Size(min = 4, max = 50)
     private String name;
 
+    @NotNull
     private Double price;
+
+    private Order order;
 
     public OrderItemDto() {
     }
@@ -50,5 +62,13 @@ public class OrderItemDto {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

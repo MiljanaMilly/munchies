@@ -17,17 +17,12 @@ public class OrderItem {
     private Long id;
 
     @Column(name = "creator")
-    @NotNull
-    @Size(min = 3, max = 50)
     private String creator;
 
     @Column(name = "name")
-    @NotNull
-    @Size(min = 4, max = 50)
     private String name;
 
     @Column(name = "price")
-    @NotNull
     private Double price;
 
     @JsonBackReference

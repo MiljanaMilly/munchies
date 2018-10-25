@@ -1,56 +1,61 @@
 package com.munchies.services.dtoMappers;
 
-import com.munchies.dto.RestaurantDetailsDto;
-import com.munchies.dto.RestaurantListDto;
+import com.munchies.dto.RestaurantDto;
 import com.munchies.model.Restaurant;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class RestaurantMapper {
 
-    public Restaurant mapRestListToEntity(RestaurantListDto restaurantListDto) {
+    public Restaurant mapRestDtoToEntity(RestaurantDto restaurantDto) {
         Restaurant restaurant = new Restaurant();
-        restaurant.setId(restaurantListDto.getId());
-        restaurant.setName(restaurantListDto.getName());
-        restaurant.setAddress(restaurantListDto.getAddress());
-        restaurant.setPhoneNumber(restaurantListDto.getPhoneNumber());
-        restaurant.setMenuUrl(restaurantListDto.getMenuUrl());
+        restaurant.setId(restaurantDto.getId());
+        restaurant.setName(restaurantDto.getName());
+        restaurant.setAddress(restaurantDto.getAddress());
+        restaurant.setPhoneNumber(restaurantDto.getPhoneNumber());
+        restaurant.setMenuUrl(restaurantDto.getMenuUrl());
+        restaurant.setAdditionalCharges(restaurantDto.getAdditionalCharges());
+        restaurant.setDeliveryInfo(restaurantDto.getDeliveryInfo());
+        restaurant.setDeliveryTime(restaurantDto.getDeliveryTime());
+        restaurant.setOrders(new OrderMapper().mapDtoOrdersToEntities(restaurantDto.getOrders()));
         return restaurant;
     }
 
-    public RestaurantListDto mapRestToRestListDto(Restaurant restaurant) {
-        RestaurantListDto restListDto = new RestaurantListDto();
-        restListDto.setId(restaurant.getId());
-        restListDto.setName(restaurant.getName());
-        restListDto.setAddress(restaurant.getAddress());
-        restListDto.setPhoneNumber(restaurant.getPhoneNumber());
-        restListDto.setMenuUrl(restaurant.getMenuUrl());
-        return restListDto;
+    public RestaurantDto mapEntityToRestDto(Restaurant restaurant) {
+        RestaurantDto restaurantDto = new RestaurantDto();
+        restaurantDto.setId(restaurant.getId());
+        restaurantDto.setName(restaurant.getName());
+        restaurantDto.setAddress(restaurant.getAddress());
+        restaurantDto.setPhoneNumber(restaurant.getPhoneNumber());
+        restaurantDto.setMenuUrl(restaurant.getMenuUrl());
+        restaurantDto.setAdditionalCharges(restaurant.getAdditionalCharges());
+        restaurantDto.setDeliveryInfo(restaurant.getDeliveryInfo());
+        restaurantDto.setDeliveryTime(restaurant.getDeliveryTime());
+        restaurantDto.setOrders(new OrderMapper().mapEntitiesToDtoOrders(restaurant.getOrders()));
+        return restaurantDto;
     }
 
-    public Restaurant mapRestDetailsToEntity(RestaurantDetailsDto restaurantDetailsDto) {
-        Restaurant restaurant = new Restaurant();
-        restaurant.setId(restaurantDetailsDto.getId());
-        restaurant.setName(restaurantDetailsDto.getName());
-        restaurant.setAddress(restaurantDetailsDto.getAddress());
-        restaurant.setPhoneNumber(restaurantDetailsDto.getPhoneNumber());
-        restaurant.setMenuUrl(restaurantDetailsDto.getMenuUrl());
-        restaurant.setAdditionalCharges(restaurantDetailsDto.getAdditionalCharges());
-        restaurant.setDeliveryTime(restaurantDetailsDto.getDeliveryTime());
-        restaurant.setDeliveryInfo(restaurantDetailsDto.getDeliveryInfo());
-        return restaurant;
+    public List<Restaurant> mapDtoListToEntityList(List<RestaurantDto> restaurantDtoList) {
+        List<Restaurant> restaurantList = new ArrayList<>();
+        RestaurantMapper restaurantMapper = new RestaurantMapper();
+        for (RestaurantDto r : restaurantDtoList) {
+            restaurantList.add(restaurantMapper.mapRestDtoToEntity(r));
+        }
+        return restaurantList;
     }
 
-    public RestaurantDetailsDto mapRestToRestDetailsDto(Restaurant restaurant) {
-        RestaurantDetailsDto restDetailsDto = new RestaurantDetailsDto();
-        restDetailsDto.setId(restaurant.getId());
-        restDetailsDto.setName(restaurant.getName());
-        restDetailsDto.setAddress(restaurant.getAddress());
-        restDetailsDto.setPhoneNumber(restaurant.getPhoneNumber());
-        restDetailsDto.setMenuUrl(restaurant.getMenuUrl());
-        restDetailsDto.setAdditionalCharges(restaurant.getAdditionalCharges());
-        restDetailsDto.setDeliveryInfo(restaurant.getDeliveryInfo());
-        restDetailsDto.setDeliveryTime(restaurant.getDeliveryTime());
-        return restDetailsDto;
+    public List<RestaurantDto> mapEntitiesToDtoList(List<Restaurant> restaurantList) {
+        List<RestaurantDto> restaurantDtos = new ArrayList<>();
+        RestaurantMapper restaurantMapper = new RestaurantMapper();
+        for (Restaurant r : restaurantList) {
+            restaurantDtos.add(restaurantMapper.mapEntityToRestDto(r));
+        }
+        return restaurantDtos;
+
+
     }
+
 }

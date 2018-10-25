@@ -1,57 +1,49 @@
 package com.munchies.services.dtoMappers;
 
-import com.munchies.dto.UserFormDto;
-import com.munchies.dto.UserListDto;
+import com.munchies.dto.UserDto;
 import com.munchies.model.User;
 import com.munchies.repositories.RoleJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class UserMapper {
 
-    @Autowired
-    private RoleMapper roleMapper;
 
     @Autowired
     private RoleJpaRepository roleJpaRepository;
 
-    public User mapUserListDtoToEntity(UserListDto userListDto) {
+    public User mapUserFormDtoToEntity(UserDto userDto) {
         User user = new User();
-        user.setId(userListDto.getId());
-        user.setFirstName(userListDto.getFirstName());
-        user.setLastName(userListDto.getLastName());
-        user.setEmail(userListDto.getEmail());
-        return user;
-    }
-
-    public UserListDto mapEntityToUserListDto(User user) {
-        UserListDto userListDto = new UserListDto();
-        userListDto.setId(user.getId());
-        userListDto.setFirstName(user.getFirstName());
-        userListDto.setLastName(user.getLastName());
-        userListDto.setEmail(user.getEmail());
-        return userListDto;
-    }
-
-    public User mapUserFormDtoToEntity(UserFormDto userFormDto) {
-        User user = new User();
-        user.setId(userFormDto.getId());
-        user.setFirstName(userFormDto.getFirstName());
-        user.setLastName(userFormDto.getLastName());
-        user.setEmail(userFormDto.getEmail());
-        user.setPassword(userFormDto.getPassword());
+        user.setId(userDto.getId());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setEmail(userDto.getEmail());
+        user.setPassword(userDto.getPassword());
         user.addRole(roleJpaRepository.findAll().get(0));
         return user;
     }
 
-    public UserFormDto mapEntityToUserFormDto(User user) {
-        UserFormDto userFormDto = new UserFormDto();
-        userFormDto.setId(user.getId());
-        userFormDto.setFirstName(user.getFirstName());
-        userFormDto.setLastName(user.getLastName());
-        userFormDto.setEmail(user.getEmail());
-        userFormDto.setPassword(user.getPassword());
-        return userFormDto;
+    public UserDto mapEntityToUserFormDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
+        userDto.setPassword(user.getPassword());
+        return userDto;
+    }
+
+    public List<UserDto> mapEntitiesToDtoList(List<User> userList) {
+        List<UserDto> userDtos = new ArrayList<>();
+        UserMapper um = new UserMapper();
+        for (User u : userList) {
+            userDtos.add(um.mapEntityToUserFormDto(u));
+        }
+        return userDtos;
+
     }
 }

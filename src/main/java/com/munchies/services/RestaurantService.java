@@ -1,6 +1,6 @@
 package com.munchies.services;
 
-import com.munchies.dto.RestaurantListDto;
+import com.munchies.dto.RestaurantDto;
 import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Restaurant;
@@ -15,11 +15,11 @@ public interface RestaurantService {
 
     List<Restaurant> getAllRest();
 
-    List<RestaurantListDto> getAllRestListDto();
+    List<RestaurantDto> getAllRestListDto();
 
     Optional<Restaurant> getOne(Long id);
 
-    Restaurant saveOne(Restaurant restaurant) throws RestaurantExistsException;
+    RestaurantDto saveOne(RestaurantDto restaurant) throws RestaurantExistsException;
 
     void deleteRestById(Long id) throws NotFoundException, RestaurantHasActiveOrdersException;
 

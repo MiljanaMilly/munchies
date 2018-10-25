@@ -19,8 +19,6 @@ public class Order {
     private Long id;
 
     @Column(name = "creator")
-    @NotNull
-    @Size(min = 3, max = 50)
     private String creator;
 
     @Column(name = "order_timeout")

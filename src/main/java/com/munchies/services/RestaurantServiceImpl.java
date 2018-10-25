@@ -1,10 +1,9 @@
 package com.munchies.services;
 
-import com.munchies.dto.RestaurantListDto;
+import com.munchies.dto.RestaurantDto;
 import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Order;
-import com.munchies.model.OrderItem;
 import com.munchies.model.Restaurant;
 import com.munchies.repositories.OrderJpaRepository;
 import com.munchies.repositories.OrderItemJpaRepository;
@@ -43,28 +42,27 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantJpaRepository.findAll();
     }
 
-    public List<RestaurantListDto> getAllRestListDto() {
-        List<RestaurantListDto> restListDto = new ArrayList<>();
+    public List<RestaurantDto> getAllRestListDto() {
+
+        List<RestaurantDto> restListDto = new ArrayList<>();
         for (Restaurant r : restaurantJpaRepository.findAll()) {
-            restListDto.add(restaurantMapper.mapRestToRestListDto(r));
+            restListDto.add(restaurantMapper.mapEntityToRestDto(r));
         }
         return restListDto;
     }
 
     public Optional<Restaurant> getOne(Long id) {
         return restaurantJpaRepository.findById(id);
-
     }
 
-    public Restaurant saveOne(Restaurant restaurant) throws RestaurantExistsException {
-        Restaurant rest = restaurantJpaRepository.findByNameLike(restaurant.getName()).get();
-        if (rest == null) {
-            return restaurantJpaRepository.save(restaurant);
+    public RestaurantDto saveOne(RestaurantDto restaurant) throws RestaurantExistsException {
+
+        Restaurant r = new RestaurantMapper().mapRestDtoToEntity(restaurant);
+        if (!restaurantJpaRepository.findByNameLike(r.getName()).isPresent()) {
+            return restaurantMapper.mapEntityToRestDto(restaurantJpaRepository.save(r));
         } else {
             throw new RestaurantExistsException("Restaurant already exists!!! ");
-
         }
-
     }
 
     @Transactional
@@ -90,11 +88,13 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     static LocalDateTime convertToLocalDateTime(Date dateToConvert) {
+
         return new java.sql.Timestamp(
                 dateToConvert.getTime()).toLocalDateTime();
     }
 
     public void editOne(Restaurant restaurant) {
+
         Restaurant restaurant1 = restaurantJpaRepository.getOne(restaurant.getId());
         //restaurant1.setId(restaurant.getId());
         restaurant1.setName(restaurant.getName());

@@ -2,27 +2,38 @@ package com.munchies.dto;
 
 import com.munchies.model.Role;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserFormDto {
+public class UserDto {
 
     private Long id;
 
+    @NotNull
+    @Size(min = 5, max = 10)
     private String firstName;
 
+    @Size(min = 5, max = 10)
+    @NotNull
     private String lastName;
 
+    @NotNull
+    @Email
     private String email;
 
+    @NotNull
+    @Size(min = 7)
     private String password;
 
-    private List<RoleDto> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
-    public UserFormDto() {
+    public UserDto() {
     }
 
-    public UserFormDto(Long id, String firstName, String lastName, String email, String password, List<RoleDto> roles) {
+    public UserDto(Long id, String firstName, String lastName, String email, String password, List<Role> roles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -71,12 +82,16 @@ public class UserFormDto {
         this.password = password;
     }
 
-    public List<RoleDto> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<RoleDto> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
     }
 
 

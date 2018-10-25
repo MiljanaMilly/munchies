@@ -1,7 +1,8 @@
 package com.munchies.controllers;
 
-import com.munchies.dto.RestaurantListDto;
-import com.munchies.dto.UserFormDto;
+import com.munchies.dto.RestaurantDto;
+import com.munchies.dto.UserDto;
+import com.munchies.exceptions.EmailExistsException;
 import com.munchies.exceptions.OrderIsNotActiveException;
 import com.munchies.model.Order;
 import com.munchies.model.OrderItem;
@@ -37,8 +38,8 @@ public class HomeController {
     private OrderItemService orderItemService;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public ModelAndView goHome(ModelAndView mav, Restaurant restaurant) {
-        List<RestaurantListDto> restListDto = restaurantService.getAllRestListDto();
+    public ModelAndView goHome(ModelAndView mav) {
+        List<RestaurantDto> restListDto = restaurantService.getAllRestListDto();
         mav.addObject("restaurants", restListDto);
         //mav.addObject("rest", restaurant);
         mav.setViewName("home");
@@ -58,14 +59,14 @@ public class HomeController {
     }
 
     @GetMapping(value = "/signup")
-    public String signupform(UserFormDto user, Model model) {
+    public String signupform(UserDto user, Model model) {
         model.addAttribute("us", user);
         return "signup";
 
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public ModelAndView signup(@Valid @ModelAttribute("us") UserFormDto user, BindingResult bindingResult, User newUser, ModelAndView mav) {
+    public ModelAndView signup(@Valid @ModelAttribute("us") UserDto user, BindingResult bindingResult, UserDto newUser, ModelAndView mav) throws EmailExistsException {
         if (!bindingResult.hasErrors()) {
             userService.saveUser(user);
             mav.addObject("newuser", newUser);

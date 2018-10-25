@@ -1,9 +1,10 @@
 package com.munchies.controllers;
 
+import com.munchies.dto.RestaurantDto;
+import com.munchies.dto.UserDto;
 import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Restaurant;
-import com.munchies.model.User;
 import com.munchies.services.RestaurantService;
 import com.munchies.services.UserService;
 import javassist.NotFoundException;
@@ -28,7 +29,7 @@ public class AdminController {
 
     @GetMapping("/employees")
     public ModelAndView employeesPage(ModelAndView model) {
-        List<User> usersList = userService.getAllUsers();
+        List<UserDto> usersList = userService.getAllDtoUsers();
         model.addObject("usersList", usersList);
         model.setViewName("admin/employees");
         return model;
@@ -36,7 +37,7 @@ public class AdminController {
 
     @GetMapping("/restaurants")
     public ModelAndView restaurantsPage(ModelAndView model) {
-        List<Restaurant> restList = restaurantService.getAllRest();
+        List<RestaurantDto> restList = restaurantService.getAllRestListDto();
         model.addObject("restList", restList);
         model.setViewName("admin/restaurants");
         return model;
@@ -44,14 +45,14 @@ public class AdminController {
 
     @GetMapping("/createnewrestaurant")
     public ModelAndView createnewrestaurant(ModelAndView mav) {
-        mav.addObject("newrest", new Restaurant());
+        mav.addObject("newrest", new RestaurantDto());
         mav.setViewName("admin/createnewrestaurant");
         return mav;
 
     }
 
     @PostMapping("/createnewrestaurant")
-    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") Restaurant restaurant, BindingResult bindingResult, ModelAndView mav) throws RestaurantExistsException {
+    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") RestaurantDto restaurant, BindingResult bindingResult, ModelAndView mav) throws RestaurantExistsException {
         if (!bindingResult.hasErrors()) {
             restaurantService.saveOne(restaurant);
             mav.setViewName("redirect:/restaurants");

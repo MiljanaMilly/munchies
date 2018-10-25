@@ -1,5 +1,6 @@
 package com.munchies.controllers;
 
+import com.munchies.exceptions.EmailExistsException;
 import com.munchies.exceptions.OrderIsNotActiveException;
 import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
@@ -32,7 +33,7 @@ public class ErrorController {
 
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     @ExceptionHandler(RestaurantExistsException.class)
     public ModelAndView restaurantAlreadyExists(RestaurantExistsException ex) {
         ModelAndView mav = new ModelAndView();
@@ -42,9 +43,19 @@ public class ErrorController {
 
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(OrderIsNotActiveException.class)
     public ModelAndView orderIsNotActive(OrderIsNotActiveException ex) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("error", ex.getMessage());
+        mav.setViewName("/error");
+        return mav;
+
+    }
+
+    @ResponseStatus(HttpStatus.IM_USED)
+    @ExceptionHandler(EmailExistsException.class)
+    public ModelAndView emailExists(EmailExistsException ex) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("error", ex.getMessage());
         mav.setViewName("/error");
