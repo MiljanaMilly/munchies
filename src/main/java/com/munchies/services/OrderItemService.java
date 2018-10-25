@@ -9,4 +9,5 @@ import org.springframework.stereotype.Service;
 public interface OrderItemService {
 
     OrderItemDto saveOne(OrderItemDto orderItem) throws OrderIsNotActiveException;
+    OrderItemDto findOne(Long id);
 }

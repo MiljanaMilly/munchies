@@ -27,7 +27,7 @@
         <div class="panel-heading text-center">Restoran</div>
         <div class="panel-body text-center" th:object="${grouporder}">
             <h3>Porucujete iz restorana: </h3>
-            <h1 th:utext="${grouporder.restaurant.name}">Name</h1>
+            <h1 th:utext="${rest.name}">Name</h1>
         </div>
     </div>
 </div>
@@ -38,7 +38,7 @@
 
 
         <div class="text-center">
-            <p type="text" class="form-control" name="creator"
+            <p type="text" class="form-control" name="orderUrl"
                th:field="${grouporder.orderUrl}" th:utext="'http://localhost:8080/newgrouporder?id=' + ${grouporder.id}"
                disabled></p>
         </div>
@@ -50,17 +50,17 @@
         <br>
         <div class="input-group">
             <input type="text" class="form-control" name="restaurantname"
-                   th:field="${grouporder.restaurant.name}">
+                   th:field="${rest.name}">
         </div>
         <br>
         <div class="input-group">
             <input type="text" class="form-control" name="phonenumber"
-                   th:field="${grouporder.restaurant.phoneNumber}">
+                   th:field="${rest.phoneNumber}">
         </div>
         <br>
         <div class="input-group">
             <input type="text" class="form-control" name="menuurl"
-                   th:field="${grouporder.restaurant.menuUrl}">
+                   th:field="${rest.menuUrl}">
         </div>
     </div>
     <div class="row col-lg-4 col-md-4"></div>
@@ -68,7 +68,7 @@
     <br>
     <div class="panel-body text-center">
         <form action="#" th:action="@{/newgrouporder}" name="form" id="form" class="form-horizontal"
-              method="POST" th:object="${o}">
+              method="post" th:object="${o}">
             <div class="input-group">
                 <input type="text" class="form-control" name="orderCreator" value=""
                        placeholder="Order Creator"
@@ -95,7 +95,7 @@
                    th:if="${#fields.hasErrors('price')}"
                    th:errors="${o.price}">Validation error</p>
             </div>
-            <input type="hidden" th:field="${o.order.id}">
+            <!--<input type="hidden" th:field="${o.order.getId()}">-->
             <br>
             <br>
             <div class="form-group" id="submitButton">
@@ -122,11 +122,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="orderItem :  ${orders}">
-            <td><p th:text="${orderItem.creator}"></p></td>
-            <td><p th:text="${orderItem.name}"></p></td>
-            <td><p th:text="${orderItem.price}"></p></td>
-        </tr>
+        <!--<tr th:each="orderItem :  ${orders}">-->
+            <!--<td><p th:text="${orderItem.creator}"></p></td>-->
+            <!--<td><p th:text="${orderItem.name}"></p></td>-->
+            <!--<td><p th:text="${orderItem.price}"></p></td>-->
+        <!--</tr>-->
         </tbody>
     </table>
 </div>

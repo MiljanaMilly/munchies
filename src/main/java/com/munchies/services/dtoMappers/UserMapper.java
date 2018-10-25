@@ -15,7 +15,7 @@ public class UserMapper {
 
     @Autowired
     private RoleJpaRepository roleJpaRepository;
-
+//save user
     public User mapUserFormDtoToEntity(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());
@@ -26,7 +26,7 @@ public class UserMapper {
         user.addRole(roleJpaRepository.findAll().get(0));
         return user;
     }
-
+//home page
     public UserDto mapEntityToUserFormDto(User user) {
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
@@ -36,7 +36,7 @@ public class UserMapper {
         userDto.setPassword(user.getPassword());
         return userDto;
     }
-
+//employees page
     public List<UserDto> mapEntitiesToDtoList(List<User> userList) {
         List<UserDto> userDtos = new ArrayList<>();
         for (User u : userList) {

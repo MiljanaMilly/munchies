@@ -38,5 +38,10 @@ public class OrderItemServiceImpl implements OrderItemService {
         return new java.sql.Timestamp(
                 dateToConvert.getTime()).toLocalDateTime();
     }
+    public OrderItemDto findOne(Long id){
+        OrderItem orderItem = (orderItemJpaRepository.findById(id)).get();
+        return new OrderItemMapper().mapEntityToOrderItemDto(orderItem);
+
+    }
 
 }

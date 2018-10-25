@@ -15,7 +15,7 @@ public class OrderMapper {
 
     @Autowired
     private RestaurantJpaRepository restaurantJpaRepository;
-
+//group order
     public Order mapOrderDtoToEntity(OrderDto orderDto) {
         Order order = new Order();
         order.setId(orderDto.getId());
@@ -45,7 +45,7 @@ public class OrderMapper {
         order.setRestaurant(new RestaurantMapper().mapDtosToEntity(orderDto.getRestaurant()));
         return order;
     }
-
+//group order
     public OrderDto mapEntityToOrderDto(Order order) {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
@@ -56,7 +56,7 @@ public class OrderMapper {
         orderDto.setRestaurant(new RestaurantMapper().mapEntityToRestDto(order.getRestaurant()));
         return orderDto;
     }
-
+//restaurant - new order
     public OrderDto mapEntityOrderToOrderDto(Order order) {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());

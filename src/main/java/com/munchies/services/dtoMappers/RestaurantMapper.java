@@ -9,7 +9,8 @@ import java.util.List;
 
 @Component
 public class RestaurantMapper {
-
+//save restaurant
+//edit restaurant
     public Restaurant mapRestDtoToEntity(RestaurantDto restaurantDto) {
         Restaurant restaurant = new Restaurant();
         restaurant.setId(restaurantDto.getId());
@@ -23,7 +24,7 @@ public class RestaurantMapper {
         restaurant.setOrders(new OrderMapper().mapDtoOrdersToEntities(restaurantDto.getOrders()));
         return restaurant;
     }
-
+//group order
     public Restaurant mapDtosToEntity(RestaurantDto restaurantDto) {
         Restaurant restaurant = new Restaurant();
         restaurant.setId(restaurantDto.getId());
@@ -36,7 +37,12 @@ public class RestaurantMapper {
         restaurant.setDeliveryTime(restaurantDto.getDeliveryTime());
         return restaurant;
     }
-
+//go to restaurants page
+//save restaurant
+//edit restaurant
+//home restaurants
+// create new group order
+// create new group order - post
     public RestaurantDto mapEntityToRestDto(Restaurant restaurant) {
         RestaurantDto restaurantDto = new RestaurantDto();
         restaurantDto.setId(restaurant.getId());

@@ -16,5 +16,9 @@ public interface OrderService {
     List<Order> getActiveOrders();
 
     OrderDto findOneOrderDto(Long id);
+
+    OrderDto findOneOrder(Long id);
+
+    OrderDto findOnePostGroupOrder(Long id);
 }
 

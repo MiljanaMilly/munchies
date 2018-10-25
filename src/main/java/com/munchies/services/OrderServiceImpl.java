@@ -35,10 +35,19 @@ public class OrderServiceImpl implements OrderService {
         o.setRestaurant(r);
         return new OrderMapper().mapEntityToOrderDto(orderJpaRepository.save(o));
     }
-
+//new group order
     public OrderDto findOne(Long id) {
         Order o = orderJpaRepository.getOne(id);
-        System.out.println(o.getId());
+        return new OrderMapper().mapEntityToDtooo(o);
+    }
+    //find group order- new group order
+
+    public OrderDto findOneOrder(Long id) {
+        Order o = orderJpaRepository.getOne(id);
+        return new OrderMapper().mapEntityToDtos(o);
+    }
+    public OrderDto findOnePostGroupOrder(Long id) {
+        Order o = orderJpaRepository.getOne(id);
         return new OrderMapper().mapEntityToDtos(o);
     }
 
