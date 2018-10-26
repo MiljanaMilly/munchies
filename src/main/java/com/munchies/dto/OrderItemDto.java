@@ -9,18 +9,18 @@ public class OrderItemDto {
 
     private Long id;
 
-    @NotNull
+    //    @NotNull
     @Size(min = 3, max = 50)
     private String creator;
 
-    @NotNull
+    //    @NotNull
     @Size(min = 4, max = 50)
     private String name;
 
-    @NotNull
+    //    @NotNull
     private Double price;
 
-    private OrderDto order;
+    private Long orderId;
 
     public OrderItemDto() {
     }
@@ -64,11 +64,11 @@ public class OrderItemDto {
         this.price = price;
     }
 
-    public OrderDto getOrder() {
-        return order;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrder(OrderDto order) {
-        this.order = order;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }

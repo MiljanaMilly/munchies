@@ -2,10 +2,13 @@ package com.munchies.services;
 
 
 import com.munchies.dto.OrderDto;
+import com.munchies.dto.OrderItemDto;
 import com.munchies.dto.RestaurantDto;
 import com.munchies.model.Order;
+import com.munchies.model.OrderItem;
 import com.munchies.model.Restaurant;
 import com.munchies.repositories.OrderJpaRepository;
+import com.munchies.services.dtoMappers.OrderItemMapper;
 import com.munchies.services.dtoMappers.OrderMapper;
 import com.munchies.services.dtoMappers.RestaurantMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderJpaRepository orderJpaRepository;
+    @Autowired
+    private OrderMapper orderMapper;
+
+    @Autowired
+    private OrderItemMapper orderItemMapper;
 
     public OrderDto save(OrderDto order) {
         LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(10, ChronoUnit.MINUTES));
@@ -41,25 +49,30 @@ public class OrderServiceImpl implements OrderService {
         return new OrderMapper().mapEntityToDtooo(o);
     }
     //find group order- new group order
-
     public OrderDto findOneOrder(Long id) {
         Order o = orderJpaRepository.getOne(id);
-        return new OrderMapper().mapEntityToDtos(o);
-    }
-    public OrderDto findOnePostGroupOrder(Long id) {
-        Order o = orderJpaRepository.getOne(id);
-        return new OrderMapper().mapEntityToDtos(o);
+        OrderDto orderDto = orderMapper.mapEntityToDtos(o);
+        return orderDto;
     }
 
     public OrderDto findOneOrderDto(Long id) {
         Order o = orderJpaRepository.getOne(id);
-        return new OrderMapper().mapEntityOrderToOrderDto(o);
+        return new OrderMapper().mapEntityToDtooo(o);
     }
 
     public List<Order> getActiveOrders() {
         LocalDateTime dateTime = LocalDateTime.now();
         Date timeNow = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
         return orderJpaRepository.findByOrderTimeoutIsAfter(timeNow);
+
+    }
+
+    public List<OrderItemDto> findListOfItemsbyOrderId(Long id) {
+        Order order = orderJpaRepository.getOne(id);
+        List<OrderItem> itemList = order.getOrderItems();
+        List<OrderItemDto> itemDtoList = orderItemMapper.mapEntitiesToDtos(itemList);
+        return itemDtoList;
+
 
     }
 

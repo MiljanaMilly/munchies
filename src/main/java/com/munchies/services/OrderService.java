@@ -1,6 +1,7 @@
 package com.munchies.services;
 
 import com.munchies.dto.OrderDto;
+import com.munchies.dto.OrderItemDto;
 import com.munchies.model.Order;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,6 @@ public interface OrderService {
 
     OrderDto findOneOrder(Long id);
 
-    OrderDto findOnePostGroupOrder(Long id);
+    List<OrderItemDto> findListOfItemsbyOrderId(Long id);
 }
 

@@ -4,7 +4,6 @@ import com.munchies.dto.RestaurantDto;
 import com.munchies.dto.UserDto;
 import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
-import com.munchies.model.Restaurant;
 import com.munchies.services.RestaurantService;
 import com.munchies.services.UserService;
 import javassist.NotFoundException;

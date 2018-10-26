@@ -11,9 +11,6 @@ public class MunchiesApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(MunchiesApplication.class, args);
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        System.out.println(bCryptPasswordEncoder.encode("123456"));
-
     }
 
 

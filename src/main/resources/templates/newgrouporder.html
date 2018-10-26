@@ -95,7 +95,8 @@
                    th:if="${#fields.hasErrors('price')}"
                    th:errors="${o.price}">Validation error</p>
             </div>
-            <!--<input type="hidden" th:field="${o.order.getId()}">-->
+            <input type="hidden" class="form-control" name="orderId"
+                   th:field="${o.orderId}" th:value="${grouporder.id}">
             <br>
             <br>
             <div class="form-group" id="submitButton">

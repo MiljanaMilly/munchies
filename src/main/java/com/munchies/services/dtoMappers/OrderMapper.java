@@ -2,6 +2,7 @@ package com.munchies.services.dtoMappers;
 
 
 import com.munchies.dto.OrderDto;
+import com.munchies.dto.OrderItemDto;
 import com.munchies.model.Order;
 import com.munchies.repositories.RestaurantJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,10 @@ public class OrderMapper {
 
     @Autowired
     private RestaurantJpaRepository restaurantJpaRepository;
+    @Autowired
+    private OrderItemMapper orderItemMapper;
+
+
 //group order
     public Order mapOrderDtoToEntity(OrderDto orderDto) {
         Order order = new Order();
@@ -26,6 +31,8 @@ public class OrderMapper {
         return order;
     }
 
+    //new group order-save order item
+    //save order item 2
     public Order mapDtoToEntity(OrderDto orderDto) {
         Order order = new Order();
         order.setId(orderDto.getId());
@@ -67,22 +74,29 @@ public class OrderMapper {
         return orderDto;
     }
 
+    //new group order
     public OrderDto mapEntityToDtos(Order order) {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
         orderDto.setCreator(order.getCreator());
         orderDto.setOrderTimeout(order.getOrderTimeout());
         orderDto.setOrderUrl(order.getOrderUrl());
-        orderDto.setOrderItems(new OrderItemMapper().mapEntitiesToDtos(order.getOrderItems()));
+        List<OrderItemDto> orderItemDtos = orderItemMapper.mapEntitiesToDtos(order.getOrderItems());
+        orderDto.setRestaurant(new RestaurantMapper().mapEntityToRestDto(order.getRestaurant()));
+        orderDto.setOrderItems(orderItemDtos);
         return orderDto;
     }
 
+    //new group order
     public OrderDto mapEntityToDtooo(Order order) {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
         orderDto.setCreator(order.getCreator());
         orderDto.setOrderTimeout(order.getOrderTimeout());
         orderDto.setOrderUrl(order.getOrderUrl());
+        List<OrderItemDto> orderItemDtos = new ArrayList<>();
+        orderItemDtos = orderItemMapper.mapEntitiesToDtos(order.getOrderItems());
+        orderDto.setOrderItems(orderItemDtos);
         return orderDto;
     }
 

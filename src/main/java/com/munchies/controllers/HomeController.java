@@ -20,6 +20,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -108,12 +110,15 @@ public class HomeController {
 
     //oooooooooooooo
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
-    public ModelAndView getGroupOrderForm(@RequestParam("id") Long id, OrderItemDto orderItem, ModelAndView mav) {
-        RestaurantDto r = restaurantService.getOneRestaurantDto((orderService.findOneOrderDto(id)).getRestaurant().getId());
+    public ModelAndView getGroupOrderForm(@RequestParam("id") Long id, ModelAndView mav) throws OrderIsNotActiveException {
+        //RestaurantDto r = restaurantService.getOneRestaurantDto((orderService.findOneOrderDto(id)).getRestaurant().getId());
         OrderDto order = orderService.findOneOrder(id);
-        orderItem.setOrder(order);
-        mav.addObject("rest", r);
-        mav.addObject("o", orderItem);
+        OrderItemDto orderItemDto = new OrderItemDto();
+        orderItemDto.setOrderId(order.getId());
+//        orderItem.setOrder(order);
+//        OrderItemDto orderItemDto = orderItemService.saveOne(orderItem);
+        mav.addObject("rest", order.getRestaurant());
+        mav.addObject("o", orderItemDto);
         //mav.addObject("orders", order.getOrderItems());
         mav.addObject("grouporder", order);
         mav.setViewName("newgrouporder");
@@ -122,19 +127,20 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.POST)
-    public ModelAndView submitOrderForm(@Valid @ModelAttribute("o")OrderItemDto o, BindingResult bindingResult,OrderDto grouporder, OrderItemDto orderItem, ModelAndView mav) throws OrderIsNotActiveException {
-        System.out.println(grouporder.getId());
+    public ModelAndView submitOrderForm(@Valid @ModelAttribute("o") OrderItemDto o, BindingResult bindingResult, OrderItemDto orderItem, ModelAndView mav, HttpServletRequest request) throws OrderIsNotActiveException {
         System.out.println(o.getId());
-        OrderDto orderDto = orderService.findOnePostGroupOrder((orderItemService.findOne(o.getId())).getId());
+        OrderDto orderDto = orderService.findOneOrder(o.getOrderId());
+        System.out.println(orderDto.getId());
+        //orderService.findOnePostGroupOrder((orderItemService.findOne(o.getId())).getId());
         if(!bindingResult.hasErrors()){
-            o.setOrder(orderDto);
+//            o.setOrder(orderDto);
 //            List<OrderItem> orderItems = order.getOrderItems();
 //            orderItems.add(o);
             orderItemService.saveOne(o);
 //            order.setOrderItems(orderItems);
 //            orderService.save(order);
-            mav.addObject("orders", orderDto.getOrderItems());
-            mav.addObject("o", orderItem);
+            //mav.addObject("orders", orderDto.getOrderItems());
+            //mav.addObject("o", orderItem);
             mav.setViewName("redirect:/newgrouporder?id=" + orderDto.getId());
         } else{
             mav.addObject("orders", orderDto.getOrderItems());
@@ -154,6 +160,7 @@ public class HomeController {
         return mav;
     }
 
+    //dtooooo
     @RequestMapping(value = "/getlistofactiveorders", method = RequestMethod.GET)
     public ModelAndView getActiveOrders() {
         ModelAndView mav = new ModelAndView();
