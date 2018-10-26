@@ -41,11 +41,12 @@ public class UserServiceImpl implements UserService {
         User saveUser = userMapper.mapUserFormDtoToEntity(user);
         List<Role> r = roleJpaRepository.findAll();
         saveUser.setRoles(r);
-        if ((userJpaRepository.findByEmail(saveUser.getEmail())) == null) {
-            saveUser = userJpaRepository.save(saveUser);
-        } else {
-            throw new EmailExistsException("Email exists in the database");
-        }
+        saveUser = userJpaRepository.save(saveUser);
+//        if ((userJpaRepository.findByEmail(saveUser.getEmail())) == null) {
+//            saveUser = userJpaRepository.save(saveUser);
+//        } else {
+//            throw new EmailExistsException("Email exists in the database");
+//        }
         return saveUser;
     }
 

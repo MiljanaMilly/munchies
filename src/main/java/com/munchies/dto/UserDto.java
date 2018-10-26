@@ -1,6 +1,7 @@
 package com.munchies.dto;
 
 import com.munchies.model.Role;
+import com.munchies.validators.SignUpValidator;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,7 @@ public class UserDto {
 
     @NotNull
     @Email
+    @SignUpValidator
     private String email;
 
     @NotNull
