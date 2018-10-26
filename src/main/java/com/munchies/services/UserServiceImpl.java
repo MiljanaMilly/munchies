@@ -39,9 +39,8 @@ public class UserServiceImpl implements UserService {
     public User saveUser(UserDto user) throws EmailExistsException {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         User saveUser = userMapper.mapUserFormDtoToEntity(user);
-        Role r = roleJpaRepository.findAll().get(0);
-        r.setId(1);
-        saveUser.setRoles(Arrays.asList(r));
+        List<Role> r = roleJpaRepository.findAll();
+        saveUser.setRoles(r);
         if ((userJpaRepository.findByEmail(saveUser.getEmail())) == null) {
             saveUser = userJpaRepository.save(saveUser);
         } else {

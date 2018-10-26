@@ -17,7 +17,7 @@ public interface RestaurantService {
 
     List<RestaurantDto> getAllRestListDto();
 
-    RestaurantDto getOneRestDto(Long id);
+    RestaurantDto getOneRestDtoNoOrdersMapped(Long id);
 
     RestaurantDto getOneRestaurantDto(Long id);
 

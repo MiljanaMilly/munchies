@@ -3,7 +3,6 @@ package com.munchies.services;
 
 import com.munchies.dto.OrderDto;
 import com.munchies.dto.OrderItemDto;
-import com.munchies.dto.RestaurantDto;
 import com.munchies.model.Order;
 import com.munchies.model.OrderItem;
 import com.munchies.model.Restaurant;
@@ -26,30 +25,36 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderJpaRepository orderJpaRepository;
+
     @Autowired
     private OrderMapper orderMapper;
 
     @Autowired
     private OrderItemMapper orderItemMapper;
 
+    @Autowired
+    private RestaurantMapper restaurantMapper;
+
     public OrderDto save(OrderDto order) {
         LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(10, ChronoUnit.MINUTES));
         Date tmfn = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+
         order.setOrderTimeout(tmfn);
-        Order saveOrder = new OrderMapper().mapOrderDtoToEntity(order);
-        Restaurant r = new RestaurantMapper().mapDtosToEntity(order.getRestaurant());
-        //saveOrder.setRestaurant(r);
+        Order saveOrder = orderMapper.mapOrderDtoToEntityWithOrderItems(order);
+        Restaurant r = restaurantMapper.mapDtosToEntityNoOrdersNoRest(order.getRestaurant());
         Order o = orderJpaRepository.save(saveOrder);
         o.setRestaurant(r);
-        return new OrderMapper().mapEntityToOrderDto(orderJpaRepository.save(o));
+        return orderMapper.mapEntityToOrderDtoWithRestWithItems(orderJpaRepository.save(o));
     }
+
 //new group order
-    public OrderDto findOne(Long id) {
+public OrderDto findOneOrderDtoWithOrderItems(Long id) {
         Order o = orderJpaRepository.getOne(id);
         return new OrderMapper().mapEntityToDtooo(o);
     }
+
     //find group order- new group order
-    public OrderDto findOneOrder(Long id) {
+    public OrderDto findOneOrderDtoWithRestWithItems(Long id) {
         Order o = orderJpaRepository.getOne(id);
         OrderDto orderDto = orderMapper.mapEntityToDtos(o);
         return orderDto;
@@ -60,10 +65,12 @@ public class OrderServiceImpl implements OrderService {
         return new OrderMapper().mapEntityToDtooo(o);
     }
 
-    public List<Order> getActiveOrders() {
+    public List<OrderDto> getActiveOrders() {
         LocalDateTime dateTime = LocalDateTime.now();
         Date timeNow = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
-        return orderJpaRepository.findByOrderTimeoutIsAfter(timeNow);
+        List<Order> orderList = orderJpaRepository.findByOrderTimeoutIsAfter(timeNow);
+        List<OrderDto> orderDtoList = orderMapper.mapEntitiesToDtos(orderList);
+        return orderDtoList;
 
     }
 

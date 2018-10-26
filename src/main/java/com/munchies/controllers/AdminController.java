@@ -73,7 +73,7 @@ public class AdminController {
 
     @GetMapping("/editrestaurant")
     public ModelAndView editRest(@RequestParam("id") Long id, ModelAndView mav) {
-        mav.addObject("editrest", restaurantService.getOneRestDto(id));
+        mav.addObject("editrest", restaurantService.getOneRestDtoNoOrdersMapped(id));
         mav.setViewName("admin/editrestaurant");
         return mav;
 

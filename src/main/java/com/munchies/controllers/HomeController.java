@@ -6,9 +6,8 @@ import com.munchies.dto.RestaurantDto;
 import com.munchies.dto.UserDto;
 import com.munchies.exceptions.EmailExistsException;
 import com.munchies.exceptions.OrderIsNotActiveException;
-import com.munchies.model.Order;
+import com.munchies.exceptions.OrderNotExistsException;
 import com.munchies.model.OrderItem;
-import com.munchies.model.Restaurant;
 import com.munchies.model.User;
 import com.munchies.services.OrderService;
 import com.munchies.services.OrderItemService;
@@ -21,7 +20,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -45,10 +43,8 @@ public class HomeController {
     public ModelAndView goHome(ModelAndView mav) {
         List<RestaurantDto> restListDto = restaurantService.getAllRestListDto();
         mav.addObject("restaurants", restListDto);
-        //mav.addObject("rest", restaurant);
         mav.setViewName("home");
         return mav;
-
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -66,7 +62,6 @@ public class HomeController {
     public String signupform(UserDto user, Model model) {
         model.addAttribute("us", user);
         return "signup";
-
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -79,28 +74,25 @@ public class HomeController {
             mav.setViewName("/signup");
         }
         return mav;
-
-
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.GET)
     public ModelAndView createNewGroupOrder(@RequestParam("id") Long id, ModelAndView mav, OrderDto order) {
-        RestaurantDto restaurant = restaurantService.getOneRestDto(id);
+        RestaurantDto restaurant = restaurantService.getOneRestDtoNoOrdersMapped(id);
         order.setRestaurant(restaurant);
         mav.addObject("order", order);
         mav.setViewName("createnewgrouporder");
         return mav;
-
     }
 
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
-    public String submitGroupOrder(@Valid @ModelAttribute("order")OrderDto order, BindingResult bindingResult, OrderItemDto orderItem, Model mav) {
-        RestaurantDto r = restaurantService.getOneRestDto(order.getRestaurant().getId());
+    public String submitGroupOrder(@Valid @ModelAttribute("order") OrderDto order, BindingResult bindingResult, Model mav) {
+        RestaurantDto r = restaurantService.getOneRestDtoNoOrdersMapped(order.getRestaurant().getId());
     if (!bindingResult.hasErrors()) {
         order.setRestaurant(r);
         OrderDto go = orderService.save(order);
-            mav.addAttribute("grouporder", go);
-        mav.addAttribute("order", orderItem);
+        mav.addAttribute("grouporder", go);
+        mav.addAttribute("order", new OrderItem());
         return "redirect:/newgrouporder?id=" + go.getId();
         } else {
         mav.addAttribute("order", order);
@@ -108,18 +100,14 @@ public class HomeController {
     }
     }
 
-    //oooooooooooooo
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
-    public ModelAndView getGroupOrderForm(@RequestParam("id") Long id, ModelAndView mav) throws OrderIsNotActiveException {
-        //RestaurantDto r = restaurantService.getOneRestaurantDto((orderService.findOneOrderDto(id)).getRestaurant().getId());
-        OrderDto order = orderService.findOneOrder(id);
+    public ModelAndView getGroupOrderForm(@RequestParam("id") Long id, ModelAndView mav) {
+        OrderDto order = orderService.findOneOrderDtoWithRestWithItems(id);
         OrderItemDto orderItemDto = new OrderItemDto();
         orderItemDto.setOrderId(order.getId());
-//        orderItem.setOrder(order);
-//        OrderItemDto orderItemDto = orderItemService.saveOne(orderItem);
         mav.addObject("rest", order.getRestaurant());
         mav.addObject("o", orderItemDto);
-        //mav.addObject("orders", order.getOrderItems());
+        mav.addObject("orders", order.getOrderItems());
         mav.addObject("grouporder", order);
         mav.setViewName("newgrouporder");
         return mav;
@@ -127,44 +115,32 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.POST)
-    public ModelAndView submitOrderForm(@Valid @ModelAttribute("o") OrderItemDto o, BindingResult bindingResult, OrderItemDto orderItem, ModelAndView mav, HttpServletRequest request) throws OrderIsNotActiveException {
-        System.out.println(o.getId());
-        OrderDto orderDto = orderService.findOneOrder(o.getOrderId());
-        System.out.println(orderDto.getId());
-        //orderService.findOnePostGroupOrder((orderItemService.findOne(o.getId())).getId());
+    public ModelAndView submitOrderForm(@Valid @ModelAttribute("o") OrderItemDto o, BindingResult bindingResult, ModelAndView mav) throws OrderIsNotActiveException, OrderNotExistsException {
+        OrderDto orderDto = orderService.findOneOrderDtoWithRestWithItems(o.getOrderId());
         if(!bindingResult.hasErrors()){
-//            o.setOrder(orderDto);
-//            List<OrderItem> orderItems = order.getOrderItems();
-//            orderItems.add(o);
             orderItemService.saveOne(o);
-//            order.setOrderItems(orderItems);
-//            orderService.save(order);
-            //mav.addObject("orders", orderDto.getOrderItems());
-            //mav.addObject("o", orderItem);
             mav.setViewName("redirect:/newgrouporder?id=" + orderDto.getId());
         } else{
             mav.addObject("orders", orderDto.getOrderItems());
             mav.addObject("grouporder", orderDto);
-            mav.addObject("o", orderItem);
+            mav.addObject("o", new OrderItem());
             mav.setViewName("redirect:/newgrouporder?id=" + orderDto.getId());
         }
         return mav;
-
     }
 
     @RequestMapping(value = "/viewrestdetails", method = RequestMethod.GET)
     public ModelAndView newGroupOrder(@RequestParam("id") Long id, ModelAndView mav) {
-        RestaurantDto r = restaurantService.getOneRestDto(id);
+        RestaurantDto r = restaurantService.getOneRestDtoNoOrdersMapped(id);
         mav.addObject("onerest", r);
         mav.setViewName("viewRestDetails");
         return mav;
     }
 
-    //dtooooo
     @RequestMapping(value = "/getlistofactiveorders", method = RequestMethod.GET)
     public ModelAndView getActiveOrders() {
         ModelAndView mav = new ModelAndView();
-        List<Order> activeOrders = orderService.getActiveOrders();
+        List<OrderDto> activeOrders = orderService.getActiveOrders();
         if (!activeOrders.isEmpty()) {
             mav.addObject("activeOrders", activeOrders);
             mav.setViewName("/ListOfActiveOrders");

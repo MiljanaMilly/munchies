@@ -4,6 +4,7 @@ import com.munchies.model.Role;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class UserDto {
     private String email;
 
     @NotNull
-    @Size(min = 7)
+    @Size(min = 7, max = 15)
     private String password;
 
     private List<Role> roles = new ArrayList<>();

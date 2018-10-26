@@ -42,20 +42,20 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantJpaRepository.findAll();
     }
 
+    //homePage
     public List<RestaurantDto> getAllRestListDto() {
-
         List<RestaurantDto> restListDto = new ArrayList<>();
         for (Restaurant r : restaurantJpaRepository.findAll()) {
-            restListDto.add(restaurantMapper.mapEntityToRestDto(r));
+            restListDto.add(restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(r));
         }
         return restListDto;
     }
 
-    public RestaurantDto getOneRestDto(Long id) {
+    public RestaurantDto getOneRestDtoNoOrdersMapped(Long id) {
         Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
         RestaurantDto restaurantDto = new RestaurantDto();
         if (restaurant.isPresent()) {
-            restaurantDto = new RestaurantMapper().mapEntityToRestDto(restaurant.get());
+            restaurantDto = new RestaurantMapper().mapEntityToRestDtoNoOrdersNoRest(restaurant.get());
         }
         return restaurantDto;
     }
@@ -64,7 +64,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
         RestaurantDto restaurantDto = new RestaurantDto();
         if (restaurant.isPresent()) {
-            restaurantDto = new RestaurantMapper().mapEntityToDtos(restaurant.get());
+            restaurantDto = new RestaurantMapper().mapEntityToDtoWithRest(restaurant.get());
         }
         return restaurantDto;
     }
@@ -75,9 +75,9 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public RestaurantDto saveOne(RestaurantDto restaurant) throws RestaurantExistsException {
 
-        Restaurant r = new RestaurantMapper().mapRestDtoToEntity(restaurant);
+        Restaurant r = new RestaurantMapper().mapRestDtoToEntityWithOrders(restaurant);
         if (!restaurantJpaRepository.findByNameLike(r.getName()).isPresent()) {
-            return restaurantMapper.mapEntityToRestDto(restaurantJpaRepository.save(r));
+            return restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(restaurantJpaRepository.save(r));
         } else {
             throw new RestaurantExistsException("Restaurant already exists!!! ");
         }
@@ -112,7 +112,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public void editOne(RestaurantDto restaurant) {
-        Restaurant r = new RestaurantMapper().mapRestDtoToEntity(restaurant);
+        Restaurant r = new RestaurantMapper().mapRestDtoToEntityWithOrders(restaurant);
         Restaurant restaurant1 = restaurantJpaRepository.getOne(restaurant.getId());
         //restaurant1.setId(r.getId());
         restaurant1.setName(r.getName());

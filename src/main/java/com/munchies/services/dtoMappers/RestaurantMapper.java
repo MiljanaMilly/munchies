@@ -11,7 +11,7 @@ import java.util.List;
 public class RestaurantMapper {
 //save restaurant
 //edit restaurant
-    public Restaurant mapRestDtoToEntity(RestaurantDto restaurantDto) {
+public Restaurant mapRestDtoToEntityWithOrders(RestaurantDto restaurantDto) {
         Restaurant restaurant = new Restaurant();
         restaurant.setId(restaurantDto.getId());
         restaurant.setName(restaurantDto.getName());
@@ -25,7 +25,7 @@ public class RestaurantMapper {
         return restaurant;
     }
 //group order
-    public Restaurant mapDtosToEntity(RestaurantDto restaurantDto) {
+public Restaurant mapDtosToEntityNoOrdersNoRest(RestaurantDto restaurantDto) {
         Restaurant restaurant = new Restaurant();
         restaurant.setId(restaurantDto.getId());
         restaurant.setName(restaurantDto.getName());
@@ -43,7 +43,7 @@ public class RestaurantMapper {
 //home restaurants
 // create new group order
 // create new group order - post
-    public RestaurantDto mapEntityToRestDto(Restaurant restaurant) {
+public RestaurantDto mapEntityToRestDtoNoOrdersNoRest(Restaurant restaurant) {
         RestaurantDto restaurantDto = new RestaurantDto();
         restaurantDto.setId(restaurant.getId());
         restaurantDto.setName(restaurant.getName());
@@ -53,11 +53,10 @@ public class RestaurantMapper {
         restaurantDto.setAdditionalCharges(restaurant.getAdditionalCharges());
         restaurantDto.setDeliveryInfo(restaurant.getDeliveryInfo());
         restaurantDto.setDeliveryTime(restaurant.getDeliveryTime());
-        //restaurantDto.setOrders(restaurant.getOrders());
         return restaurantDto;
     }
 
-    public RestaurantDto mapEntityToDtos(Restaurant restaurant) {
+    public RestaurantDto mapEntityToDtoWithRest(Restaurant restaurant) {
         RestaurantDto restaurantDto = new RestaurantDto();
         restaurantDto.setId(restaurant.getId());
         restaurantDto.setName(restaurant.getName());
@@ -75,7 +74,7 @@ public class RestaurantMapper {
         List<Restaurant> restaurantList = new ArrayList<>();
         RestaurantMapper restaurantMapper = new RestaurantMapper();
         for (RestaurantDto r : restaurantDtoList) {
-            restaurantList.add(restaurantMapper.mapRestDtoToEntity(r));
+            restaurantList.add(restaurantMapper.mapRestDtoToEntityWithOrders(r));
         }
         return restaurantList;
     }
@@ -84,7 +83,7 @@ public class RestaurantMapper {
         List<RestaurantDto> restaurantDtos = new ArrayList<>();
         RestaurantMapper restaurantMapper = new RestaurantMapper();
         for (Restaurant r : restaurantList) {
-            restaurantDtos.add(restaurantMapper.mapEntityToRestDto(r));
+            restaurantDtos.add(restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(r));
         }
         return restaurantDtos;
 
@@ -94,7 +93,7 @@ public class RestaurantMapper {
         List<RestaurantDto> restaurantDtos = new ArrayList<>();
         RestaurantMapper restaurantMapper = new RestaurantMapper();
         for (Restaurant r : restaurantList) {
-            restaurantDtos.add(restaurantMapper.mapEntityToRestDto(r));
+            restaurantDtos.add(restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(r));
         }
         return restaurantDtos;
 

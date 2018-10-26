@@ -70,7 +70,7 @@
         <form action="#" th:action="@{/newgrouporder}" name="form" id="form" class="form-horizontal"
               method="post" th:object="${o}">
             <div class="input-group">
-                <input type="text" class="form-control" name="orderCreator" value=""
+                <input type="text" class="form-control"
                        placeholder="Order Creator"
                        th:field="*{creator}">
                 <p class="error"
@@ -79,7 +79,7 @@
             </div>
             <br>
             <div class="input-group">
-                <input type="text" class="form-control" name="orderItem" value=""
+                <input type="text" class="form-control"
                        placeholder="Order Item"
                        th:field="*{name}">
                 <p class="error"
@@ -88,14 +88,14 @@
             </div>
             <br>
             <div class="input-group">
-                <input type="text" class="form-control" name="itemPrice" value=""
+                <input type="text" class="form-control"
                        placeholder="Item price"
                        th:field="*{price}">
                 <p class="error"
                    th:if="${#fields.hasErrors('price')}"
                    th:errors="${o.price}">Validation error</p>
             </div>
-            <input type="hidden" class="form-control" name="orderId"
+            <input type="hidden" class="form-control"
                    th:field="${o.orderId}" th:value="${grouporder.id}">
             <br>
             <br>
@@ -123,11 +123,11 @@
         </tr>
         </thead>
         <tbody>
-        <!--<tr th:each="orderItem :  ${orders}">-->
-            <!--<td><p th:text="${orderItem.creator}"></p></td>-->
-            <!--<td><p th:text="${orderItem.name}"></p></td>-->
-            <!--<td><p th:text="${orderItem.price}"></p></td>-->
-        <!--</tr>-->
+        <tr th:each="orderItem :  ${orders}">
+            <td><p th:text="${orderItem.creator}"></p></td>
+            <td><p th:text="${orderItem.name}"></p></td>
+            <td><p th:text="${orderItem.price}"></p></td>
+        </tr>
         </tbody>
     </table>
 </div>

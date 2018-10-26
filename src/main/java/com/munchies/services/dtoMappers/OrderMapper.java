@@ -14,25 +14,28 @@ import java.util.List;
 @Component
 public class OrderMapper {
 
-    @Autowired
-    private RestaurantJpaRepository restaurantJpaRepository;
+
     @Autowired
     private OrderItemMapper orderItemMapper;
 
+    @Autowired
+    private OrderMapper orderMapper;
 
-//group order
-    public Order mapOrderDtoToEntity(OrderDto orderDto) {
+    @Autowired
+    private RestaurantMapper restaurantMapper;
+
+
+    //crate group order
+    public Order mapOrderDtoToEntityWithOrderItems(OrderDto orderDto) {
         Order order = new Order();
         order.setId(orderDto.getId());
         order.setCreator(orderDto.getCreator());
         order.setOrderTimeout(orderDto.getOrderTimeout());
         order.setOrderUrl(orderDto.getOrderUrl());
-        order.setOrderItems(new OrderItemMapper().mapDtosToOrderItems(orderDto.getOrderItems()));
+        order.setOrderItems(orderItemMapper.mapDtosToOrderItems(orderDto.getOrderItems()));
         return order;
     }
 
-    //new group order-save order item
-    //save order item 2
     public Order mapDtoToEntity(OrderDto orderDto) {
         Order order = new Order();
         order.setId(orderDto.getId());
@@ -42,25 +45,25 @@ public class OrderMapper {
         return order;
     }
 
-    public Order mapDtosToEntity(OrderDto orderDto) {
+    public Order mapDtosToEntityWithItemsWithRest(OrderDto orderDto) {
         Order order = new Order();
         order.setId(orderDto.getId());
         order.setCreator(orderDto.getCreator());
         order.setOrderTimeout(orderDto.getOrderTimeout());
         order.setOrderUrl(orderDto.getOrderUrl());
-        order.setOrderItems(new OrderItemMapper().mapDtosToOrderItems(orderDto.getOrderItems()));
-        order.setRestaurant(new RestaurantMapper().mapDtosToEntity(orderDto.getRestaurant()));
+        order.setOrderItems(orderItemMapper.mapDtosToOrderItems(orderDto.getOrderItems()));
+        order.setRestaurant(restaurantMapper.mapDtosToEntityNoOrdersNoRest(orderDto.getRestaurant()));
         return order;
     }
 //group order
-    public OrderDto mapEntityToOrderDto(Order order) {
+public OrderDto mapEntityToOrderDtoWithRestWithItems(Order order) {
         OrderDto orderDto = new OrderDto();
         orderDto.setId(order.getId());
         orderDto.setCreator(order.getCreator());
         orderDto.setOrderTimeout(order.getOrderTimeout());
         orderDto.setOrderUrl(order.getOrderUrl());
-        orderDto.setOrderItems(new OrderItemMapper().mapEntitiesToDtos(order.getOrderItems()));
-        orderDto.setRestaurant(new RestaurantMapper().mapEntityToRestDto(order.getRestaurant()));
+    orderDto.setOrderItems(orderItemMapper.mapEntitiesToDtos(order.getOrderItems()));
+    orderDto.setRestaurant(restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(order.getRestaurant()));
         return orderDto;
     }
 //restaurant - new order
@@ -70,7 +73,7 @@ public class OrderMapper {
         orderDto.setCreator(order.getCreator());
         orderDto.setOrderTimeout(order.getOrderTimeout());
         orderDto.setOrderUrl(order.getOrderUrl());
-        orderDto.setRestaurant(new RestaurantMapper().mapEntityToRestDto(order.getRestaurant()));
+        orderDto.setRestaurant(restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(order.getRestaurant()));
         return orderDto;
     }
 
@@ -82,7 +85,7 @@ public class OrderMapper {
         orderDto.setOrderTimeout(order.getOrderTimeout());
         orderDto.setOrderUrl(order.getOrderUrl());
         List<OrderItemDto> orderItemDtos = orderItemMapper.mapEntitiesToDtos(order.getOrderItems());
-        orderDto.setRestaurant(new RestaurantMapper().mapEntityToRestDto(order.getRestaurant()));
+        orderDto.setRestaurant(restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(order.getRestaurant()));
         orderDto.setOrderItems(orderItemDtos);
         return orderDto;
     }
@@ -94,16 +97,26 @@ public class OrderMapper {
         orderDto.setCreator(order.getCreator());
         orderDto.setOrderTimeout(order.getOrderTimeout());
         orderDto.setOrderUrl(order.getOrderUrl());
-        List<OrderItemDto> orderItemDtos = new ArrayList<>();
+        List<OrderItemDto> orderItemDtos;
         orderItemDtos = orderItemMapper.mapEntitiesToDtos(order.getOrderItems());
         orderDto.setOrderItems(orderItemDtos);
+        return orderDto;
+    }
+
+    //active orders
+    public OrderDto mapActiveOrderToDto(Order order) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setId(order.getId());
+        orderDto.setCreator(order.getCreator());
+        orderDto.setOrderTimeout(order.getOrderTimeout());
+        orderDto.setOrderUrl(order.getOrderUrl());
         return orderDto;
     }
 
     public List<Order> mapDtoOrdersToEntities(List<OrderDto> orderDtos) {
         List<Order> orderList = new ArrayList<>();
         for (OrderDto o : orderDtos) {
-            orderList.add(new OrderMapper().mapOrderDtoToEntity(o));
+            orderList.add(orderMapper.mapOrderDtoToEntityWithOrderItems(o));
         }
         return orderList;
     }
@@ -111,7 +124,7 @@ public class OrderMapper {
     public List<OrderDto> mapEntitiesToDtoOrders(List<Order> orders) {
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order o : orders) {
-            orderDtos.add(new OrderMapper().mapEntityToOrderDto(o));
+            orderDtos.add(orderMapper.mapEntityToOrderDtoWithRestWithItems(o));
         }
         return orderDtos;
 
@@ -120,7 +133,7 @@ public class OrderMapper {
     public List<OrderDto> mapEntitiesToDtos(List<Order> orders) {
         List<OrderDto> orderDtos = new ArrayList<>();
         for (Order o : orders) {
-            orderDtos.add(new OrderMapper().mapEntityToDtos(o));
+            orderDtos.add(orderMapper.mapEntityOrderToOrderDto(o));
         }
         return orderDtos;
 

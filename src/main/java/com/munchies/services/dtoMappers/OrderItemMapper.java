@@ -27,16 +27,6 @@ public class OrderItemMapper {
         orderItem.setPrice(orderItemDto.getPrice());
         return orderItem;
     }
-    //save new order item 1
-    /*public OrderItem mapItemDtoToEntity(OrderItemDto orderItemDto) {
-        OrderItem orderItem = new OrderItem();
-        orderItem.setId(orderItemDto.getId());
-        orderItem.setName(orderItemDto.getName());
-        orderItem.setCreator(orderItemDto.getCreator());
-        orderItem.setPrice(orderItemDto.getPrice());
-        orderItem.setOrder(new OrderMapper().mapDtoToEntity(orderItemDto.getOrder()));
-        return orderItem;
-    }*/
 
     public List<OrderItem> mapDtosToOrderItems(List<OrderItemDto> orderItemDtos) {
         List<OrderItem> orderItems = new ArrayList<>();

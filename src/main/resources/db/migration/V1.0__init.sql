@@ -11,7 +11,7 @@ CREATE TABLE if not exists `users` (
   `last_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` text(100) NOT NULL,
-   role_id int(100) NOT NULL,
+   role_id int(100),
    foreign key (role_id) references roles(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
