@@ -126,7 +126,7 @@
         <tr th:each="orderItem :  ${orders}">
             <td><p th:text="${orderItem.creator}"></p></td>
             <td><p th:text="${orderItem.name}"></p></td>
-            <td><p th:text="${orderItem.price}"></p></td>
+            <td><p th:text="${orderItem.price.intValue()}"></p></td>
         </tr>
         </tbody>
     </table>
@@ -183,7 +183,7 @@
                         var orderItem = '<tr>' +
                             '<td>' + orderItem.creator + '</td>' +
                             '<td>' + orderItem.name + '</td>' +
-                            '<td>' + orderItem.price + '</td>'
+                            '<td>' + orderItem.price.toLocaleString(); + '</td>'
                         '</tr>';
 
                         $('#orderItems tbody').append(orderItem);
