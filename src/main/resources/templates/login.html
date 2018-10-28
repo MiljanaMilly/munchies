@@ -9,12 +9,12 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <!--<link rel="stylesheet" href="../static/css/styles.css"/>-->
+    <!--<link rel="stylesheet" type="text/css" th:href="@{../static/css/styles.css}"/>-->
 </head>
 <body>
 
 <div class="container">
-    <nav class="navbar navbar navbar-dark bg-dark">
+    <nav class="navbar navbar-dark bg-dark">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand nav-link" th:href="@{/home}">Munchies</a>
@@ -109,6 +109,10 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="container ">
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 
 

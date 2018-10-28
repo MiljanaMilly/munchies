@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/api/**",
                     "/viewrestdetails",
                     "/ListOfActiveOrders",
-                    "/getlistofactiveorders", "resources/css/**", "resources/img/**").permitAll()
+                    "/getlistofactiveorders").permitAll()
             .antMatchers("/admin/**")
             .access("hasAuthority('ADMIN')").anyRequest()
             .authenticated()
@@ -59,5 +59,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/home").permitAll();
     }
+
 
 }

@@ -7,46 +7,110 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="../../static/css/styles.css"/>
 </head>
 <body>
 
-<div class="navbar navbar-inverse" th:fragment="header">
-    <div class="container">
+
+
+
+
+
+<nav class="navbar navbar-dark bg-dark" th:fragment="header">
+    <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" th:href="@{/home}">Munchies</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="#" th:href="@{/restaurants}">Restaurants</a>
-                </li>
-                <li>
-                    <a href="#" th:href="@{/employees}">Zaposleni</a>
+            <a class="navbar-brand nav-link" th:href="@{/home}">Munchies</a>
+            <ul class="nav navbar-left navbar-nav" style="flex-direction: row; display: inline-flex;">
+                <li class="nav-item">
+                    <a href="#" th:href="@{/restaurants}" class="nav-link">Restaurants</a>
+                </li> &nbsp;&nbsp;&nbsp;
+                <li class="nav-item">
+                    <a href="#" th:href="@{/employees}" class="nav-link">Users</a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li th:if="${#authorization.expression('!isAuthenticated()')}">
-                    <a href="#" th:href="@{/login}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Log in
-                    </a>
-                    <a href="#" th:href="@{/signup}">
-                        <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Sign up
-                    </a>
-                </li>
-                <li th:if="${#authorization.expression('isAuthenticated()')}">
-                    <a href="#" th:href="@{/logout}" onclick="$('#form').submit();">
-                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
-                    </a>
-                    <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
-                </li>
-            </ul>
+
         </div>
+
+
+
+        <ul class="nav navbar-nav navbar-right" style="flex-direction: row;">
+            <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}">
+                <a href="#" th:href="@{/login}" class="nav-link">
+                    <span class="glyphicon glyphicon-log-in" ></span> &nbsp; Log in
+                </a>
+            </li>
+            &nbsp;
+            <li class="nav-item" >
+                <a href="#" th:href="@{/signup}" class="nav-link">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp; Sign up
+                </a>
+            </li>
+            &nbsp;
+            <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
+                <a class="nav-link" href="#" th:href="@{/logout}" onclick="$('#form').submit();" >
+                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
+                </a>
+                <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
+            </li>
+
+        </ul>
+
     </div>
-</div>
+
+
+
+</nav>
+
+
+
+
+
+<!--<div class="navbar navbar-inverse" th:fragment="header">-->
+    <!--<div class="container">-->
+        <!--<div class="navbar-header">-->
+            <!--<a class="navbar-brand" th:href="@{/home}">Munchies</a>-->
+        <!--</div>-->
+        <!--<div class="navbar-collapse collapse">-->
+            <!--<ul class="nav navbar-nav">-->
+                <!--<li>-->
+                    <!--<a href="#" th:href="@{/restaurants}">Restaurants</a>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<a href="#" th:href="@{/employees}">Zaposleni</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+            <!--<ul class="nav navbar-nav navbar-right">-->
+                <!--<li th:if="${#authorization.expression('!isAuthenticated()')}">-->
+                    <!--<a href="#" th:href="@{/login}">-->
+                        <!--<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Log in-->
+                    <!--</a>-->
+                    <!--<a href="#" th:href="@{/signup}">-->
+                        <!--<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Sign up-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li th:if="${#authorization.expression('isAuthenticated()')}">-->
+                    <!--<a href="#" th:href="@{/logout}" onclick="$('#form').submit();">-->
+                        <!--<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout-->
+                    <!--</a>-->
+                    <!--<form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>
