@@ -43,7 +43,7 @@
                 </a>
             </li>
             &nbsp;
-            <li class="nav-item" >
+            <li class="nav-item" th:if="${#authorization.expression('!isAuthenticated()')}" >
                 <a href="#" th:href="@{/signup}" class="nav-link">
                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp; Sign up
                 </a>

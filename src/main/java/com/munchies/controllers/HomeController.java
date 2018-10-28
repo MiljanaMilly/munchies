@@ -91,7 +91,9 @@ public class HomeController {
     if (!bindingResult.hasErrors()) {
         order.setRestaurant(r);
         OrderDto go = orderService.save(order);
-        mav.addAttribute("grouporder", go);
+        go.setOrderUrl("http://localhost:8080/newgrouporder?id=" + go.getId());
+        OrderDto groupOrder = orderService.save(go);
+        mav.addAttribute("grouporder", groupOrder);
         mav.addAttribute("order", new OrderItem());
         return "redirect:/newgrouporder?id=" + go.getId();
         } else {
@@ -123,7 +125,7 @@ public class HomeController {
         } else{
             mav.addObject("orders", orderDto.getOrderItems());
             mav.addObject("grouporder", orderDto);
-            mav.addObject("o", new OrderItem());
+            mav.addObject("o", o);
             mav.setViewName("redirect:/newgrouporder?id=" + orderDto.getId());
         }
         return mav;

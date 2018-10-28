@@ -14,16 +14,17 @@
 <body>
 <div class="container">
 
-        <nav class="navbar navbar-dark bg-dark" sec:authorize="isAnonymous()">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand nav-link" th:href="@{/home}">Munchies</a>
-                </div>
-                <ul class="nav navbar-nav navbar-right">
-                    <li class="nav-item"><a href="#" th:href="@{/login}" class="nav-link"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Log in</a></li>
-                </ul>
+    <nav class="navbar navbar-dark bg-dark" sec:authorize="isAnonymous()">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand nav-link" th:href="@{/home}">Munchies</a>
             </div>
-        </nav>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item"><a href="#" th:href="@{/login}" class="nav-link"><span
+                        class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Log in</a></li>
+            </ul>
+        </div>
+    </nav>
 
 
     <div sec:authorize="isAuthenticated()">
@@ -43,136 +44,83 @@
                         </div>
                         <div class="card-body">
 
-    <form class="needs-validation" action="#" th:action="@{/signup}" method="POST" th:object="${us}" novalidate>
-        <div class="form-row">
-            <div class="col-md-12 mb-3">
-                <label for="validationCustom01">First name</label>
-                <input type="text" class="form-control" id="validationCustom01" placeholder="First name" name="firstName" th:field="*{firstName}" required>
-                <p class="error"
-                   th:if="${#fields.hasErrors('firstName')}"
-                   th:errors="*{firstName}">Validation error</p>
-                <div class="invalid-feedback">
-                    Please write your first name.
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-12 mb-3">
-                <label for="validationCustom02">Last name</label>
-                <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" name="lastName" th:field="*{lastName}" required>
-                <p class="error"
-                   th:if="${#fields.hasErrors('lastName')}"
-                   th:errors="*{lastName}">Validation error</p>
-                <div class="invalid-feedback">
-                    Please write your last name.
-                </div>
+                            <form class="needs-validation" action="#" th:action="@{/signup}" method="POST"
+                                  th:object="${us}" novalidate>
+                                <div class="form-row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="validationCustom01">First name</label>
+                                        <input type="text" class="form-control" id="validationCustom01"
+                                               placeholder="First name" name="firstName" th:field="*{firstName}"
+                                               required>
+                                        <p class="text-danger text-center"
+                                           th:if="${#fields.hasErrors('firstName')}"
+                                           th:errors="*{firstName}">Validation error</p>
+                                        <div class="invalid-feedback">
+                                            Please write your first name.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="validationCustom02">Last name</label>
+                                        <input type="text" class="form-control" id="validationCustom02"
+                                               placeholder="Last name" name="lastName" th:field="*{lastName}" required>
+                                        <p class="text-danger text-center"
+                                           th:if="${#fields.hasErrors('lastName')}"
+                                           th:errors="*{lastName}">Validation error</p>
+                                        <div class="invalid-feedback">
+                                            Please write your last name.
+                                        </div>
 
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-12 mb-3">
-                <label for="validationCustomEmail">Email</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                    </div>
-                    <input type="text" class="form-control" id="validationCustomEmail" placeholder="Email" aria-describedby="inputGroupPrepend" name="email" th:field="*{email}" required>
-                    <p class="error"
-                       th:if="${#fields.hasErrors('email')}"
-                       th:errors="*{email}">Validation error</p>
-                    <div class="invalid-feedback">
-                        Please write an email address.
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="col-md-12 mb-3">
-                <label for="validationCustomPassword">Password</label>
-                <div class="input-group">
-                    <input type="password" class="form-control" id="validationCustomPassword" placeholder="Password" aria-describedby="inputGroupP" name="password" th:field="*{password}" required>
-                    <p class="error"
-                       th:if="${#fields.hasErrors('password')}"
-                       th:errors="*{password}">Validation error</p>
-                    <div class="invalid-feedback">
-                        Please choose a password.
-                    </div>
-                </div>
-            </div>
-        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="validationCustomEmail">Email</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                            </div>
+                                            <input type="text" class="form-control" id="validationCustomEmail"
+                                                   placeholder="Email" aria-describedby="inputGroupPrepend" name="email"
+                                                   th:field="*{email}" required>
 
-        <div class="col-lg-5" style="margin: auto;">
-        <button class="btn btn-primary btn-block" type="submit">Submit </button>
-        </div>
-    </form>
+
+                                        </div>
+                                        <p class="text-danger text-center"
+                                           th:if="${#fields.hasErrors('email')}"
+                                           th:errors="*{email}">Validation error</p>
+                                        <div class="invalid-feedback">
+                                            Please write an email address.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="validationCustomPassword">Password</label>
+                                        <input type="password" class="form-control" id="validationCustomPassword"
+                                               placeholder="Password" aria-describedby="inputGroupP" name="password"
+                                               th:field="*{password}" required>
+                                        <p class="text-danger text-center"
+                                           th:if="${#fields.hasErrors('password')}"
+                                           th:errors="*{password}">Validation error</p>
+                                        <div class="invalid-feedback">
+                                            Please choose a password.
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5" style="margin: auto;">
+                                    <button class="btn btn-primary btn-block" type="submit">Submit</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-    <!--<div class="col-lg-4 col-md-4"></div>-->
-    <!--<div class="col-lg-4 col-md-4">-->
-        <!--<br>-->
-        <!--<form action="#" th:action="@{/signup}" name="form" id="form" class="form-horizontal"-->
-              <!--enctype="multipart/form-data" method="POST" th:object="${us}">-->
-
-            <!--<div class="input-group">-->
-                <!--<input type="text" class="form-control" name="firstName"-->
-                       <!--placeholder="First Name"-->
-                       <!--th:field="*{firstName}">-->
-                <!--<p class="error"-->
-                   <!--th:if="${#fields.hasErrors('firstName')}"-->
-                   <!--th:errors="*{firstName}">Validation error</p>-->
-            <!--</div>-->
-
-            <!--<br>-->
-            <!--<div class="input-group">-->
-                <!--<input for="*{lastName}" type="text" class="form-control" name="lastName"-->
-                       <!--placeholder="Last name"-->
-                       <!--th:field="*{lastName}">-->
-                <!--<p class="error"-->
-                   <!--th:if="${#fields.hasErrors('lastName')}"-->
-                   <!--th:errors="*{lastName}">Validation error</p>-->
-            <!--</div>-->
-
-            <!--<br>-->
-            <!--<div class="input-group">-->
-                <!--<input for="*{email}" type="text" class="form-control" name="email"-->
-                       <!--placeholder="E-mail address"-->
-                       <!--th:field="*{email}">-->
-                <!--<p class="error"-->
-                   <!--th:if="${#fields.hasErrors('email')}"-->
-                   <!--th:errors="*{email}">Validation error</p>-->
-            <!--</div>-->
-
-            <!--<br>-->
-
-
-            <!--<div class="input-group">-->
-                <!--<input for="*{password}" type="password" class="form-control" name="password" placeholder="Password"-->
-                       <!--th:field="*{password}">-->
-                <!--<p class="error"-->
-                   <!--th:if="${#fields.hasErrors('password')}"-->
-                   <!--th:errors="*{password}">Validation error</p>-->
-            <!--</div>-->
-
-            <!--<br>-->
-
-            <!--<div class="form-group">-->
-                <!--<div class="col-sm-12 controls">-->
-                    <!--<button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i>-->
-                        <!--Submit-->
-                    <!--</button>-->
-                <!--</div>-->
-            <!--</div>-->
-
-        <!--</form>-->
-    <!--</div>-->
-    <!--<div class="col-lg-4 col-md-4"></div>-->
 
 </div>
 <br>
@@ -184,14 +132,14 @@
 
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
+    (function () {
         'use strict';
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
             // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
                     if (form.checkValidity() === false) {
                         event.preventDefault();
                         event.stopPropagation();
@@ -204,10 +152,13 @@
 </script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 </html>

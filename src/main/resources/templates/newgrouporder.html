@@ -7,116 +7,155 @@
     <meta charset="UTF-8">
     <title>New group order</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <div sec:authorize="isAnonymous()">
-            <div th:replace="fragments/header :: header"></div>
-        </div>
-        <div sec:authorize="isAuthenticated()">
-            <div th:replace="admin/header :: header"></div>
-        </div>
-
+    <div sec:authorize="isAnonymous()">
+        <div th:replace="fragments/header :: header"></div>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <div th:replace="admin/header :: header"></div>
     </div>
 </div>
-<div class="container">
-    <div class="panel panel-default">
-        <div class="panel-heading text-center">Restoran</div>
-        <div class="panel-body text-center" th:object="${grouporder}">
-            <h3>Porucujete iz restorana: </h3>
-            <h1 th:utext="${rest.name}">Name</h1>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row col-lg-4 col-md-4"></div>
-
-    <div class="row col-lg-4 col-md-4 ">
-
-
-        <div class="text-center">
-            <p type="text" class="form-control" name="orderUrl"
-               th:field="${grouporder.orderUrl}" th:utext="'http://localhost:8080/newgrouporder?id=' + ${grouporder.id}"
-               disabled></p>
-        </div>
-        <br>
-        <div class="input-group">
-            <input type="text" class="form-control" name="creator"
-                   th:field="${grouporder.creator}">
-        </div>
-        <br>
-        <div class="input-group">
-            <input type="text" class="form-control" name="restaurantname"
-                   th:field="${rest.name}">
-        </div>
-        <br>
-        <div class="input-group">
-            <input type="text" class="form-control" name="phonenumber"
-                   th:field="${rest.phoneNumber}">
-        </div>
-        <br>
-        <div class="input-group">
-            <input type="text" class="form-control" name="menuurl"
-                   th:field="${rest.menuUrl}">
-        </div>
-    </div>
-    <div class="row col-lg-4 col-md-4"></div>
-    <br>
-    <br>
-    <div class="panel-body text-center">
-        <form action="#" th:action="@{/newgrouporder}" name="form" id="form" class="form-horizontal"
-              method="post" th:object="${o}">
-            <div class="input-group">
-                <input type="text" class="form-control"
-                       placeholder="Order Creator"
-                       th:field="*{creator}">
-                <p class="error"
-                   th:if="${#fields.hasErrors('creator')}"
-                   th:errors="${o.creator}">Validation error</p>
+<div class="jumbotron" style="overflow:hidden;">
+    <div class="container" style="overflow:hidden;" >
+        <div class="card">
+            <div class="card-header text-center" th:object="${rest}">
+                <h3>You order from restaurant: </h3>
+                <h1 th:utext="${rest.name}">Name</h1>
             </div>
-            <br>
-            <div class="input-group">
-                <input type="text" class="form-control"
-                       placeholder="Order Item"
-                       th:field="*{name}">
-                <p class="error"
-                   th:if="${#fields.hasErrors('name')}"
-                   th:errors="${o.name}">Validation error</p>
-            </div>
-            <br>
-            <div class="input-group">
-                <input type="text" class="form-control"
-                       placeholder="Item price"
-                       th:field="*{price}">
-                <p class="error"
-                   th:if="${#fields.hasErrors('price')}"
-                   th:errors="${o.price}">Validation error</p>
-            </div>
-            <input type="hidden" class="form-control"
-                   th:field="${o.orderId}" th:value="${grouporder.id}">
-            <br>
-            <br>
-            <div class="form-group" id="submitButton">
-                <div class="col-sm-12 controls" th:if="${(#dates.createNow().before(grouporder.orderTimeout))}">
-                    <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-log-in"></i>
-                        Submit Order
-                    </button>
+        </div>
+        <br>
+        <div class="col-lg-6" style="float:left;">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Restaurant info: </h3>
                 </div>
-                <p th:if="${grouporder.orderTimeout.before(#dates.createNow())}">Group order has expired</p>
-                <div><p id="timer"></p></div>
+                <div class="card-body text-center">
+                    <table class="table table-hover " th:object="${grouporder}">
+                        <tbody>
+                        <tr>
+                            <th scope="row">Link to order:</th>
+                            <td><a th:value="${grouporder.orderUrl}" th:field="${grouporder.orderUrl}"
+                                   th:href="@{'http://localhost:8080/newgrouporder?id=' + ${grouporder.id}}"
+                                   th:utext="'http://localhost:8080/newgrouporder?id=' + ${grouporder.id}">name</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Creator:</th>
+                            <td th:utext="${grouporder.creator}">Creator:</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Restaurant:</th>
+                            <td th:utext="${rest.name}">Restaurant name</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Phone:</th>
+                            <td th:utext="${rest.phoneNumber}">Phone</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Link to Menu:</th>
+                            <td><a th:href="@{'http://' + ${rest.menuUrl}}" th:text="${rest.menuUrl}">Menu Url</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-header text-center">
+                    <h3>Group order expires in: </h3>
+                    <div><h3 class="text-danger" id="timer"></h3></div>
+                </div>
             </div>
+        </div>
 
-        </form>
+        <div class="col-lg-6" style="float:left;">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>Order an item: </h4>
+                </div>
+                <div class="card-body text-center">
+                    <form class="needs-validation" action="#" th:action="@{/newgrouporder}"
+                          method="post" th:object="${o}" novalidate>
+                        <div class="form-row">
+                            <div class="col-lg-8 mx-auto">
+                            <label for="validationCustom01">Name: </label>
+                            <input type="text" class="form-control" id="validationCustom01"
+                                   placeholder="Order Creator"
+                                   th:field="*{creator}" required>
+                            <p class="text-danger text-center"
+                               th:if="${#fields.hasErrors('creator')}"
+                               th:errors="*{creator}">Validation error</p>
+                            <div class="invalid-feedback text-center">
+                                Please enter your name.
+                            </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row">
+                        <div class="col-lg-8 mx-auto">
+                            <label for="validationCustom02">Item: </label>
+                            <input type="text" class="form-control" id="validationCustom02"
+                                   placeholder="Order Item"
+                                   th:field="*{name}" required>
+                            <p class="text-danger text-center"
+                               th:if="${#fields.hasErrors('name')}"
+                               th:errors="*{name}">Validation error</p>
+                            <div class="invalid-feedback text-center">
+                                Please enter item name.
+                            </div>
+                        </div>
+                    </div>
+                        <br>
+                        <div class="form-row">
+                            <div class="col-lg-8 mx-auto">
+                            <label for="validationCustom03">Price: </label>
+                            <input type="text" class="form-control" id="validationCustom03"
+                                   placeholder="Item price"
+                                   th:field="*{price}" required>
+                            <p class="text-danger text-center"
+                               th:if="${#fields.hasErrors('price')}"
+                               th:errors="*{price}">Validation error</p>
+                                <div class="invalid-feedback text-center">
+                                    Please enter the price.
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control"
+                               th:field="${o.orderId}" th:value="${grouporder.id}">
+                        <br>
+                        <br>
+                        <div class="form-group" id="submitButton">
+                            <div class="col-lg-5" style="margin: auto;"
+                                 th:if="${(#dates.createNow().before(grouporder.orderTimeout))}">
+                                <button type="submit" class="btn btn-primary pull-right"><i
+                                        class="glyphicon glyphicon-log-in"></i>
+                                    Submit Order
+                                </button>
+                            </div>
+                            <p th:if="${grouporder.orderTimeout.before(#dates.createNow())}">Group order has expired</p>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
-<div class="row col-lg-3 col-md-3"></div>
-<div class="row" col-lg-6 col-md-6>
-    <table class="table table-bordered" id="orderItems">
+
+
+<div class="container">
+
+    <div class="card">
+        <div class="card-header text-center">
+            <h3>Ordered items: </h3>
+
+        </div>
+    </div>
+
+    <table class="table table-bordered table-sm" id="orderItems">
         <thead>
-        <tr style="font-size: 13">
+        <tr scope="col">
             <td>Creator</td>
             <td>Order Item</td>
             <td>Item Price</td>
@@ -130,14 +169,34 @@
         </tr>
         </tbody>
     </table>
+
 </div>
-<div class="row col-lg-3 col-md-3"></div>
+
 
 <div class="container ">
-    <div class="row">
-        <div th:replace="fragments/footer :: footer"></div>
-    </div>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
 <script>
 
     var date = "[[${grouporder.orderTimeout}]]";
@@ -152,7 +211,7 @@
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById("timer").innerHTML = minutes + "m " + seconds + "s ";
+        document.getElementById("timer").innerHTML = minutes + " min " + seconds + " sec";
 
 
         if (distance < 0) {
@@ -160,17 +219,22 @@
             document.getElementById("timer").innerHTML = "EXPIRED";
         }
     }, 1000);
-</script>
+    </script>
 
 
 <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
 <script>
+
     $(document).ready(function () {
         var id = "[[${grouporder.id}]]";
         var refreshId = setInterval(function () {
@@ -183,7 +247,8 @@
                         var orderItem = '<tr>' +
                             '<td>' + orderItem.creator + '</td>' +
                             '<td>' + orderItem.name + '</td>' +
-                            '<td>' + orderItem.price.toLocaleString(); + '</td>'
+                            '<td>' + orderItem.price.toLocaleString();
+                        +'</td>'
                         '</tr>';
 
                         $('#orderItems tbody').append(orderItem);
@@ -198,14 +263,10 @@
         }, 2000);
         var now = new Date().getTime();
         var distance = endDate - now;
-        var refreshId = setInterval(function updateDiv() {
+        var refreshPage = setInterval(function updateDiv() {
             $("#submitButton").load(window.location.href + " #submitButton");
         }, distance);
     });
-
-
 </script>
-
-
 </body>
 </html>

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,6 +43,9 @@ public class UserServiceImpl implements UserService {
         List<Role> r = roleJpaRepository.findAll();
         saveUser.setRoles(r);
         saveUser = userJpaRepository.save(saveUser);
+        saveUser.setRoles(r);
+        userJpaRepository.save(saveUser);
+
 //        if ((userJpaRepository.findByEmail(saveUser.getEmail())) == null) {
 //            saveUser = userJpaRepository.save(saveUser);
 //        } else {
