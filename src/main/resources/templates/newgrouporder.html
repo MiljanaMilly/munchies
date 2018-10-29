@@ -170,6 +170,7 @@
         </tr>
         </tbody>
     </table>
+    <div>Total price: <span id="totalRow"></span></div>
 
 </div>
 
@@ -239,29 +240,40 @@
 
     $(document).ready(function () {
         var id = "[[${grouporder.id}]]";
+
         var refreshId = setInterval(function () {
-            $.ajax({
-                type: "GET",
-                url: "api/getAjaxData/" + id,
-                success: function (result) {
-                    $('#orderItems tbody').empty();
-                    $.each(result, function (i, orderItem) {
-                        var orderItem = '<tr>' +
-                            '<td>' + orderItem.creator + '</td>' +
-                            '<td>' + orderItem.name + '</td>' +
-                            '<td>' + orderItem.price.toLocaleString();
-                        +'</td>'
-                        '</tr>';
 
-                        $('#orderItems tbody').append(orderItem);
+            var now = new Date().getTime();
+            var distance = endDate - now;
 
-                    });
-                },
-                error: function (e) {
-                    // alert("ERROR: ", e);
-                    console.log("ERROR: ", e);
-                }
-            });
+            if(distance > 0) {
+                $.ajax({
+                    type: "GET",
+                    url: "api/getAjaxData/" + id,
+                    success: function (result) {
+                        $('#orderItems tbody').empty();
+                        var total = 0;
+                        $.each(result, function (i, orderItem) {
+
+                            var orderItems = '<tr>' +
+                                '<td>' + orderItem.creator + '</td>' +
+                                '<td>' + orderItem.name + '</td>' +
+                                '<td>' + parseFloat(orderItem.price);
+                            +'</td>'
+                            '</tr>';
+
+                            $('#orderItems tbody').append(orderItems);
+                            total += parseFloat(orderItem.price);
+                        });
+
+                        $("#totalRow").html(total);
+                    },
+                    error: function (e) {
+                        // alert("ERROR: ", e);
+                        console.log("ERROR: ", e);
+                    }
+                });
+            }
         }, 2000);
         var now = new Date().getTime();
         var distance = endDate - now;
