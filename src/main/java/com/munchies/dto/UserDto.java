@@ -17,10 +17,10 @@ public class UserDto {
     private Long id;
 
     @NotNull
-    @Size(min = 5, max = 10)
+    @Size(min = 2, max = 10)
     private String firstName;
 
-    @Size(min = 5, max = 10)
+    @Size(min = 4, max = 10)
     @NotNull
     private String lastName;
 
