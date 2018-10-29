@@ -46,7 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/api/**",
                     "/viewrestdetails",
                     "/ListOfActiveOrders",
-                    "/getlistofactiveorders").permitAll()
+                    "/getlistofactiveorders", "/css/**",
+                    "/img/**").permitAll()
             .antMatchers("/admin/**")
             .access("hasAuthority('ADMIN')").anyRequest()
             .authenticated()

@@ -1,6 +1,8 @@
 package com.munchies.dto;
 
 import com.munchies.model.Order;
+import com.munchies.validators.UniqueRestaurantValidator;
+import com.munchies.validators.ValidationOnInsert;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -14,6 +16,7 @@ public class RestaurantDto {
 
     @Size(min = 5, max = 50)
     @NotNull
+    @UniqueRestaurantValidator(groups = {ValidationOnInsert.class})
     private String name;
 
     @Size(min = 5, max = 50)

@@ -6,10 +6,12 @@ import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.services.RestaurantService;
 import com.munchies.services.UserService;
+import com.munchies.validators.ValidationOnInsert;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -51,7 +53,7 @@ public class AdminController {
     }
 
     @PostMapping("/createnewrestaurant")
-    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") RestaurantDto restaurant, BindingResult bindingResult, ModelAndView mav) throws RestaurantExistsException {
+    public ModelAndView saveNewRestaurant(@Validated(ValidationOnInsert.class) @ModelAttribute("newrest") RestaurantDto restaurant, BindingResult bindingResult, ModelAndView mav) throws RestaurantExistsException {
         if (!bindingResult.hasErrors()) {
             restaurantService.saveOne(restaurant);
             mav.setViewName("redirect:/restaurants");

@@ -25,16 +25,17 @@
                     <span class="glyphicon glyphicon-log-in" ></span> &nbsp; Log in
                 </a>
             </li>
-            <li class="nav-item" >
-                <a href="#" th:href="@{/signup}" class="nav-link">
-                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp; Sign up
-                </a>
-            </li>
+
             <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
                 <a class="nav-link" href="#" th:href="@{/logout}" onclick="$('#form').submit();" >
                     <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout
                 </a>
                 <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
+            </li>
+            <li class="nav-item">
+                <a href="#" th:href="@{/signup}" class="nav-link">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>&nbsp; Sign up
+                </a>
             </li>
 
         </ul>
@@ -42,35 +43,6 @@
 
 </nav>
 
-
-
-
-<!--<div class="navbar navbar-dark bg-primary " th:fragment="header">-->
-            <!--<div class="navbar-header">-->
-                <!--<a class="navbar-brand" th:href="@{/home}">Munchies</a>-->
-            <!--</div>-->
-            <!--<div class="navbar-collapse collapse">-->
-                <!--<ul class="nav navbar-nav navbar-right">-->
-                    <!--<li th:if="${#authorization.expression('!isAuthenticated()')}">-->
-                        <!--<a href="#" th:href="@{/login}">-->
-                            <!--<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Log in-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li>-->
-                        <!--<a href="#" th:href="@{/signup}">-->
-                            <!--<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp; Sign up-->
-                        <!--</a>-->
-                    <!--</li>-->
-                    <!--<li th:if="${#authorization.expression('isAuthenticated()')}">-->
-                        <!--<a href="" th:href="@{/logout}" onclick="$('#form').submit();">-->
-                            <!--<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>&nbsp;Logout-->
-                        <!--</a>-->
-                        <!--<form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>-->
-                    <!--</li>-->
-                <!--</ul>-->
-            <!--</div>-->
-
-<!--</div>-->
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"

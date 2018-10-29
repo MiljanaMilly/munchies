@@ -5,7 +5,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3 ">
 <head>
     <meta charset="UTF-8">
-    <title>Zaposleni</title>
+    <title>Registered users</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -16,13 +16,15 @@
 <div class="container">
     <div th:replace="admin/header :: header"></div>
 </div>
+
 <div class="container" th:fragment="content">
     <div class="panel panel-default">
         <div class="panel-heading text-center"><h3>Registered users</h3></div>
+        <br>
         <div class="panel-body text-center">
             <h3>List of registered users</h3>
             <a href="#" th:href="@{/signup}">
-                <button type="button" class="btn btn-primary btn-lg">Add a new user</button>
+                <button type="button" class="btn btn-outlined-primary btn-lg">Add a new user</button>
             </a>
         </div>
     </div>
@@ -30,12 +32,15 @@
 
     <div class="row">
         <table class="table table-bordered">
-            <tr style="font-size: 13">
+            <thead>
+            <tr class="table-secondary">
                 <td>First Name</td>
                 <td>Last Name</td>
                 <td>Email</td>
 
             </tr>
+            </thead>
+            <tbody>
             <tr th:each="rest :  ${usersList}">
                 <td><p th:text="${rest.firstName}"></p></td>
                 <td><p th:text="${rest.lastName}"></p></td>
@@ -43,6 +48,7 @@
 
 
             </tr>
+            </tbody>
         </table>
     </div>
 </div>

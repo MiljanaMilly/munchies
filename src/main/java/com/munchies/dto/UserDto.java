@@ -1,6 +1,7 @@
 package com.munchies.dto;
 
 import com.munchies.model.Role;
+import com.munchies.validators.FieldMatch;
 import com.munchies.validators.SignUpValidator;
 
 import javax.validation.constraints.Email;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+@FieldMatch
 public class UserDto {
 
     private Long id;
@@ -30,6 +32,10 @@ public class UserDto {
     @NotNull
     @Size(min = 7, max = 15)
     private String password;
+
+    @NotNull
+    @Size(min = 7, max = 15)
+    private String confirmPassword;
 
     private List<Role> roles = new ArrayList<>();
 
@@ -83,6 +89,14 @@ public class UserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public List<Role> getRoles() {

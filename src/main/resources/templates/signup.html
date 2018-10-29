@@ -84,8 +84,6 @@
                                             <input type="text" class="form-control" id="validationCustomEmail"
                                                    placeholder="Email" aria-describedby="inputGroupPrepend" name="email"
                                                    th:field="*{email}" required>
-
-
                                         </div>
                                         <p class="text-danger text-center"
                                            th:if="${#fields.hasErrors('email')}"
@@ -93,6 +91,7 @@
                                         <div class="invalid-feedback">
                                             Please write an email address.
                                         </div>
+
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -107,6 +106,25 @@
                                         <div class="invalid-feedback">
                                             Please choose a password.
                                         </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12 mb-3">
+                                        <label for="validationCustomPassword01">Confirm Password</label>
+                                        <input type="password" class="form-control" id="validationCustomPassword01"
+                                               placeholder="Confirm Password" aria-describedby="inputGroupP"
+                                               th:field="*{confirmPassword}" required>
+                                        <p class="text-danger text-center"
+                                           th:if="${#fields.hasErrors('confirmPassword')}"
+                                           th:errors="*{confirmPassword}">Validation error</p>
+                                        <div class="invalid-feedback">
+                                            Please confirm your password.
+                                        </div>
+                                        <p class="text-danger text-center" th:if="${#fields.hasGlobalErrors()}"
+                                           th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+                                            error</p>
+
 
                                     </div>
                                 </div>
