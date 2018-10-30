@@ -25,6 +25,7 @@
 <div class="container">
     <div class=" col-lg-5  mx-auto">
         <form action="#" th:action="@{/editrestaurant}" name="form" id="form" class="form-horizontal"
+              enctype="multipart/form-data"
               method="POST" th:object="${editrest}">
             <p class="text-danger text-center" th:if="${#fields.hasGlobalErrors()}"
                th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
@@ -55,15 +56,30 @@
                th:if="${#fields.hasErrors('phoneNumber')}"
                th:errors="*{phoneNumber}">Validation error</p>
             <br>
-            <div class="input-group">
-                <input id="menuUrl" type="text" class="form-control" name="menuUrl"
-                       placeholder="Menu Url"
-                       th:field="*{menuUrl}">
+            <!--<div class="input-group">-->
+            <!--<div class="col-lg-8" style="margin: auto;">-->
+            <!--<label for="menuUrl" >Select file</label>-->
+            <!--</div>-->
+            <!--<input id="menuUrl" type="file" name="file"-->
+            <!--placeholder="Menu Url" th:text="*{menuUrl}">-->
 
+            <!--</div>-->
+            <!--<p class="error-message"-->
+            <!--th:if="${#fields.hasErrors('menuUrl')}"-->
+            <!--th:errors="*{menuUrl}">Validation error</p>-->
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                </div>
+                <div class="custom-file">
+                    <input class="custom-file-input" id="inputGroupFile01" type="file" name="file"
+                           placeholder="Menu Url" aria-describedby="inputGroupFileAddon01">
+                    <label class="custom-file-label" for="inputGroupFile01" th:text="*{menuUrl}">Choose file</label>
+                </div>
             </div>
-            <p class="error-message"
-               th:if="${#fields.hasErrors('menuUrl')}"
-               th:errors="*{menuUrl}">Validation error</p>
+
+
             <br>
             <div class="input-group">
                 <input id="deliveryTime" type="text" class="form-control" name="deliveryTime"

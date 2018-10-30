@@ -27,6 +27,6 @@ public interface RestaurantService {
 
     void deleteRestById(Long id) throws NotFoundException, RestaurantHasActiveOrdersException;
 
-    void editOne(RestaurantDto restaurant);
+    Restaurant editOne(RestaurantDto restaurant);
 
 }

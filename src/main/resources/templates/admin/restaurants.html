@@ -21,25 +21,25 @@
         <div class="card">
             <div class="card-header text-center">
                 <h3>Add new restaurant </h3>
-            <a href="#" th:href="@{/createnewrestaurant}">
-                <button type="button" class="btn btn-outline-primary btn-sm">Create new restaurant</button>
-            </a>
+                <a href="#" th:href="@{/createnewrestaurant}">
+                    <button type="button" class="btn btn-outline-primary btn-sm">Create new restaurant</button>
+                </a>
                 <br>
-        </div>
-        </div>
-        <br>
-        <div class="panel-heading text-center"><h3>Orders</h3></div>
-        <div class="row mb-4">
-            <div class="col-lg-2"></div>
-            <div class="col-md-4">
-                <a class="btn btn-lg btn-primary btn-block" href="#" th:href="@{/getlistofactiveorders}">Active
-                    Orders</a>
-            </div>
-            <div class="col-md-6">
-                <p style="margin-top: 8px;" class="colorText">List of active orders. Hurry up and grab your next
-                    meal! </p>
             </div>
         </div>
+        <!--<br>-->
+        <!--<div class="panel-heading text-center"><h3>Orders</h3></div>-->
+        <!--<div class="row mb-4">-->
+        <!--<div class="col-lg-2"></div>-->
+        <!--<div class="col-md-4">-->
+        <!--<a class="btn btn-lg btn-primary btn-block" href="#" th:href="@{/getlistofactiveorders}">Active-->
+        <!--Orders</a>-->
+        <!--</div>-->
+        <!--<div class="col-md-6">-->
+        <!--<p style="margin-top: 8px;" class="colorText">List of active orders. Hurry up and grab your next-->
+        <!--meal! </p>-->
+        <!--</div>-->
+        <!--</div>-->
     </div>
 </div>
 <br>
@@ -62,20 +62,7 @@
                 <td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>
                 <td><p th:text="${rest.address}"></p></td>
                 <td><p th:text="${rest.phoneNumber}"></p></td>
-                <td>
-                    <form method="POST" enctype="multipart/form-data" th:action="@{'/uploadnewfile/' + ${rest.id}}">
-                        <table>
-                            <tr>
-                                <td>File to upload:</td>
-                                <td><input type="file" name="file"/></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><input type="submit" value="Upload"/></td>
-                            </tr>
-                        </table>
-                    </form>
-                </td>
+                <td><a th:href="@{'/files/' + ${rest.menuUrl}}" th:text="${rest.menuUrl}"> Link to menu</a></td>
                 <td>
                     <div><a href="#" th:href="@{'/viewrestdetails?id=' + ${rest.id}}">
                         <button type="button" class="btn btn-outline-primary btn-sm"> View
@@ -98,36 +85,39 @@
 </div>
 
 <div class="container ">
-        <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="fragments/footer :: footer"></div>
 </div>
 
-    <!--<div class="container" th:fragment="content">-->
-    <!--<div class="row ">-->
-    <!--<table class="table table-bordered">-->
-    <!--<tr style="font-size: 13">-->
-    <!--<td>Name</td>-->
-    <!--<td>Short Name</td>-->
-    <!--<td>Address</td>-->
-    <!--<td>Phone Number</td>-->
-    <!--<td>Menu URL</td>-->
-    <!--</tr>-->
-    <!--<tr th:each="rest : ${restList}">-->
-    <!--<td><p th:text="${rest.name}"></p></td>-->
-    <!--<td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>-->
-    <!--<td><p th:text="${rest.address}"></p></td>-->
-    <!--<td><p th:text="${rest.phoneNumber}"></p></td>-->
-    <!--<td><p th:text="${rest.menuURL}"></p></td>-->
-    <!--</tr>-->
-    <!--</table>-->
-    <!--</div>-->
-    <!--</div>-->
+<!--<div class="container" th:fragment="content">-->
+<!--<div class="row ">-->
+<!--<table class="table table-bordered">-->
+<!--<tr style="font-size: 13">-->
+<!--<td>Name</td>-->
+<!--<td>Short Name</td>-->
+<!--<td>Address</td>-->
+<!--<td>Phone Number</td>-->
+<!--<td>Menu URL</td>-->
+<!--</tr>-->
+<!--<tr th:each="rest : ${restList}">-->
+<!--<td><p th:text="${rest.name}"></p></td>-->
+<!--<td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>-->
+<!--<td><p th:text="${rest.address}"></p></td>-->
+<!--<td><p th:text="${rest.phoneNumber}"></p></td>-->
+<!--<td><p th:text="${rest.menuURL}"></p></td>-->
+<!--</tr>-->
+<!--</table>-->
+<!--</div>-->
+<!--</div>-->
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
 </body>
 </html>

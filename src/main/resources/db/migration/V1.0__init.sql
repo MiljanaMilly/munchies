@@ -38,7 +38,7 @@ CREATE TABLE if not exists `restaurants` (
   `name` varchar(50) NOT NULL,
   `address` varchar(50) NOT NULL,
   `phone_number` varchar(15) NOT NULL,
-  `menu_url` varchar(500) NOT NULL,
+  `menu_url` varchar(500),
   `delivery_time` varchar(50) DEFAULT NULL,
   `additional_charges` varchar(100) DEFAULT NULL,
   `delivery_info` varchar(250) DEFAULT NULL

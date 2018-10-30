@@ -29,7 +29,7 @@ public class RestaurantDto {
     //format +(123) - 456-78-90
     private String phoneNumber;
 
-    @NotNull
+    //   @NotNull
     @Size(min = 10, max = 500)
 //  @Pattern(regexp = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
     private String menuUrl;

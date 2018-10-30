@@ -37,7 +37,10 @@
         <tr> <th scope="row">Short Name:</th> <td  th:utext="${#strings.replace(onerest.name,' ','_')}">Short Name:</td> </tr>
         <tr> <th scope="row">Address:</th> <td th:utext="${onerest.address}">Address</td> </tr>
         <tr> <th scope="row">Phone:</th> <td th:utext="${onerest.phoneNumber}">Phone</td> </tr>
-        <tr> <th scope="row">Link to Menu:</th> <td ><a th:href="@{'http://' + ${onerest.menuUrl}}" th:text="${onerest.menuUrl}">Menu Url</a></td> </tr>
+        <tr>
+            <th scope="row">Link to Menu:</th>
+            <td><a th:href="@{'/files/' + ${onerest.menuUrl}}" th:text="${onerest.menuUrl}"> Link to menu</a></td>
+        </tr>
         <tr> <th scope="row">Additional Charges:</th> <td th:utext="${onerest.additionalCharges}">Additional charges:</td> </tr>
         <tr> <th scope="row">Delivery Time:</th> <td th:utext="${onerest.deliveryTime}">Delivery time</td> </tr>
         <tr> <th scope="row">Delivery Info:</th> <td th:utext="${onerest.deliveryInfo}">Delivery Info</td> </tr>

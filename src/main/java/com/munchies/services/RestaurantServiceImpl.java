@@ -111,7 +111,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 dateToConvert.getTime()).toLocalDateTime();
     }
 
-    public void editOne(RestaurantDto restaurant) {
+    public Restaurant editOne(RestaurantDto restaurant) {
         Restaurant r = new RestaurantMapper().mapRestDtoToEntityWithOrders(restaurant);
         Restaurant restaurant1 = restaurantJpaRepository.getOne(restaurant.getId());
         //restaurant1.setId(r.getId());
@@ -122,7 +122,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant1.setDeliveryInfo(r.getDeliveryInfo());
         restaurant1.setDeliveryTime(r.getDeliveryTime());
         restaurant1.setAdditionalCharges(r.getAdditionalCharges());
-        restaurantJpaRepository.save(r);
+        return restaurantJpaRepository.save(r);
 
     }
 

@@ -173,7 +173,7 @@
         </tr>
         </tbody>
     </table>
-    <div>Total price: <span id="totalRow"></span></div>
+    <div class="col-lg-4"><h3>Total price: <span id="totalRow"></span> &nbsp; din</h3></div>
 
 </div>
 
@@ -249,7 +249,7 @@
             var now = new Date().getTime();
             var distance = endDate - now;
 
-            if(distance > 0) {
+            if (distance > 0) {
                 $.ajax({
                     type: "GET",
                     url: "api/getAjaxData/" + id,
