@@ -26,10 +26,10 @@ public class RestaurantDto {
     @Size(min = 6, max = 15)
     @NotNull
 //  @Pattern(regexp = "^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\\s\\./0-9]*$")
-    //format +(123) - 456-78-90
+//  format +(123) - 456-78-90
     private String phoneNumber;
 
-    //   @NotNull
+    //  @NotNull
     @Size(min = 10, max = 500)
 //  @Pattern(regexp = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
     private String menuUrl;

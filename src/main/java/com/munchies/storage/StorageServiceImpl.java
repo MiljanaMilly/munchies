@@ -2,6 +2,7 @@ package com.munchies.storage;
 
 import com.munchies.model.Restaurant;
 import com.munchies.repositories.RestaurantJpaRepository;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Constants;
 import org.springframework.core.io.Resource;
@@ -38,6 +39,8 @@ public class StorageServiceImpl implements StorageService {
     public String store(MultipartFile file, Long id) throws StorageException {
 
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
+//    file.getOriginalFilename().replace(file.getOriginalFilename(), )
+        System.out.println(filename);
         try {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + filename);
@@ -50,6 +53,7 @@ public class StorageServiceImpl implements StorageService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, this.rootLocation.resolve(filename),
                         StandardCopyOption.REPLACE_EXISTING);
+
 
                 Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
                 if (restaurant.isPresent()) {

@@ -78,20 +78,10 @@
                     <div class="custom-file">
                         <input class="custom-file-input" id="inputGroupFile01" type="file" name="file"
                                placeholder="Menu Url" aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="inputGroupFile01" th:text="*{menuUrl}">Choose file</label>
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        <!--th:text="*{menuUrl}"-->
                     </div>
                 </div>
-
-                <!--<label for="menuUrl">Menu: </label>-->
-                <!--<input id="menuUrl" type="file" class="form-control" name="file"-->
-                <!--placeholder="Menu Url">-->
-                <!--th:field="*{menuUrl}" required>-->
-                <!--<p class="text-danger text-center"-->
-                <!--th:if="${#fields.hasErrors('menuUrl')}"-->
-                <!--th:errors="*{menuUrl}">Validation error</p>-->
-                <!--<div class="invalid-feedback">-->
-                <!--Please enter menu url.-->
-                <!--</div>-->
             </div>
             <br>
             <div class="form-row">
