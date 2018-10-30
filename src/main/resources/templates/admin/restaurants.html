@@ -62,7 +62,20 @@
                 <td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>
                 <td><p th:text="${rest.address}"></p></td>
                 <td><p th:text="${rest.phoneNumber}"></p></td>
-                <td><p th:text="${rest.menuUrl}"></p></td>
+                <td>
+                    <form method="POST" enctype="multipart/form-data" th:action="@{'/uploadnewfile/' + ${rest.id}}">
+                        <table>
+                            <tr>
+                                <td>File to upload:</td>
+                                <td><input type="file" name="file"/></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td><input type="submit" value="Upload"/></td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
                 <td>
                     <div><a href="#" th:href="@{'/viewrestdetails?id=' + ${rest.id}}">
                         <button type="button" class="btn btn-outline-primary btn-sm"> View

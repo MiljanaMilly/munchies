@@ -16,7 +16,7 @@ public class RestaurantDto {
 
     @Size(min = 5, max = 50)
     @NotNull
-    @UniqueRestaurantValidator(groups = {ValidationOnInsert.class})
+    @UniqueRestaurantValidator
     private String name;
 
     @Size(min = 5, max = 50)
@@ -30,8 +30,8 @@ public class RestaurantDto {
     private String phoneNumber;
 
     @NotNull
-    @Size(max = 500)
-//    @Pattern(regexp = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
+    @Size(min = 10, max = 500)
+//  @Pattern(regexp = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
     private String menuUrl;
 
     @Size(max = 50)

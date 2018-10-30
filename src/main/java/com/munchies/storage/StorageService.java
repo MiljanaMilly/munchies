@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public interface StorageService {
     void init() throws StorageException;
 
-    void store(MultipartFile file) throws StorageException;
+    String store(MultipartFile file, Long id) throws StorageException;
 
     Stream<Path> loadAll();
 

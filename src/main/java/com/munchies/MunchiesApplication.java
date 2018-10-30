@@ -18,5 +18,13 @@ public class MunchiesApplication {
         SpringApplication.run(MunchiesApplication.class, args);
     }
 
+    @Bean
+    CommandLineRunner init(StorageService storageService) {
+        return (args) -> {
+            storageService.deleteAll();
+            storageService.init();
+        };
+    }
+
 
 }

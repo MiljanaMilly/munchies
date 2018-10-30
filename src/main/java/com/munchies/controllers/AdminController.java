@@ -57,7 +57,7 @@ public class AdminController {
     }
 
     @PostMapping("/createnewrestaurant")
-    public ModelAndView saveNewRestaurant(@Validated(ValidationOnInsert.class) @ModelAttribute("newrest") RestaurantDto restaurant, BindingResult bindingResult, ModelAndView mav) throws RestaurantExistsException {
+    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") RestaurantDto restaurant, BindingResult bindingResult, ModelAndView mav) throws RestaurantExistsException {
         if (!bindingResult.hasErrors()) {
             restaurantService.saveOne(restaurant);
             mav.setViewName("redirect:/restaurants");
