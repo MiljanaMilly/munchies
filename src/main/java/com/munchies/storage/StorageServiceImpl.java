@@ -5,6 +5,7 @@ import com.munchies.repositories.RestaurantJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Constants;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,11 +50,14 @@ public class StorageServiceImpl implements StorageService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, this.rootLocation.resolve(filename),
                         StandardCopyOption.REPLACE_EXISTING);
+
                 Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
                 if (restaurant.isPresent()) {
                     Restaurant saveRest = restaurant.get();
-                    saveRest.setMenuUrl(rootLocation.toUri().toString() + file.getOriginalFilename());
+//
+                    saveRest.setMenuUrl(file.getOriginalFilename());
                     restaurantJpaRepository.save(saveRest);
+                    System.out.println(saveRest.getMenuUrl());
                 }
                 return rootLocation.toUri().toString();
             }
@@ -83,12 +88,24 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Path load(String filename) {
-        return null;
+        return rootLocation.resolve(filename);
     }
 
     @Override
-    public Resource loadAsResource(String filename) {
-        return null;
+    public Resource loadAsResource(String filename) throws StorageFileNotFoundException {
+        try {
+            Path file = load(filename);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new StorageFileNotFoundException(
+                        "Could not read file: " + filename);
+
+            }
+        } catch (MalformedURLException e) {
+            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+        }
     }
 
     @Override

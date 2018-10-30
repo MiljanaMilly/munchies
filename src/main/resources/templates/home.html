@@ -63,7 +63,7 @@
                     <td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>
                     <td><p th:text="${rest.address}"></p></td>
                     <td><p th:text="${rest.phoneNumber}"></p></td>
-                    <td><a th:href="@{'http://' + ${rest.menuUrl}}" th:text="${rest.menuUrl}"></a></td>
+                    <td><a th:href="@{'/files/' + ${rest.menuUrl}}"> Link to menu</a></td>
                     <td>
                         <div style="margin-bottom: 5px;"><a href="#" th:href="@{'/createnewgrouporder?id=' + ${rest.id}}">
                             <button type="button" class="btn btn-outline-primary btn-sm">New Group Order</button> </a></div>
