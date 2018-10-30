@@ -17,6 +17,11 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand nav-link" th:href="@{/home}">Munchies</a>
+            <ul class="nav navbar-left navbar-nav" style="flex-direction: row; display: inline-flex;">
+                <li class="nav-item">
+                    <a href="#" th:href="@{/getlistofactiveorders}" class="nav-link active">Active orders</a>
+                </li>
+            </ul>
         </div>
 
         <ul class="nav navbar-nav navbar-right" style="flex-direction: row;">

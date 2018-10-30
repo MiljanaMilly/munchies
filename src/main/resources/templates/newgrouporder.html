@@ -76,6 +76,9 @@
                 <div class="card-body text-center">
                     <form class="needs-validation" action="#" th:action="@{/newgrouporder}"
                           method="post" th:object="${o}" novalidate>
+                        <p class="text-danger text-center" th:if="${#fields.hasGlobalErrors()}"
+                           th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+                            error</p>
                         <div class="form-row">
                             <div class="col-lg-8 mx-auto">
                                 <label for="creator">Name: </label>

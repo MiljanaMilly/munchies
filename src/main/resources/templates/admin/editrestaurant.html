@@ -26,11 +26,15 @@
     <div class=" col-lg-5  mx-auto">
         <form action="#" th:action="@{/editrestaurant}" name="form" id="form" class="form-horizontal"
               method="POST" th:object="${editrest}">
+            <p class="text-danger text-center" th:if="${#fields.hasGlobalErrors()}"
+               th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+                error</p>
             <input type="hidden" th:field="${editrest.id}">
             <div class="input-group">
-                <input type="text"
-                       class="form-control"
-                       th:field="${editrest.name}" readonly>
+                <input id="name" type="text" class="form-control" name="name" th:field="*{name}">
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('name')}"
+                   th:errors="*{name}">Validation error</p>
             </div>
             <br>
             <div class="input-group">

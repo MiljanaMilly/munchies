@@ -9,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
+@UniqueRestaurantValidator
 public class RestaurantDto {
 
 
@@ -16,7 +17,6 @@ public class RestaurantDto {
 
     @Size(min = 5, max = 50)
     @NotNull
-    @UniqueRestaurantValidator
     private String name;
 
     @Size(min = 5, max = 50)

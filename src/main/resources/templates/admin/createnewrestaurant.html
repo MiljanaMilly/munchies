@@ -28,6 +28,9 @@
     <div class=" col-lg-4 col-md-4 mx-auto">
         <form class="needs-validation" action="#" th:action="@{/createnewrestaurant}"
               method="POST" th:object="${newrest}" novalidate>
+            <p class="text-danger text-center" th:if="${#fields.hasGlobalErrors()}"
+               th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+                error</p>
             <div class="form-row">
                 <label for="name">Restaurant name</label>
                 <input id="name" type="text" class="form-control" name="name" value=""
