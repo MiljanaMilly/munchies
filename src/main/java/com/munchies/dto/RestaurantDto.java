@@ -3,7 +3,9 @@ package com.munchies.dto;
 import com.munchies.model.Order;
 import com.munchies.validators.UniqueRestaurantValidator;
 import com.munchies.validators.ValidationOnInsert;
+import oracle.jrockit.jfr.StringConstantPool;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -34,6 +36,10 @@ public class RestaurantDto {
 //  @Pattern(regexp = "^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
     private String menuUrl;
 
+    @Size(min = 10, max = 30)
+    @Email
+    private String email;
+
     @Size(max = 50)
     private String deliveryTime;
 
@@ -48,12 +54,13 @@ public class RestaurantDto {
     public RestaurantDto() {
     }
 
-    public RestaurantDto(Long id, String name, String address, String phoneNumber, String menuUrl, String deliveryTime, String additionalCharges, String deliveryInfo, List<OrderDto> orders) {
+    public RestaurantDto(Long id, @Size(min = 5, max = 50) @NotNull String name, @Size(min = 5, max = 50) @NotNull String address, @Size(min = 6, max = 15) @NotNull String phoneNumber, @Size(min = 10, max = 500) String menuUrl, @Size(min = 10, max = 30) @Email String email, @Size(max = 50) String deliveryTime, @Size(max = 100) String additionalCharges, @Size(max = 250) String deliveryInfo, List<OrderDto> orders) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.menuUrl = menuUrl;
+        this.email = email;
         this.deliveryTime = deliveryTime;
         this.additionalCharges = additionalCharges;
         this.deliveryInfo = deliveryInfo;
@@ -135,5 +142,13 @@ public class RestaurantDto {
     public OrderDto addOrder(OrderDto order) {
         orders.add(order);
         return order;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

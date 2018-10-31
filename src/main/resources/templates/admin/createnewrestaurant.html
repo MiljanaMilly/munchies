@@ -71,6 +71,19 @@
             </div>
             <br>
             <div class="form-row">
+                <label for="email">Phone number:</label>
+                <input id="email" type="text" class="form-control" name="email"
+                       placeholder="Email address"
+                       th:field="*{email}" required>
+                <p class="text-danger text-center"
+                   th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}">Validation error</p>
+                <div class="invalid-feedback">
+                    Please enter an email.
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>

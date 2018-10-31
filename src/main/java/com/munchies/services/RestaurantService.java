@@ -7,6 +7,7 @@ import com.munchies.model.Restaurant;
 import javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,5 +29,6 @@ public interface RestaurantService {
     void deleteRestById(Long id) throws NotFoundException, RestaurantHasActiveOrdersException;
 
     Restaurant editOne(RestaurantDto restaurant);
+
 
 }

@@ -4,6 +4,7 @@ import com.munchies.exceptions.EmailExistsException;
 import com.munchies.exceptions.OrderIsNotActiveException;
 import com.munchies.exceptions.RestaurantExistsException;
 import com.munchies.exceptions.RestaurantHasActiveOrdersException;
+import com.munchies.storage.StorageException;
 import javassist.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -56,6 +57,15 @@ public class ErrorController {
     @ResponseStatus(HttpStatus.IM_USED)
     @ExceptionHandler(EmailExistsException.class)
     public ModelAndView emailExists(EmailExistsException ex) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("error", ex.getMessage());
+        mav.setViewName("/error");
+        return mav;
+
+    }
+
+    @ExceptionHandler(StorageException.class)
+    public ModelAndView fileIsEmpty(StorageException ex) {
         ModelAndView mav = new ModelAndView();
         mav.addObject("error", ex.getMessage());
         mav.setViewName("/error");

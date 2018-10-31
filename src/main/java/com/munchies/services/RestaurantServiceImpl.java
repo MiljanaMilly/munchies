@@ -9,11 +9,15 @@ import com.munchies.repositories.OrderJpaRepository;
 import com.munchies.repositories.OrderItemJpaRepository;
 import com.munchies.repositories.RestaurantJpaRepository;
 import com.munchies.services.dtoMappers.RestaurantMapper;
+import com.munchies.storage.StorageService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
 
 
+import javax.mail.MessagingException;
+import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -37,6 +41,12 @@ public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     private RestaurantMapper restaurantMapper;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private StorageService storageService;
+
 
     public List<Restaurant> getAllRest() {
         return restaurantJpaRepository.findAll();
@@ -55,7 +65,16 @@ public class RestaurantServiceImpl implements RestaurantService {
         Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
         RestaurantDto restaurantDto = new RestaurantDto();
         if (restaurant.isPresent()) {
-            restaurantDto = new RestaurantMapper().mapEntityToRestDtoNoOrdersNoRest(restaurant.get());
+            restaurantDto = restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(restaurant.get());
+        }
+        return restaurantDto;
+    }
+
+    public RestaurantDto getOneRestDtoWithOrders(Long id) {
+        Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
+        RestaurantDto restaurantDto = new RestaurantDto();
+        if (restaurant.isPresent()) {
+
         }
         return restaurantDto;
     }
@@ -64,7 +83,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
         RestaurantDto restaurantDto = new RestaurantDto();
         if (restaurant.isPresent()) {
-            restaurantDto = new RestaurantMapper().mapEntityToDtoWithRest(restaurant.get());
+            restaurantDto = restaurantMapper.mapEntityToDtoWithRest(restaurant.get());
         }
         return restaurantDto;
     }
@@ -125,5 +144,14 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantJpaRepository.save(r);
 
     }
+
+//    public void sendEmail(Long id) throws MessagingException {
+//        Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
+//        if(restaurant.isPresent()){
+//            Restaurant rest = restaurant.get();
+//                emailService.sendEmail(rest);
+//        }
+//
+//    }
 
 }

@@ -52,6 +52,7 @@
                     <th scope="col">Name</th>
                     <th scope="col">Short Name</th>
                     <th scope="col">Address</th>
+                    <th scope="col">Email</th>
                     <th scope="col">Phone Number</th>
                     <th scope="col">Menu URL</th>
                     <th scope="col">Order</th>
@@ -62,6 +63,7 @@
                     <td><p th:text="${rest.name}"></p></td>
                     <td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>
                     <td><p th:text="${rest.address}"></p></td>
+                    <td><p th:text="${rest.email}"></p></td>
                     <td><p th:text="${rest.phoneNumber}"></p></td>
                     <td><a th:href="@{'/files/' + ${rest.menuUrl}}" th:text="${rest.menuUrl}"> Link to menu</a></td>
                     <td>

@@ -2,9 +2,8 @@ package com.munchies.storage;
 
 import com.munchies.model.Restaurant;
 import com.munchies.repositories.RestaurantJpaRepository;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Constants;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -12,6 +11,7 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -36,13 +36,10 @@ public class StorageServiceImpl implements StorageService {
     private RestaurantJpaRepository restaurantJpaRepository;
 
     @Override
-    public String store(MultipartFile file, Long id) throws StorageException {
-
+    public String storeFile(MultipartFile file) throws StorageException {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
-//    file.getOriginalFilename().replace(file.getOriginalFilename(), )
-        System.out.println(filename);
         try {
-            if (file.isEmpty()) {
+            if (file.getOriginalFilename().isEmpty()) {
                 throw new StorageException("Failed to store empty file " + filename);
             }
             if (filename.contains("..")) {
@@ -53,17 +50,41 @@ public class StorageServiceImpl implements StorageService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, this.rootLocation.resolve(filename),
                         StandardCopyOption.REPLACE_EXISTING);
+                return FilenameUtils.removeExtension(file.getOriginalFilename());
+            }
+        } catch (IOException e) {
+            throw new StorageException("Failed to store file " + filename, e);
+        }
+    }
 
+    @Override
+    public String store(MultipartFile file, Long id) throws StorageException {
 
-                Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
+        try {
+            if (file.getOriginalFilename().isEmpty()) {
+                throw new StorageException("Failed to store empty file " + filename);
+            }
+            if (filename.contains("..")) {
+                throw new StorageException(
+                        "Cannot store file with relative path outside current directory "
+                                + filename);
+            }
+            try (InputStream inputStream = file.getInputStream()) {
                 if (restaurant.isPresent()) {
                     Restaurant saveRest = restaurant.get();
-//
-                    saveRest.setMenuUrl(file.getOriginalFilename());
-                    restaurantJpaRepository.save(saveRest);
-                    System.out.println(saveRest.getMenuUrl());
+                    if (saveRest.getMenuUrl().equals(FilenameUtils.removeExtension(file.getOriginalFilename()))) {
+                        return saveRest.getMenuUrl();
+                    }
+                    FileSystemUtils.deleteRecursively(load(filename));
+                    Files.copy(inputStream, this.rootLocation.resolve(filename),
+                            StandardCopyOption.REPLACE_EXISTING);
+                    saveRest.setMenuUrl(file.getOriginalFilename().replace(file.getOriginalFilename(), FilenameUtils.removeExtension(file.getOriginalFilename())));
+                    return saveRest.getMenuUrl();
                 }
-                return rootLocation.toUri().toString();
+                return FilenameUtils.removeExtension(file.getOriginalFilename());
+
             }
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
@@ -78,8 +99,6 @@ public class StorageServiceImpl implements StorageService {
     public void init() throws StorageException {
         try {
             Files.createDirectories(rootLocation);
-            System.out.println(rootLocation.toUri().toString());
-
         } catch (IOException e) {
             throw new StorageException("Could not initialize storage", e);
         }
@@ -115,6 +134,15 @@ public class StorageServiceImpl implements StorageService {
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
+    }
+
+    @Override
+    public void deleteFilesByRestaurantId(Long id) {
+        Path path = load(restaurantJpaRepository.getOne(id).getMenuUrl());
+        File f = new File(path.toUri());
+        FileSystemUtils.deleteRecursively(f);
+
+
     }
 }
 

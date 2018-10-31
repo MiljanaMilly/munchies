@@ -27,19 +27,6 @@
                 <br>
             </div>
         </div>
-        <!--<br>-->
-        <!--<div class="panel-heading text-center"><h3>Orders</h3></div>-->
-        <!--<div class="row mb-4">-->
-        <!--<div class="col-lg-2"></div>-->
-        <!--<div class="col-md-4">-->
-        <!--<a class="btn btn-lg btn-primary btn-block" href="#" th:href="@{/getlistofactiveorders}">Active-->
-        <!--Orders</a>-->
-        <!--</div>-->
-        <!--<div class="col-md-6">-->
-        <!--<p style="margin-top: 8px;" class="colorText">List of active orders. Hurry up and grab your next-->
-        <!--meal! </p>-->
-        <!--</div>-->
-        <!--</div>-->
     </div>
 </div>
 <br>
@@ -51,6 +38,7 @@
                 <td scope="col">Name</td>
                 <td scope="col">Short Name</td>
                 <td scope="col">Address</td>
+                <td scope="col">Email</td>
                 <td scope="col">Phone Number</td>
                 <td scope="col">Menu URL</td>
                 <td scope="col">Actions</td>
@@ -61,6 +49,7 @@
                 <td><p th:text="${rest.name}"></p></td>
                 <td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>
                 <td><p th:text="${rest.address}"></p></td>
+                <td><p th:text="${rest.email}"></p></td>
                 <td><p th:text="${rest.phoneNumber}"></p></td>
                 <td><a th:href="@{'/files/' + ${rest.menuUrl}}" th:text="${rest.menuUrl}"> Link to menu</a></td>
                 <td>
@@ -88,26 +77,6 @@
     <div th:replace="fragments/footer :: footer"></div>
 </div>
 
-<!--<div class="container" th:fragment="content">-->
-<!--<div class="row ">-->
-<!--<table class="table table-bordered">-->
-<!--<tr style="font-size: 13">-->
-<!--<td>Name</td>-->
-<!--<td>Short Name</td>-->
-<!--<td>Address</td>-->
-<!--<td>Phone Number</td>-->
-<!--<td>Menu URL</td>-->
-<!--</tr>-->
-<!--<tr th:each="rest : ${restList}">-->
-<!--<td><p th:text="${rest.name}"></p></td>-->
-<!--<td><p th:utext="${#strings.replace(rest.name,' ','_')}"></p></td>-->
-<!--<td><p th:text="${rest.address}"></p></td>-->
-<!--<td><p th:text="${rest.phoneNumber}"></p></td>-->
-<!--<td><p th:text="${rest.menuURL}"></p></td>-->
-<!--</tr>-->
-<!--</table>-->
-<!--</div>-->
-<!--</div>-->
 
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

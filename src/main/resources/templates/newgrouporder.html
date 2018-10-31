@@ -135,7 +135,12 @@
                                     Submit Order
                                 </button>
                             </div>
-                            <p th:if="${grouporder.orderTimeout.before(#dates.createNow())}">Group order has expired</p>
+                            <p th:if="${grouporder.orderTimeout.before(#dates.createNow())}">
+                                <a href="#" th:href="@{'/sendGroupOrderEmail/' + ${grouporder.id}}">
+                                    <button type="button" class="btn btn-outline-primary btn-sm">Email group order
+                                    </button>
+                                </a>
+                            </p>
                         </div>
 
 

@@ -13,12 +13,14 @@ import com.munchies.services.dtoMappers.RestaurantMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -35,6 +37,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private RestaurantMapper restaurantMapper;
 
+    @Autowired
+    private EmailService emailService;
+
     public OrderDto save(OrderDto order) {
         LocalDateTime dateTime = LocalDateTime.now().plus(Duration.of(10, ChronoUnit.MINUTES));
         Date tmfn = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -47,8 +52,8 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.mapEntityToOrderDtoWithRestWithItems(orderJpaRepository.save(o));
     }
 
-//new group order
-public OrderDto findOneOrderDtoWithOrderItems(Long id) {
+    //new group order
+    public OrderDto findOneOrderDtoWithOrderItems(Long id) {
         Order o = orderJpaRepository.getOne(id);
         return new OrderMapper().mapEntityToDtooo(o);
     }
@@ -83,6 +88,13 @@ public OrderDto findOneOrderDtoWithOrderItems(Long id) {
 
     }
 
+    public void sendOrdersEmail(Long id) throws MessagingException {
+        Optional<Order> groupOrder = orderJpaRepository.findById(id);
+        if (groupOrder.isPresent()) {
+            Order grOrder = groupOrder.get();
+            emailService.sendEmail(grOrder);
+        }
+    }
 
 
 }

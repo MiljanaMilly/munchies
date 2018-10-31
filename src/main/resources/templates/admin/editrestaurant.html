@@ -48,6 +48,15 @@
                th:errors="*{address}">Validation error</p>
             <br>
             <div class="input-group">
+                <input id="email" type="text" class="form-control" name="email"
+                       placeholder="Restaurant's email"
+                       th:field="*{email}">
+            </div>
+            <p class="error-message"
+               th:if="${#fields.hasErrors('email')}"
+               th:errors="*{email}">Validation error</p>
+            <br>
+            <div class="input-group">
                 <input id="phoneNumber" type="text" class="form-control" name="phoneNumber"
                        placeholder="Phone number"
                        th:field="*{phoneNumber}">
@@ -56,18 +65,6 @@
                th:if="${#fields.hasErrors('phoneNumber')}"
                th:errors="*{phoneNumber}">Validation error</p>
             <br>
-            <!--<div class="input-group">-->
-            <!--<div class="col-lg-8" style="margin: auto;">-->
-            <!--<label for="menuUrl" >Select file</label>-->
-            <!--</div>-->
-            <!--<input id="menuUrl" type="file" name="file"-->
-            <!--placeholder="Menu Url" th:text="*{menuUrl}">-->
-
-            <!--</div>-->
-            <!--<p class="error-message"-->
-            <!--th:if="${#fields.hasErrors('menuUrl')}"-->
-            <!--th:errors="*{menuUrl}">Validation error</p>-->
-
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
@@ -78,8 +75,6 @@
                     <label class="custom-file-label" for="inputGroupFile01" th:text="*{menuUrl}">Choose file</label>
                 </div>
             </div>
-
-
             <br>
             <div class="input-group">
                 <input id="deliveryTime" type="text" class="form-control" name="deliveryTime"

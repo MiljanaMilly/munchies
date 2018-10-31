@@ -9,10 +9,7 @@ import com.munchies.exceptions.OrderIsNotActiveException;
 import com.munchies.exceptions.OrderNotExistsException;
 import com.munchies.model.OrderItem;
 import com.munchies.model.User;
-import com.munchies.services.OrderService;
-import com.munchies.services.OrderItemService;
-import com.munchies.services.RestaurantService;
-import com.munchies.services.UserService;
+import com.munchies.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -38,6 +36,9 @@ public class HomeController {
 
     @Autowired
     private OrderItemService orderItemService;
+
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public ModelAndView goHome(ModelAndView mav) {
@@ -155,6 +156,16 @@ public class HomeController {
     @GetMapping(value = "/logout")
     public String logout() {
         return "home";
+
+    }
+
+    @GetMapping(value = "/sendGroupOrderEmail/{id}")
+    public ModelAndView sendEmail(@PathVariable("id") Long id) throws MessagingException {
+        ModelAndView mav = new ModelAndView();
+        orderService.sendOrdersEmail(id);
+//        restaurantService.sendEmail(id);
+        mav.setViewName("home");
+        return mav;
 
     }
 

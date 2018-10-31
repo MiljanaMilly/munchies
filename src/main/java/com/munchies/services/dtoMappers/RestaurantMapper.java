@@ -18,6 +18,7 @@ public Restaurant mapRestDtoToEntityWithOrders(RestaurantDto restaurantDto) {
         restaurant.setAddress(restaurantDto.getAddress());
         restaurant.setPhoneNumber(restaurantDto.getPhoneNumber());
         restaurant.setMenuUrl(restaurantDto.getMenuUrl());
+    restaurant.setEmail(restaurantDto.getEmail());
         restaurant.setAdditionalCharges(restaurantDto.getAdditionalCharges());
         restaurant.setDeliveryInfo(restaurantDto.getDeliveryInfo());
         restaurant.setDeliveryTime(restaurantDto.getDeliveryTime());
@@ -32,6 +33,7 @@ public Restaurant mapDtosToEntityNoOrdersNoRest(RestaurantDto restaurantDto) {
         restaurant.setAddress(restaurantDto.getAddress());
         restaurant.setPhoneNumber(restaurantDto.getPhoneNumber());
         restaurant.setMenuUrl(restaurantDto.getMenuUrl());
+    restaurant.setEmail(restaurantDto.getEmail());
         restaurant.setAdditionalCharges(restaurantDto.getAdditionalCharges());
         restaurant.setDeliveryInfo(restaurantDto.getDeliveryInfo());
         restaurant.setDeliveryTime(restaurantDto.getDeliveryTime());
@@ -50,6 +52,7 @@ public RestaurantDto mapEntityToRestDtoNoOrdersNoRest(Restaurant restaurant) {
         restaurantDto.setAddress(restaurant.getAddress());
         restaurantDto.setPhoneNumber(restaurant.getPhoneNumber());
         restaurantDto.setMenuUrl(restaurant.getMenuUrl());
+    restaurantDto.setEmail(restaurant.getEmail());
         restaurantDto.setAdditionalCharges(restaurant.getAdditionalCharges());
         restaurantDto.setDeliveryInfo(restaurant.getDeliveryInfo());
         restaurantDto.setDeliveryTime(restaurant.getDeliveryTime());
@@ -63,6 +66,7 @@ public RestaurantDto mapEntityToRestDtoNoOrdersNoRest(Restaurant restaurant) {
         restaurantDto.setAddress(restaurant.getAddress());
         restaurantDto.setPhoneNumber(restaurant.getPhoneNumber());
         restaurantDto.setMenuUrl(restaurant.getMenuUrl());
+        restaurantDto.setEmail(restaurant.getEmail());
         restaurantDto.setAdditionalCharges(restaurant.getAdditionalCharges());
         restaurantDto.setDeliveryInfo(restaurant.getDeliveryInfo());
         restaurantDto.setDeliveryTime(restaurant.getDeliveryTime());

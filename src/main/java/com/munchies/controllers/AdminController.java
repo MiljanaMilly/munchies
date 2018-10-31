@@ -9,12 +9,10 @@ import com.munchies.services.RestaurantService;
 import com.munchies.storage.StorageException;
 import com.munchies.storage.StorageService;
 import com.munchies.services.UserService;
-import com.munchies.validators.ValidationOnInsert;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -63,14 +61,11 @@ public class AdminController {
 
     @PostMapping("/createnewrestaurant")
     public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") RestaurantDto restaurant, BindingResult bindingResult, @RequestParam MultipartFile file,
-                                          RedirectAttributes redirectAttributes, ModelAndView mav) throws RestaurantExistsException {
+                                          RedirectAttributes redirectAttributes, ModelAndView mav) throws RestaurantExistsException, StorageException {
         if (!bindingResult.hasErrors()) {
+            String fileName = storageService.storeFile(file);
+            restaurant.setMenuUrl(fileName);
             RestaurantDto savedRest = restaurantService.saveOne(restaurant);
-            try {
-                storageService.store(file, savedRest.getId());
-            } catch (StorageException e) {
-                e.printStackTrace();
-            }
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded " + file.getOriginalFilename() + "!");
             mav.setViewName("redirect:/restaurants");
@@ -83,7 +78,7 @@ public class AdminController {
 
     @GetMapping("/deleterest")
     public ModelAndView deleteRest(@RequestParam("id") Long id, ModelAndView mav) throws NotFoundException, RestaurantHasActiveOrdersException {
-        System.out.println(id);
+        storageService.deleteFilesByRestaurantId(id);
         restaurantService.deleteRestById(id);
         mav.setViewName("redirect:/restaurants");
         return mav;
@@ -100,14 +95,11 @@ public class AdminController {
 
     @PostMapping("/editrestaurant")
     public ModelAndView editRestaurant(@Valid @ModelAttribute("editrest") RestaurantDto restaurant, BindingResult bindingResult, @RequestParam MultipartFile file,
-                                       RedirectAttributes redirectAttributes, ModelAndView mav) {
+                                       RedirectAttributes redirectAttributes, ModelAndView mav) throws StorageException {
         if (!bindingResult.hasErrors()) {
+            String fileUrl = storageService.store(file, restaurant.getId());
+            restaurant.setMenuUrl(fileUrl);
             Restaurant editedRest = restaurantService.editOne(restaurant);
-            try {
-                storageService.store(file, editedRest.getId());
-            } catch (StorageException e) {
-                e.printStackTrace();
-            }
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded " + file.getOriginalFilename() + "!");
             mav.setViewName("redirect:/restaurants");

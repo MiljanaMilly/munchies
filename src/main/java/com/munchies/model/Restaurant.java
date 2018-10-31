@@ -27,8 +27,10 @@ public class Restaurant {
     private String phoneNumber;
 
     @Column(name = "menu_url")
-
     private String menuUrl;
+
+    @Column(name = "email")
+    private String email;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
@@ -45,11 +47,12 @@ public class Restaurant {
     public Restaurant() {
     }
 
-    public Restaurant(@Size(min = 5, max = 50) @NotNull String name, @Size(min = 5, max = 50) @NotNull String address, @Size(min = 6, max = 15) @NotNull String phoneNumber, @NotNull @Size(max = 500) String menuUrl, List<Order> orders, @Size(max = 50) String deliveryTime, @Size(max = 100) String additionalCharges, @Size(max = 250) String deliveryInfo) {
+    public Restaurant(String name, String address, String phoneNumber, String menuUrl, String email, List<Order> orders, String deliveryTime, String additionalCharges, String deliveryInfo) {
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.menuUrl = menuUrl;
+        this.email = email;
         this.orders = orders;
         this.deliveryTime = deliveryTime;
         this.additionalCharges = additionalCharges;
@@ -126,5 +129,13 @@ public class Restaurant {
 
     public void setDeliveryInfo(String deliveryInfo) {
         this.deliveryInfo = deliveryInfo;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
