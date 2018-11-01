@@ -33,7 +33,7 @@ public class EmailServiceImpl implements EmailService {
 
         mimeMessageHelper.setTo(order.getRestaurant().getEmail());
         mimeMessageHelper.setSubject("Hello");
-        mimeMessageHelper.setText(html);
+        mimeMessageHelper.setText(html, true);
         javaMailSender.send(message);
 
     }

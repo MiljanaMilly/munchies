@@ -37,8 +37,6 @@ public class HomeController {
     @Autowired
     private OrderItemService orderItemService;
 
-    @Autowired
-    private EmailService emailService;
 
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
     public ModelAndView goHome(ModelAndView mav) {
@@ -163,8 +161,9 @@ public class HomeController {
     public ModelAndView sendEmail(@PathVariable("id") Long id) throws MessagingException {
         ModelAndView mav = new ModelAndView();
         orderService.sendOrdersEmail(id);
-//        restaurantService.sendEmail(id);
-        mav.setViewName("home");
+        List<RestaurantDto> restListDto = restaurantService.getAllRestListDto();
+        mav.addObject("restaurants", restListDto);
+        mav.setViewName("/home");
         return mav;
 
     }

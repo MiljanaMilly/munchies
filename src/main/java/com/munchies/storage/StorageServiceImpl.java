@@ -63,29 +63,33 @@ public class StorageServiceImpl implements StorageService {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
         try {
-            if (file.getOriginalFilename().isEmpty()) {
-                throw new StorageException("Failed to store empty file " + filename);
-            }
             if (filename.contains("..")) {
                 throw new StorageException(
                         "Cannot store file with relative path outside current directory "
                                 + filename);
             }
+
             try (InputStream inputStream = file.getInputStream()) {
                 if (restaurant.isPresent()) {
                     Restaurant saveRest = restaurant.get();
-                    if (saveRest.getMenuUrl().equals(FilenameUtils.removeExtension(file.getOriginalFilename()))) {
+                    if (saveRest.getMenuUrl().equals(file.getOriginalFilename())) {
+                        return saveRest.getMenuUrl();
+                    } else if (file.getOriginalFilename().isEmpty()) {
+                        return saveRest.getMenuUrl();
+                    } else {
+                        String fileDelete = StringUtils.cleanPath(saveRest.getMenuUrl());
+                        File file1 = new File(String.valueOf(load(fileDelete)));
+                        file1.delete();
+                        Files.copy(inputStream, this.rootLocation.resolve(filename),
+                                StandardCopyOption.REPLACE_EXISTING);
+                        saveRest.setMenuUrl(file.getOriginalFilename().replace(file.getOriginalFilename(), FilenameUtils.removeExtension(file.getOriginalFilename())));
                         return saveRest.getMenuUrl();
                     }
-                    FileSystemUtils.deleteRecursively(load(filename));
-                    Files.copy(inputStream, this.rootLocation.resolve(filename),
-                            StandardCopyOption.REPLACE_EXISTING);
-                    saveRest.setMenuUrl(file.getOriginalFilename().replace(file.getOriginalFilename(), FilenameUtils.removeExtension(file.getOriginalFilename())));
-                    return saveRest.getMenuUrl();
                 }
                 return FilenameUtils.removeExtension(file.getOriginalFilename());
 
             }
+
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }

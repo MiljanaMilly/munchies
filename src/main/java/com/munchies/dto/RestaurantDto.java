@@ -1,9 +1,8 @@
 package com.munchies.dto;
 
-import com.munchies.model.Order;
+
 import com.munchies.validators.UniqueRestaurantValidator;
-import com.munchies.validators.ValidationOnInsert;
-import oracle.jrockit.jfr.StringConstantPool;
+
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
