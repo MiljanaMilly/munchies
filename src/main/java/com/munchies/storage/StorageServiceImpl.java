@@ -2,7 +2,6 @@ package com.munchies.storage;
 
 import com.munchies.model.Restaurant;
 import com.munchies.repositories.RestaurantJpaRepository;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -50,7 +49,7 @@ public class StorageServiceImpl implements StorageService {
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, this.rootLocation.resolve(filename),
                         StandardCopyOption.REPLACE_EXISTING);
-                return FilenameUtils.removeExtension(file.getOriginalFilename());
+                return file.getOriginalFilename();
             }
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
@@ -78,15 +77,15 @@ public class StorageServiceImpl implements StorageService {
                         return saveRest.getMenuUrl();
                     } else {
                         String fileDelete = StringUtils.cleanPath(saveRest.getMenuUrl());
-                        File file1 = new File(String.valueOf(load(fileDelete)));
+                        File file1 = new File(load(fileDelete).toUri());
                         file1.delete();
                         Files.copy(inputStream, this.rootLocation.resolve(filename),
                                 StandardCopyOption.REPLACE_EXISTING);
-                        saveRest.setMenuUrl(file.getOriginalFilename().replace(file.getOriginalFilename(), FilenameUtils.removeExtension(file.getOriginalFilename())));
+                        saveRest.setMenuUrl(file.getOriginalFilename().replace(file.getOriginalFilename(), file.getOriginalFilename()));
                         return saveRest.getMenuUrl();
                     }
                 }
-                return FilenameUtils.removeExtension(file.getOriginalFilename());
+                return file.getOriginalFilename();
 
             }
 
@@ -144,7 +143,7 @@ public class StorageServiceImpl implements StorageService {
     public void deleteFilesByRestaurantId(Long id) {
         Path path = load(restaurantJpaRepository.getOne(id).getMenuUrl());
         File f = new File(path.toUri());
-        FileSystemUtils.deleteRecursively(f);
+        f.delete();
 
 
     }

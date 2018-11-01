@@ -6,18 +6,12 @@ import com.munchies.exceptions.RestaurantHasActiveOrdersException;
 import com.munchies.model.Order;
 import com.munchies.model.Restaurant;
 import com.munchies.repositories.OrderJpaRepository;
-import com.munchies.repositories.OrderItemJpaRepository;
 import com.munchies.repositories.RestaurantJpaRepository;
 import com.munchies.services.dtoMappers.RestaurantMapper;
-import com.munchies.storage.StorageService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.FileSystemUtils;
 
-
-import javax.mail.MessagingException;
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,17 +30,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private OrderJpaRepository orderJpaRepository;
 
     @Autowired
-    private OrderItemJpaRepository orderItemJpaRepository;
-
-    @Autowired
     private RestaurantMapper restaurantMapper;
-
-    @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private StorageService storageService;
-
 
     public List<Restaurant> getAllRest() {
         return restaurantJpaRepository.findAll();
@@ -137,21 +121,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant1.setName(r.getName());
         restaurant1.setAddress(r.getAddress());
         restaurant1.setPhoneNumber(r.getPhoneNumber());
+        restaurant1.setEmail(r.getEmail());
         restaurant1.setMenuUrl(r.getMenuUrl());
         restaurant1.setDeliveryInfo(r.getDeliveryInfo());
         restaurant1.setDeliveryTime(r.getDeliveryTime());
         restaurant1.setAdditionalCharges(r.getAdditionalCharges());
         return restaurantJpaRepository.save(r);
-
     }
 
-//    public void sendEmail(Long id) throws MessagingException {
-//        Optional<Restaurant> restaurant = restaurantJpaRepository.findById(id);
-//        if(restaurant.isPresent()){
-//            Restaurant rest = restaurant.get();
-//                emailService.sendEmail(rest);
-//        }
-//
-//    }
 
 }

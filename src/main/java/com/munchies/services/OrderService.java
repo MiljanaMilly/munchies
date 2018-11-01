@@ -13,11 +13,7 @@ public interface OrderService {
 
     OrderDto save(OrderDto order);
 
-    OrderDto findOneOrderDtoWithOrderItems(Long id);
-
     List<OrderDto> getActiveOrders();
-
-    OrderDto findOneOrderDto(Long id);
 
     OrderDto findOneOrderDtoWithRestWithItems(Long id);
 

@@ -14,15 +14,9 @@ import java.util.Optional;
 @Service
 public interface RestaurantService {
 
-    List<Restaurant> getAllRest();
-
     List<RestaurantDto> getAllRestListDto();
 
     RestaurantDto getOneRestDtoNoOrdersMapped(Long id);
-
-    RestaurantDto getOneRestaurantDto(Long id);
-
-    Optional<Restaurant> getOne(Long id);
 
     RestaurantDto saveOne(RestaurantDto restaurant) throws RestaurantExistsException;
 

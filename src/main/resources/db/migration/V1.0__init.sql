@@ -10,9 +10,7 @@ CREATE TABLE if not exists `users` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` text(100) NOT NULL,
-   role_id int(100),
-   foreign key (role_id) references roles(id)
+  `password` text(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
@@ -21,17 +19,7 @@ CREATE TABLE if not exists `users_roles` (
   `user_id` bigint(200) DEFAULT NULL,
   foreign key(role_id) references roles(id),
   foreign key(user_id) references users(id)
-  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-CREATE TABLE if not exists `order_items` (
-  `id` bigint(200) primary key auto_increment NOT NULL,
-  `creator` varchar(50) NOT NULL,
-  `name` varchar(50) NOT NULL,
-   price double(6,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 
 CREATE TABLE if not exists `restaurants` (
   `id` bigint(200) primary key auto_increment NOT NULL,
@@ -39,6 +27,7 @@ CREATE TABLE if not exists `restaurants` (
   `address` varchar(50) NOT NULL,
   `phone_number` varchar(15) NOT NULL,
   `menu_url` varchar(500),
+  `email` varchar(50),
   `delivery_time` varchar(50) DEFAULT NULL,
   `additional_charges` varchar(100) DEFAULT NULL,
   `delivery_info` varchar(250) DEFAULT NULL
@@ -49,10 +38,17 @@ CREATE TABLE if not exists `orders` (
   `creator` varchar(50) NOT NULL,
   `order_timeout` datetime NOT NULL,
   `order_url` varchar(500),
-  order_id bigint,
-  foreign key (order_id) references order_items(id),
   `restaurant_id` bigint(200),
   foreign key (restaurant_id) references restaurants(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE if not exists `order_items` (
+  `id` bigint(200) primary key auto_increment NOT NULL,
+  `creator` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+   price double(6,2) NOT NULL,
+   order_id bigint,
+   foreign key(order_id) references orders(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

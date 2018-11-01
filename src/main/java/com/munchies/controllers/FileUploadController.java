@@ -1,19 +1,13 @@
 package com.munchies.controllers;
 
-import com.munchies.model.Restaurant;
-import com.munchies.repositories.RestaurantJpaRepository;
+
 import com.munchies.storage.StorageException;
 import com.munchies.storage.StorageFileNotFoundException;
 import com.munchies.storage.StorageService;
-import org.apache.commons.io.FilenameUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.firewall.DefaultHttpFirewall;
-import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

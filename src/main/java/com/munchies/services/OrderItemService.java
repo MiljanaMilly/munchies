@@ -12,7 +12,6 @@ import java.util.List;
 public interface OrderItemService {
 
     OrderItemDto saveOne(OrderItemDto orderItem) throws OrderIsNotActiveException, OrderNotExistsException;
-    OrderItemDto findOne(Long id);
 
 
 }

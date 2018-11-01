@@ -21,15 +21,15 @@
         </div>
     </div>
 
-    <table class="table table-bordered table-sm" id="orderItems">
+    <table style="border:2px;" id="orderItems">
         <thead>
-        <tr scope="col">
+        <tr scope="col" style="border:2px;">
             <td>Creator</td>
             <td>Order Item</td>
             <td>Item Price</td>
         </tr>
         </thead>
-        <tbody>
+        <tbody style="border:2px;">
         <tr th:each="orderItem :  ${orders}">
             <td><p th:text="${orderItem.creator}"></p></td>
             <td><p th:text="${orderItem.name}"></p></td>

@@ -13,9 +13,6 @@ import java.util.List;
 public class UserMapper {
 
 
-    @Autowired
-    private RoleJpaRepository roleJpaRepository;
-
     //save user
     public User mapUserFormDtoToEntity(UserDto userDto) {
         User user = new User();
@@ -46,13 +43,13 @@ public class UserMapper {
 
     }
 
-    public List<User> mapDtoListToEntities(List<UserDto> userDtos) {
-        List<User> userList = new ArrayList<>();
-        for (UserDto userDto : userDtos) {
-            userList.add(new UserMapper().mapUserFormDtoToEntity(userDto));
-        }
-        return userList;
-
-
-    }
+//    public List<User> mapDtoListToEntities(List<UserDto> userDtos) {
+//        List<User> userList = new ArrayList<>();
+//        for (UserDto userDto : userDtos) {
+//            userList.add(new UserMapper().mapUserFormDtoToEntity(userDto));
+//        }
+//        return userList;
+//
+//
+//    }
 }

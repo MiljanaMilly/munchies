@@ -1,1 +1,0 @@
-Alter table restaurants add column email varchar(50);
