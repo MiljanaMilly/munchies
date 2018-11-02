@@ -135,12 +135,12 @@
                                     Submit Order
                                 </button>
                             </div>
-                            <!--<p th:if="${grouporder.orderTimeout.before(#dates.createNow())}">-->
+                            <p id="sendEmailSuccess" th:if="${grouporder.orderTimeout.before(#dates.createNow())}">
                                 <a href="#" th:href="@{'/sendGroupOrderEmail/' + ${grouporder.id}}">
                                     <button type="button" class="btn btn-outline-primary btn-sm">Email group order
                                     </button>
                                 </a>
-                            <!--</p>-->
+                            </p>
                         </div>
 
 
@@ -211,10 +211,10 @@
 
     var date = "[[${grouporder.orderTimeout}]]";
     var endDate = new Date(date).getTime();
+
     var x = setInterval(function () {
 
         var now = new Date().getTime();
-
         var distance = endDate - now;
 
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -222,12 +222,12 @@
 
         document.getElementById("timer").innerHTML = minutes + " min " + seconds + " sec";
 
-
         if (distance < 0) {
             clearInterval(x);
             document.getElementById("timer").innerHTML = "EXPIRED";
         }
     }, 1000);
+
 
 
 </script>
@@ -249,12 +249,11 @@
     $(document).ready(function () {
         var id = "[[${grouporder.id}]]";
 
-        var refreshId = setInterval(function () {
+        var now = new Date().getTime();
+        var distance = endDate - now;
 
-            var now = new Date().getTime();
-            var distance = endDate - now;
-
-            if (distance > 0) {
+        if (distance > 0) {
+            var refreshId = setInterval(function () {
                 $.ajax({
                     type: "GET",
                     url: "api/getAjaxData/" + id,
@@ -281,13 +280,24 @@
                         console.log("ERROR: ", e);
                     }
                 });
-            }
-        }, 2000);
-        var now = new Date().getTime();
-        var distance = endDate - now;
-        var refreshPage = setInterval(function updateDiv() {
-            $("#submitButton").load(window.location.href + " #submitButton");
-        }, distance);
+
+            }, 2000);
+        }
+
+        // if (distance > 0) {
+        //     var sendEmail = setInterval(function() {
+        //         $.ajax({
+        //             type:"GET",
+        //             url:"/sendEmail/" + id,
+        //             success: $("#sendEmailSuccess").html("Email has been sent!")
+        //         });
+        //     })
+        // }
+        if (distance > 0) {
+            var refreshPage = setInterval(function updateDiv() {
+                $("#submitButton").load(window.location.href + " #submitButton");
+            }, distance);
+        }
     });
 </script>
 </body>

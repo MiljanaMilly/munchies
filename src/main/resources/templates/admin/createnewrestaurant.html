@@ -83,6 +83,7 @@
                 </div>
             </div>
             <br>
+            <br>
             <div class="form-row">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -90,10 +91,13 @@
                     </div>
                     <div class="custom-file">
                         <input class="custom-file-input" id="inputGroupFile01" type="file" name="file"
-                               placeholder="Menu Url" aria-describedby="inputGroupFileAddon01">
+                               placeholder="Menu Url" aria-describedby="inputGroupFileAddon01" th:field="*{file}">
                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                        <!--th:text="*{menuUrl}"-->
                     </div>
+                    <p class="text-danger text-center"
+                       th:if="${#fields.hasErrors('file')}"
+                       th:errors="*{file}">Validation error</p>
+
                 </div>
             </div>
             <br>

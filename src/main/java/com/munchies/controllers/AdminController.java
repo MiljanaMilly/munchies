@@ -60,14 +60,11 @@ public class AdminController {
     }
 
     @PostMapping("/createnewrestaurant")
-    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") RestaurantDto restaurant, BindingResult bindingResult, @RequestParam MultipartFile file,
-                                          RedirectAttributes redirectAttributes, ModelAndView mav) throws RestaurantExistsException, StorageException {
+    public ModelAndView saveNewRestaurant(@Valid @ModelAttribute("newrest") RestaurantDto restaurant, BindingResult bindingResult, ModelAndView mav) throws RestaurantExistsException, StorageException {
         if (!bindingResult.hasErrors()) {
-            String fileName = storageService.storeFile(file);
+            String fileName = storageService.storeFile(restaurant.getFile());
             restaurant.setMenuUrl(fileName);
             RestaurantDto savedRest = restaurantService.saveOne(restaurant);
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded " + file.getOriginalFilename() + "!");
             mav.setViewName("redirect:/restaurants");
         } else {
             mav.addObject("newrest", restaurant);
@@ -86,22 +83,24 @@ public class AdminController {
     }
 
     @GetMapping("/editrestaurant")
-    public ModelAndView editRest(@RequestParam("id") Long id, ModelAndView mav) {
-        mav.addObject("editrest", restaurantService.getOneRestDtoNoOrdersMapped(id));
-        mav.setViewName("admin/editrestaurant");
+    public ModelAndView editRest(@RequestParam(value = "id", required = false) Long id, ModelAndView mav) {
+        //edit rest page without a rest Id redirects to restaurants page
+        if (id == null) {
+            mav.setViewName("redirect:/restaurants");
+        } else {
+            mav.addObject("editrest", restaurantService.getOneRestDtoNoOrdersMapped(id));
+            mav.setViewName("admin/editrestaurant");
+        }
         return mav;
 
     }
 
     @PostMapping("/editrestaurant")
-    public ModelAndView editRestaurant(@Valid @ModelAttribute("editrest") RestaurantDto restaurant, BindingResult bindingResult, @RequestParam MultipartFile file,
-                                       RedirectAttributes redirectAttributes, ModelAndView mav) throws StorageException {
+    public ModelAndView editRestaurant(@Valid @ModelAttribute("editrest") RestaurantDto restaurant, BindingResult bindingResult, ModelAndView mav) throws StorageException {
         if (!bindingResult.hasErrors()) {
-            String fileUrl = storageService.store(file, restaurant.getId());
+            String fileUrl = storageService.store(restaurant.getFile(), restaurant.getId());
             restaurant.setMenuUrl(fileUrl);
             Restaurant editedRest = restaurantService.editOne(restaurant);
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded " + file.getOriginalFilename() + "!");
             mav.setViewName("redirect:/restaurants");
         } else {
             mav.addObject("editrest", restaurant);

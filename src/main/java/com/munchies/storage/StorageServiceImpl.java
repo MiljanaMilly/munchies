@@ -2,6 +2,7 @@ package com.munchies.storage;
 
 import com.munchies.model.Restaurant;
 import com.munchies.repositories.RestaurantJpaRepository;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -81,7 +82,7 @@ public class StorageServiceImpl implements StorageService {
                         file1.delete();
                         Files.copy(inputStream, this.rootLocation.resolve(filename),
                                 StandardCopyOption.REPLACE_EXISTING);
-                        saveRest.setMenuUrl(file.getOriginalFilename().replace(file.getOriginalFilename(), file.getOriginalFilename()));
+                        saveRest.setMenuUrl(file.getOriginalFilename().replace(file.getOriginalFilename(), saveRest.getName() + "_" + "menu" + "." + FilenameUtils.getExtension(filename)));
                         return saveRest.getMenuUrl();
                     }
                 }

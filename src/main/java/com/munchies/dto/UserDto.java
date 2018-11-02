@@ -1,17 +1,16 @@
 package com.munchies.dto;
 
 import com.munchies.model.Role;
-import com.munchies.validators.FieldMatch;
+import com.munchies.validators.FieldMatchValidator;
 import com.munchies.validators.SignUpValidator;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
-@FieldMatch
+@FieldMatchValidator
 public class UserDto {
 
     private Long id;

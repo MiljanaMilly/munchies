@@ -71,10 +71,13 @@
                 </div>
                 <div class="custom-file">
                     <input class="custom-file-input" id="inputGroupFile01" type="file" name="file"
-                           placeholder="Menu Url" aria-describedby="inputGroupFileAddon01">
+                           placeholder="Menu Url" aria-describedby="inputGroupFileAddon01" th:field="*{file}">
                     <label class="custom-file-label" for="inputGroupFile01" th:text="*{menuUrl}">Choose file</label>
                 </div>
             </div>
+            <p class="text-danger text-center"
+               th:if="${#fields.hasErrors('file')}"
+               th:errors="*{file}">Validation error</p>
             <br>
             <div class="input-group">
                 <input id="deliveryTime" type="text" class="form-control" name="deliveryTime"

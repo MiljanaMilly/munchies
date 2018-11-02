@@ -1,20 +1,21 @@
 package com.munchies.validators;
 
-import com.munchies.dto.UserDto;
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.*;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+@Target({ElementType.TYPE, ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = FieldMatchCheck.class)
+public @interface FieldMatchValidator {
 
-public class FieldMatchValidator implements ConstraintValidator<FieldMatch, UserDto> {
+    String message() default "{com.munchies.validators.FieldMatchValidator.message}";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+//    String[] fields();
+//    String[] verifyFields();
 
 
-    @Override
-    public void initialize(FieldMatch constraintAnnotation) {
-
-    }
-
-    @Override
-    public boolean isValid(UserDto userDto, ConstraintValidatorContext constraintValidatorContext) {
-        return userDto.getPassword().equals(userDto.getConfirmPassword());
-    }
 }

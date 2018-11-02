@@ -24,4 +24,6 @@ public interface OrderJpaRepository extends JpaRepository<Order, Long> {
     Page<Order> findAll(Pageable pageable);
 
     List<Order> findByOrderTimeoutIsAfter(Date date);
+
+    List<Order> findOrdersByOrderTimeoutBefore(Date now);
 }

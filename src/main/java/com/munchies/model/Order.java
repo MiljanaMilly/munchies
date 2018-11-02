@@ -32,7 +32,7 @@ public class Order {
     private Restaurant restaurant;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<OrderItem> orderItems = new ArrayList<>();
 
     public Order() {

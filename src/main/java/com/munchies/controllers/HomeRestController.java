@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 @RestController
@@ -22,8 +23,11 @@ public class HomeRestController {
     public List<OrderItemDto> getAllOrders(@PathVariable Long id) {
         List<OrderItemDto> orderItems = orderService.findListOfItemsbyOrderId(id);
         return orderItems;
+    }
 
-
+    @RequestMapping(value = "/sendEmail/{id}", method = RequestMethod.GET)
+    public void sendEmail(@PathVariable Long id) throws MessagingException {
+        orderService.sendOrdersEmail(id);
     }
 
 

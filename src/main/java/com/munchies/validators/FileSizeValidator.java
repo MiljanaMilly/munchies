@@ -4,18 +4,16 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Target({ElementType.TYPE, ElementType.FIELD})
+@Documented
+@Constraint(validatedBy = FileSizeCheck.class)
+@Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = FieldMatchValidator.class)
-public @interface FieldMatch {
+public @interface FileSizeValidator {
 
-    String message() default "{com.munchies.validators.FieldMatch.message}";
+    String message() default "{com.munchies.validators.FileSizeValidator.message}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-//    String[] fields();
-//    String[] verifyFields();
-
 
 }

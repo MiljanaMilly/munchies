@@ -1,7 +1,9 @@
 package com.munchies.dto;
 
 
+import com.munchies.validators.FileSizeValidator;
 import com.munchies.validators.UniqueRestaurantValidator;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import javax.validation.constraints.Email;
@@ -47,6 +49,10 @@ public class RestaurantDto {
 
     @Size(max = 250)
     private String deliveryInfo;
+
+    //custom validators
+    @FileSizeValidator
+    private MultipartFile file;
 
     private List<OrderDto> orders = new ArrayList<>();
 
@@ -149,5 +155,13 @@ public class RestaurantDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }
