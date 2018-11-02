@@ -36,25 +36,6 @@ public class OrderMapper {
         return order;
     }
 
-    //    public Order mapDtoToEntity(OrderDto orderDto) {
-//        Order order = new Order();
-//        order.setId(orderDto.getId());
-//        order.setCreator(orderDto.getCreator());
-//        order.setOrderTimeout(orderDto.getOrderTimeout());
-//        order.setOrderUrl(orderDto.getOrderUrl());
-//        return order;
-//    }
-//
-//    public Order mapDtosToEntityWithItemsWithRest(OrderDto orderDto) {
-//        Order order = new Order();
-//        order.setId(orderDto.getId());
-//        order.setCreator(orderDto.getCreator());
-//        order.setOrderTimeout(orderDto.getOrderTimeout());
-//        order.setOrderUrl(orderDto.getOrderUrl());
-//        order.setOrderItems(orderItemMapper.mapDtosToOrderItems(orderDto.getOrderItems()));
-//        order.setRestaurant(restaurantMapper.mapDtosToEntityNoOrdersNoRest(orderDto.getRestaurant()));
-//        return order;
-//    }
 //group order
 public OrderDto mapEntityToOrderDtoWithRestWithItems(Order order) {
         OrderDto orderDto = new OrderDto();

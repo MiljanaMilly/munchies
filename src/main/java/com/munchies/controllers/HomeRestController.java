@@ -30,5 +30,11 @@ public class HomeRestController {
         orderService.sendOrdersEmail(id);
     }
 
+    @RequestMapping(value = "/getGroupOrders", method = RequestMethod.GET)
+    public List<OrderDto> getOrders() {
+        List<OrderDto> list = orderService.getActiveOrders();
+        return list;
+    }
+
 
 }

@@ -74,33 +74,4 @@ public RestaurantDto mapEntityToRestDtoNoOrdersNoRest(Restaurant restaurant) {
         return restaurantDto;
     }
 
-//    public List<Restaurant> mapDtoListToEntityList(List<RestaurantDto> restaurantDtoList) {
-//        List<Restaurant> restaurantList = new ArrayList<>();
-//        RestaurantMapper restaurantMapper = new RestaurantMapper();
-//        for (RestaurantDto r : restaurantDtoList) {
-//            restaurantList.add(restaurantMapper.mapRestDtoToEntityWithOrders(r));
-//        }
-//        return restaurantList;
-//    }
-//
-//    public List<RestaurantDto> mapEntitiesToDtoList(List<Restaurant> restaurantList) {
-//        List<RestaurantDto> restaurantDtos = new ArrayList<>();
-//        RestaurantMapper restaurantMapper = new RestaurantMapper();
-//        for (Restaurant r : restaurantList) {
-//            restaurantDtos.add(restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(r));
-//        }
-//        return restaurantDtos;
-//
-//    }
-//
-//    public List<RestaurantDto> mapEntitiesToDtos(List<Restaurant> restaurantList) {
-//        List<RestaurantDto> restaurantDtos = new ArrayList<>();
-//        RestaurantMapper restaurantMapper = new RestaurantMapper();
-//        for (Restaurant r : restaurantList) {
-//            restaurantDtos.add(restaurantMapper.mapEntityToRestDtoNoOrdersNoRest(r));
-//        }
-//        return restaurantDtos;
-//
-//    }
-
 }

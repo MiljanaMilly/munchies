@@ -49,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
         Restaurant r = restaurantMapper.mapDtosToEntityNoOrdersNoRest(order.getRestaurant());
         Order o = orderJpaRepository.save(saveOrder);
         o.setRestaurant(r);
+        o.setSentEmail(0);
         return orderMapper.mapEntityToOrderDtoWithRestWithItems(orderJpaRepository.save(o));
     }
 

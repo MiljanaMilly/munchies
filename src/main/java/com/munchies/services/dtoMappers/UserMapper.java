@@ -42,14 +42,4 @@ public class UserMapper {
         return userDtos;
 
     }
-
-//    public List<User> mapDtoListToEntities(List<UserDto> userDtos) {
-//        List<User> userList = new ArrayList<>();
-//        for (UserDto userDto : userDtos) {
-//            userList.add(new UserMapper().mapUserFormDtoToEntity(userDto));
-//        }
-//        return userList;
-//
-//
-//    }
 }

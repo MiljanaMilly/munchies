@@ -24,17 +24,17 @@ public class ScheduledTasksService {
 
 //    @Scheduled(fixedRate = 5000)
 //    public void sendScheduledEmail() throws MessagingException {
-//
 //        LocalDateTime dateTime = LocalDateTime.now();
 //        Instant instant = dateTime.toInstant(ZoneOffset.UTC);
 //        Date date = Date.from(instant);
-//        List<Order> orderList = orderJpaRepository.findOrdersByOrderTimeoutBefore(date);
-//        if(!orderList.isEmpty()){
-//            for(Order r: orderList){
+//        List<Order> orderList = orderJpaRepository.findOrdersBySentEmailIsLikeAndOrderTimeoutBefore(0, date);
+//        if (!orderList.isEmpty()) {
+//            for (Order r : orderList) {
 //                orderService.sendOrdersEmail(r.getId());
+//                r.setSentEmail(1);
+//                orderJpaRepository.save(r);
 //            }
-//
-//    }
+//        }
 //
 //
 //    }

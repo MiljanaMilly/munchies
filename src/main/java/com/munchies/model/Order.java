@@ -27,6 +27,9 @@ public class Order {
     @Column(name = "order_url")
     private String orderUrl;
 
+    @Column(name = "sent_email")
+    private Integer sentEmail;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
@@ -38,10 +41,11 @@ public class Order {
     public Order() {
     }
 
-    public Order(@NotNull @Size(min = 3, max = 50) String creator, Date orderTimeout, String orderUrl, Restaurant restaurant, List<OrderItem> orderItems) {
+    public Order(String creator, Date orderTimeout, String orderUrl, Integer sentEmail, Restaurant restaurant, List<OrderItem> orderItems) {
         this.creator = creator;
         this.orderTimeout = orderTimeout;
         this.orderUrl = orderUrl;
+        this.sentEmail = sentEmail;
         this.restaurant = restaurant;
         this.orderItems = orderItems;
     }
@@ -92,5 +96,13 @@ public class Order {
 
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public Integer getSentEmail() {
+        return sentEmail;
+    }
+
+    public void setSentEmail(Integer sentEmail) {
+        this.sentEmail = sentEmail;
     }
 }

@@ -25,5 +25,5 @@ public interface OrderJpaRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByOrderTimeoutIsAfter(Date date);
 
-    List<Order> findOrdersByOrderTimeoutBefore(Date now);
+    List<Order> findOrdersBySentEmailIsLikeAndOrderTimeoutBefore(Integer id, Date now);
 }

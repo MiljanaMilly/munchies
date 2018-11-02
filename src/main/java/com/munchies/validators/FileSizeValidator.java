@@ -1,5 +1,7 @@
 package com.munchies.validators;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
@@ -10,7 +12,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FileSizeValidator {
 
-    String message() default "{com.munchies.validators.FileSizeValidator.message}";
+
+    String message() default "{com.munchies.validators.FileSizeValidator.message}" + "{file.size.limit}";
 
     Class<?>[] groups() default {};
 

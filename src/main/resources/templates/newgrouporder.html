@@ -127,6 +127,7 @@
                                th:field="${o.orderId}" th:value="${grouporder.id}">
                         <br>
                         <br>
+
                         <div class="form-group" id="submitButton">
                             <div class="col-lg-5" style="margin: auto;"
                                  th:if="${(#dates.createNow().before(grouporder.orderTimeout))}">
@@ -137,7 +138,7 @@
                             </div>
                             <p id="sendEmailSuccess" th:if="${grouporder.orderTimeout.before(#dates.createNow())}">
                                 <a href="#" th:href="@{'/sendGroupOrderEmail/' + ${grouporder.id}}">
-                                    <button type="button" class="btn btn-outline-primary btn-sm">Email group order
+                                    <button type="button" class="btn btn-outline-primary btn-lg">Email group order
                                     </button>
                                 </a>
                             </p>
@@ -146,6 +147,7 @@
 
                     </form>
                 </div>
+
             </div>
         </div>
 
@@ -227,7 +229,6 @@
             document.getElementById("timer").innerHTML = "EXPIRED";
         }
     }, 1000);
-
 
 
 </script>
