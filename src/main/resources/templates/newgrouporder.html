@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>New group order</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div sec:authorize="isAnonymous()">
+        <div th:replace="fragments/header :: header"></div>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <div th:replace="admin/header :: header"></div>
+    </div>
+</div>
+<div class="jumbotron" style="overflow:hidden;">
+    <div class="container" style="overflow:hidden;">
+        <div class="card">
+            <div class="card-header text-center" th:object="${rest}">
+                <h3>You order from : </h3>
+                <h1 th:utext="${rest.name}">Name</h1>
+            </div>
+        </div>
+        <br>
+        <div class="col-lg-6" style="float:left;">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Restaurant info: </h3>
+                </div>
+                <div class="card-body text-center">
+                    <table class="table table-hover " th:object="${grouporder}">
+                        <tbody>
+                        <tr>
+                            <th scope="row">Link to order:</th>
+                            <td><a th:value="${grouporder.orderUrl}" th:field="${grouporder.orderUrl}"
+                                   th:href="@{'http://localhost:8080/newgrouporder?id=' + ${grouporder.id}}"
+                                   th:utext="'http://localhost:8080/newgrouporder?id=' + ${grouporder.id}">name</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Creator:</th>
+                            <td th:utext="${grouporder.creator}">Creator:</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Restaurant:</th>
+                            <td th:utext="${rest.name}">Restaurant name</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Phone:</th>
+                            <td th:utext="${rest.phoneNumber}">Phone</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Link to Menu:</th>
+                            <td><a th:href="@{'http://' + ${rest.menuUrl}}" th:text="${rest.menuUrl}">Menu Url</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-header text-center">
+                    <h3>Group order expires in: </h3>
+                    <div><h3 class="text-danger" id="timer"></h3></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6" style="float:left;">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>Order an item: </h4>
+                </div>
+                <div class="card-body text-center">
+                    <form class="needs-validation" action="#" th:action="@{/newgrouporder}"
+                          method="post" th:object="${o}" novalidate>
+                        <p class="text-danger text-center" th:if="${#fields.hasGlobalErrors()}"
+                           th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+                            error</p>
+                        <div class="form-row">
+                            <div class="col-lg-8 mx-auto">
+                                <label for="creator">Name: </label>
+                                <input type="text" class="form-control" id="creator"
+                                       placeholder="Order Creator"
+                                       th:field="*{creator}" required>
+                                <p class="text-danger text-center"
+                                   th:if="${#fields.hasErrors('creator')}"
+                                   th:errors="*{creator}">Validation error</p>
+                                <div class="invalid-feedback text-center">
+                                    Please enter your name.
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row">
+                            <div class="col-lg-8 mx-auto">
+                                <label for="name">Item: </label>
+                                <input type="text" class="form-control" id="name"
+                                       placeholder="Order Item"
+                                       th:field="*{name}" required>
+                                <p class="text-danger text-center"
+                                   th:if="${#fields.hasErrors('name')}"
+                                   th:errors="*{name}">Validation error</p>
+                                <div class="invalid-feedback text-center">
+                                    Please enter item name.
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row">
+                            <div class="col-lg-8 mx-auto">
+                                <label for="price">Price: </label>
+                                <input type="text" class="form-control" id="price"
+                                       placeholder="Item price"
+                                       th:field="*{price}" required>
+                                <p class="text-danger text-center"
+                                   th:if="${#fields.hasErrors('price')}"
+                                   th:errors="*{price}">Validation error</p>
+                                <div class="invalid-feedback text-center">
+                                    Please enter the price.
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" class="form-control"
+                               th:field="${o.orderId}" th:value="${grouporder.id}">
+                        <br>
+                        <br>
+
+                        <div class="form-group" id="submitButton">
+                            <div class="col-lg-5" style="margin: auto;"
+                                 th:if="${(#dates.createNow().before(grouporder.orderTimeout))}">
+                                <button type="submit" class="btn btn-primary pull-right"><i
+                                        class="glyphicon glyphicon-log-in"></i>
+                                    Submit Order
+                                </button>
+                            </div>
+                            <p id="sendEmailSuccess" th:if="${grouporder.orderTimeout.before(#dates.createNow())}">
+                                <a href="#" th:href="@{'/sendGroupOrderEmail/' + ${grouporder.id}}">
+                                    <button type="button" class="btn btn-outline-primary btn-lg">Email group order
+                                    </button>
+                                </a>
+                            </p>
+                        </div>
+
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="container">
+
+    <div class="card">
+        <div class="card-header text-center">
+            <h3>Ordered items: </h3>
+
+        </div>
+    </div>
+
+    <table class="table table-bordered table-sm" id="orderItems">
+        <thead>
+        <tr scope="col">
+            <td>Creator</td>
+            <td>Order Item</td>
+            <td>Item Price</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orderItem :  ${orders}">
+            <td><p th:text="${orderItem.creator}"></p></td>
+            <td><p th:text="${orderItem.name}"></p></td>
+            <td><p th:text="${orderItem.price.intValue()}"></p></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="col-lg-4"><h3>Total price: <span id="totalRow"></span> &nbsp; din</h3></div>
+
+</div>
+
+
+<div class="container ">
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+<script>
+    var date = "[[${grouporder.orderTimeout}]]";
+    var endDate = new Date(date).getTime();
+
+    var x = setInterval(function () {
+
+        var now = new Date().getTime();
+        var distance = endDate - now;
+
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("timer").innerHTML = minutes + " min " + seconds + " sec";
+
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("timer").innerHTML = "EXPIRED";
+        }
+    }, 1000);
+
+
+</script>
+
+
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script>
+
+    $(document).ready(function () {
+        var id = "[[${grouporder.id}]]";
+
+        var now = new Date().getTime();
+        var distance = endDate - now;
+
+        if (distance > 0) {
+            var refreshId = setInterval(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "api/getAjaxData/" + id,
+                    success: function (result) {
+                        $('#orderItems tbody').empty();
+                        var total = 0;
+                        $.each(result, function (i, orderItem) {
+
+                            var orderItems = '<tr>' +
+                                '<td>' + orderItem.creator + '</td>' +
+                                '<td>' + orderItem.name + '</td>' +
+                                '<td>' + parseFloat(orderItem.price);
+                            +'</td>'
+                            '</tr>';
+
+                            $('#orderItems tbody').append(orderItems);
+                            total += parseFloat(orderItem.price);
+                        });
+
+                        $("#totalRow").html(total);
+                    },
+                    error: function (e) {
+                        // alert("ERROR: ", e);
+                        console.log("ERROR: ", e);
+                    }
+                });
+
+            }, 2000);
+        }
+
+        // if (distance > 0) {
+        //     var sendEmail = setInterval(function() {
+        //         $.ajax({
+        //             type:"GET",
+        //             url:"/sendEmail/" + id,
+        //             success: $("#sendEmailSuccess").html("Email has been sent!")
+        //         });
+        //     })
+        // }
+        if (distance > 0) {
+            var refreshPage = setInterval(function updateDiv() {
+                $("#submitButton").load(window.location.href + " #submitButton");
+            }, distance);
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3 ">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurants</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!--<link rel="stylesheet" href="../../static/css/styles.css"/>-->
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/header :: header"></div>
+</div>
+<div class="container">
+    <br>
+    <div class="dropdown" style="margin-right:10px;">
+        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
+            Dropdown button
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" th:href="@{/sortandpage(page=${page.number - 1},size='2')}"> 2 </a>
+            <a class="dropdown-item" th:href="@{/sortandpage(page=${page.number - 1},size='5')}"> 5 </a>
+            <a class="dropdown-item" th:href="@{/sortandpage(page=${page.number - 1},size='10')}"> 10 </a>
+        </div>
+    </div>
+    <br>
+    <table id="tablePagination" class="table table-bordered">
+        <thead>
+        <tr class="table-secondary">
+            <td scope="col">Name</td>
+            <td scope="col">Address</td>
+            <td scope="col">Email</td>
+            <td scope="col">Phone Number</td>
+            <td scope="col">Menu URL</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="rest :  ${page.content}">
+            <td><p th:text="${rest.name}"></p></td>
+            <td><p th:text="${rest.address}"></p></td>
+            <td><p th:text="${rest.email}"></p></td>
+            <td><p th:text="${rest.phoneNumber}"></p></td>
+            <td><a th:href="@{'/files/' + ${rest.menuUrl}}" th:text="${rest.menuUrl}"> Link to menu</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination bottom-right">
+        &nbsp;&nbsp;&nbsp;
+        <span th:if="${page.hasPrevious()}">
+                <a th:href="@{/sortandpage(page=${page.number - 1},size=${page.size})}">Previous</a>
+            </span>
+        &nbsp;&nbsp;&nbsp;
+        <th:block th:each="i: ${#numbers.sequence(0, page.totalPages - 1)}">
+            <span th:if="${page.number == i}" class="selected">[[${i}+1]]</span>
+            &nbsp;
+            <span th:unless="${page.number == i}">
+                     <a th:href="@{/sortandpage(page=${i},size=${page.size})}">[[${i}+1]]</a>
+                </span>
+        </th:block>
+        &nbsp;&nbsp;&nbsp;
+        <span th:if="${page.hasNext()}">
+                     <a th:href="@{/sortandpage(page=${page.number+1},size=${page.size})}">Next</a>
+            </span>
+    </div>
+
+
+</div>
+
+<div class="container ">
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<!--<script> $(document).ready(function () {-->
+<!--var table = $('#tablePagination').DataTable({-->
+<!--"sAjaxSource": "/sortandpage",-->
+<!--"sAjaxDataProp": "",-->
+<!--"aoColumns": [-->
+<!--{"mData": "name"},-->
+<!--{"mData": "address"},-->
+<!--{"mData": "email"},-->
+<!--{"mData": "phoneNumber"},-->
+<!--{"mData": "menuUrl"}-->
+<!--]-->
+<!--})-->
+<!--});</script>-->
+
+
+</body>
+</html>

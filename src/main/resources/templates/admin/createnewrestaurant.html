@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new restaurant</title>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Home Page</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div th:replace="admin/header :: header"></div>
+</div>
+
+<div class="container">
+    <div class="panel panel-default">
+        <div class="card">
+            <div class="card-header text-center">
+                <h3>Create new restaurant: </h3>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class=" col-lg-4 col-md-4 mx-auto">
+        <form class="needs-validation" action="#" th:action="@{/createnewrestaurant}" enctype="multipart/form-data"
+              method="POST" th:object="${newrest}" novalidate>
+            <p class="text-danger text-center" th:if="${#fields.hasGlobalErrors()}"
+               th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+                error</p>
+            <div class="form-row">
+                <label for="name">Restaurant name</label>
+                <input id="name" type="text" class="form-control" name="name" value=""
+                       placeholder="Restaurant name"
+                       th:field="*{name}" required>
+                <p class="text-danger text-center"
+                   th:if="${#fields.hasErrors('name')}"
+                   th:errors="*{name}">Validation error</p>
+                <div class="invalid-feedback">
+                    Please enter restaurant's name.
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <label for="address">Address:</label>
+                <input id="address" type="text" class="form-control" name="address"
+                       placeholder="Restaurant Address"
+                       th:field="*{address}" required>
+                <p class="text-danger text-center"
+                   th:if="${#fields.hasErrors('address')}"
+                   th:errors="*{address}">Validation error</p>
+                <div class="invalid-feedback">
+                    Please enter restaurant's address.
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <label for="phoneNumber">Phone number:</label>
+                <input id="phoneNumber" type="text" class="form-control" name="phoneNumber"
+                       placeholder="Phone number"
+                       th:field="*{phoneNumber}" required>
+                <p class="text-danger text-center"
+                   th:if="${#fields.hasErrors('phoneNumber')}"
+                   th:errors="*{phoneNumber}">Validation error</p>
+                <div class="invalid-feedback">
+                    Please enter a phone number.
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <label for="email">Email:</label>
+                <input id="email" type="text" class="form-control" name="email"
+                       placeholder="Email address"
+                       th:field="*{email}" required>
+                <p class="text-danger text-center"
+                   th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}">Validation error</p>
+                <div class="invalid-feedback">
+                    Please enter an email.
+                </div>
+            </div>
+            <br>
+            <br>
+            <div class="form-row">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                    </div>
+                    <div class="custom-file">
+                        <input class="custom-file-input" id="inputGroupFile01" type="file" name="file"
+                               placeholder="Menu Url" aria-describedby="inputGroupFileAddon01" th:field="*{file}">
+                        <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                    </div>
+                    <p class="text-danger text-center"
+                       th:if="${#fields.hasErrors('file')}"
+                       th:errors="*{file}">Validation error</p>
+
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <label for="deliveryTime">Delivery Time:</label>
+                <input id="deliveryTime" type="text" class="form-control" name="deliveryTime"
+                       placeholder="Delivery time"
+                       th:field="*{deliveryTime}">
+                <p class="text-danger text-center"
+                   th:if="${#fields.hasErrors('deliveryTime')}"
+                   th:errors="*{deliveryTime}">Validation error</p>
+            </div>
+            <br>
+            <div class="form-row">
+                <label for="deliveryInfo">Delivery Info:</label>
+                <input id="deliveryInfo" type="text" class="form-control" name="deliveryInfo"
+                       placeholder="deliveryInfo"
+                       th:field="*{deliveryInfo}">
+
+                <p class="text-danger text-center"
+                   th:if="${#fields.hasErrors('deliveryInfo')}"
+                   th:errors="*{deliveryInfo}">Validation error</p>
+            </div>
+            <br>
+            <div class="form-row">
+                <label for="additionalCharges">Additional Charges:</label>
+
+                <input id="additionalCharges" type="text" class="form-control" name="additionalCharges"
+                       placeholder="additionalCharges"
+                       th:field="*{additionalCharges}">
+
+                <p class="text-danger text-center"
+                   th:if="${#fields.hasErrors('additionalCharges')}"
+                   th:errors="*{additionalCharges}">Validation error</p>
+            </div>
+            <br>
+            <div class="col-lg-8" style="margin: auto;">
+                <button type="submit" class="btn btn-primary btn-block">
+                    Submit Restaurant
+                </button>
+
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<div class="container text-center">
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script type="application/javascript">
+    $('input[type="file"]').change(function (e) {
+        var fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+    });
+</script>
+</body>
+</html>

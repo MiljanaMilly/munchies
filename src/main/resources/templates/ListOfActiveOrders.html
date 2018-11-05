@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Active orders</title>
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Create New Group Order</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+        <div sec:authorize="isAnonymous()">
+            <div th:replace="fragments/header :: header"></div>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <div th:replace="admin/header :: header"></div>
+        </div>
+
+
+</div>
+
+<div class="container" th:fragment="content">
+    <div class="panel panel-default">
+        <div class="panel-heading text-center"><h3>Active Orders</h3></div>
+        <div class="panel-body text-center">
+            <h3>List of active Orders</h3>
+        </div>
+
+    </div>
+    <div class="row">
+        <table class="table table-bordered">
+            <tr style="font-size: 13">
+                <td>Creator</td>
+                <td>Timeout</td>
+                <td>Restaurant</td>
+                <td>Group Order</td>
+            </tr>
+            <tr th:each="active :  ${activeOrders}">
+                <td><p th:text="${active.creator}"></p></td>
+                <td><p th:text="${active.orderTimeout}"></p></td>
+                <td><p th:text="${active.restaurant.name}"></p></td>
+                <td>
+                    <div ><a href="#" th:href="@{'/newgrouporder?id=' + ${active.id}}">
+                        <button type="button" class="btn btn-outline-primary btn-sm">View Group Order</button>
+                    </a></div>
+
+                </td>
+
+
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<div class="container text-center">
+        <div th:replace="fragments/footer :: footer"></div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
