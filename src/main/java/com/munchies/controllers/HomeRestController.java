@@ -4,8 +4,14 @@ import com.munchies.dto.OrderDto;
 import com.munchies.dto.OrderItemDto;
 import com.munchies.model.Order;
 import com.munchies.model.OrderItem;
+import com.munchies.model.Restaurant;
 import com.munchies.services.OrderService;
+import com.munchies.services.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,6 +24,8 @@ public class HomeRestController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private RestaurantService restaurantService;
 
     @RequestMapping(value = "/getAjaxData/{id}", method = RequestMethod.GET)
     public List<OrderItemDto> getAllOrders(@PathVariable Long id) {
@@ -34,6 +42,12 @@ public class HomeRestController {
     public List<OrderDto> getOrders() {
         List<OrderDto> list = orderService.getActiveOrders();
         return list;
+    }
+
+    @RequestMapping(value = "/sortandpage", method = RequestMethod.GET)
+    public ResponseEntity<?> getOrders(Pageable pageable) {
+        Page<Restaurant> restaurants = restaurantService.findAllPagingAndSorting(pageable);
+        return new ResponseEntity(restaurants, HttpStatus.OK);
     }
 
 

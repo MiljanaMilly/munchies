@@ -8,9 +8,13 @@ import com.munchies.exceptions.EmailExistsException;
 import com.munchies.exceptions.OrderIsNotActiveException;
 import com.munchies.exceptions.OrderNotExistsException;
 import com.munchies.model.OrderItem;
+import com.munchies.model.Restaurant;
 import com.munchies.model.User;
 import com.munchies.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -164,6 +168,18 @@ public class HomeController {
         List<RestaurantDto> restListDto = restaurantService.getAllRestListDto();
         mav.addObject("restaurants", restListDto);
         mav.setViewName("/home");
+        return mav;
+
+    }
+
+    @GetMapping(value = "/sortandpage")
+    public ModelAndView getPageOfRest(@PageableDefault(size = 5) Pageable pageable) {
+        ModelAndView mav = new ModelAndView();
+        Page<Restaurant> restaurants = restaurantService.findAllPagingAndSorting(pageable);
+        mav.addObject("page", restaurants);
+//        List<RestaurantDto> restList = restaurantService.getAllRestListDto();
+//        mav.addObject("restList", restList);
+        mav.setViewName("PaginationRestaurants");
         return mav;
 
     }

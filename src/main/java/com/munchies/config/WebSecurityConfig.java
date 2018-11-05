@@ -49,7 +49,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/getlistofactiveorders", "/css/**",
                     "/img/**", "/upload-dir",
                     "/uploadnewfile/**",
-                    "/files/**", "/sendGroupOrderEmail/**").permitAll()
+                    "/files/**",
+                    "/sendGroupOrderEmail/**",
+                    "/getPageOfRestaurants", "/sortandpage").permitAll()
             .antMatchers("/admin/**")
             .access("hasAuthority('ADMIN')").anyRequest()
             .authenticated()
