@@ -79,8 +79,8 @@ public class HomeController {
         return mav;
     }
 
-    @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.GET)
-    public ModelAndView createNewGroupOrder(@RequestParam("id") Long id, ModelAndView mav, OrderDto order) {
+    @RequestMapping(value = "/createnewgrouporder/{id}", method = RequestMethod.GET)
+    public ModelAndView createNewGroupOrder(@PathVariable("id") Long id, ModelAndView mav, OrderDto order) {
         RestaurantDto restaurant = restaurantService.getOneRestDtoNoOrdersMapped(id);
         order.setRestaurant(restaurant);
         mav.addObject("order", order);
@@ -94,19 +94,19 @@ public class HomeController {
     if (!bindingResult.hasErrors()) {
         order.setRestaurant(r);
         OrderDto go = orderService.save(order);
-        go.setOrderUrl("http://localhost:8080/newgrouporder?id=" + go.getId());
+        go.setOrderUrl("http://localhost:8080/newgrouporder/" + go.getId());
         OrderDto groupOrder = orderService.save(go);
         mav.addAttribute("grouporder", groupOrder);
         mav.addAttribute("order", new OrderItem());
-        return "redirect:/newgrouporder?id=" + go.getId();
+        return "redirect:/newgrouporder/" + go.getId();
         } else {
         mav.addAttribute("order", order);
         return "/createnewgrouporder";
     }
     }
 
-    @RequestMapping(value = "/newgrouporder", method = RequestMethod.GET)
-    public ModelAndView getGroupOrderForm(@RequestParam("id") Long id, ModelAndView mav) {
+    @RequestMapping(value = "/newgrouporder/{id}", method = RequestMethod.GET)
+    public ModelAndView getGroupOrderForm(@PathVariable("id") Long id, ModelAndView mav) {
         OrderDto order = orderService.findOneOrderDtoWithRestWithItems(id);
         OrderItemDto orderItemDto = new OrderItemDto();
         orderItemDto.setOrderId(order.getId());
@@ -124,18 +124,19 @@ public class HomeController {
         OrderDto orderDto = orderService.findOneOrderDtoWithRestWithItems(o.getOrderId());
         if(!bindingResult.hasErrors()){
             orderItemService.saveOne(o);
-            mav.setViewName("redirect:/newgrouporder?id=" + orderDto.getId());
+            mav.setViewName("redirect:/newgrouporder/" + orderDto.getId());
         } else{
+            mav.addObject("rest", orderDto.getRestaurant());
             mav.addObject("orders", orderDto.getOrderItems());
             mav.addObject("grouporder", orderDto);
             mav.addObject("o", o);
-            mav.setViewName("redirect:/newgrouporder?id=" + orderDto.getId());
+            mav.setViewName("/newgrouporder");
         }
         return mav;
     }
 
-    @RequestMapping(value = "/viewrestdetails", method = RequestMethod.GET)
-    public ModelAndView newGroupOrder(@RequestParam("id") Long id, ModelAndView mav) {
+    @RequestMapping(value = "/viewrestdetails/{id}", method = RequestMethod.GET)
+    public ModelAndView newGroupOrder(@PathVariable("id") Long id, ModelAndView mav) {
         RestaurantDto r = restaurantService.getOneRestDtoNoOrdersMapped(id);
         mav.addObject("onerest", r);
         mav.setViewName("viewRestDetails");

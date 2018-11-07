@@ -39,8 +39,8 @@
                         <tr>
                             <th scope="row">Link to order:</th>
                             <td><a th:value="${grouporder.orderUrl}" th:field="${grouporder.orderUrl}"
-                                   th:href="@{'http://localhost:8080/newgrouporder?id=' + ${grouporder.id}}"
-                                   th:utext="'http://localhost:8080/newgrouporder?id=' + ${grouporder.id}">name</a></td>
+                                   th:href="@{'http://localhost:8080/newgrouporder/' + ${grouporder.id}}"
+                                   th:utext="'http://localhost:8080/newgrouporder/' + ${grouporder.id}">name</a></td>
                         </tr>
                         <tr>
                             <th scope="row">Creator:</th>

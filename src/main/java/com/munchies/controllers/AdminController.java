@@ -74,8 +74,8 @@ public class AdminController {
         return mav;
     }
 
-    @GetMapping("/deleterest")
-    public ModelAndView deleteRest(@RequestParam("id") Long id, ModelAndView mav) throws NotFoundException, RestaurantHasActiveOrdersException {
+    @GetMapping("/deleterest/{id}")
+    public ModelAndView deleteRest(@PathVariable Long id, ModelAndView mav) throws NotFoundException, RestaurantHasActiveOrdersException {
         storageService.deleteFilesByRestaurantId(id);
         restaurantService.deleteRestById(id);
         mav.setViewName("redirect:/restaurants");
@@ -83,8 +83,8 @@ public class AdminController {
 
     }
 
-    @GetMapping("/editrestaurant")
-    public ModelAndView editRest(@RequestParam(value = "id", required = false) Long id, ModelAndView mav) {
+    @GetMapping("/editrestaurant/{id}")
+    public ModelAndView editRest(@PathVariable(required = false) Long id, ModelAndView mav) {
         //edit rest page without a rest Id redirects to restaurants page
         if (id == null) {
             mav.setViewName("redirect:/restaurants");

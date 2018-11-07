@@ -58,10 +58,11 @@
                 <td><p th:text="${rest.phoneNumber}"></p></td>
                 <td><a th:href="@{'/files/' + ${rest.menuUrl}}" th:text="${rest.menuUrl}"> Link to menu</a></td>
                 <td>
-                    <div style="margin-bottom: 5px;"><a href="#" th:href="@{'/createnewgrouporder?id=' + ${rest.id}}">
+                    <div style="margin-bottom: 5px;"><a href="#" th:href="@{'/createnewgrouporder/' + ${rest.id}}">
                         <button type="button" class="btn btn-outline-primary btn-sm">New Group Order</button> </a></div>
 
-                    <div style="margin-bottom: 5px;"><a href="#" th:href="@{'/viewrestdetails?id=' + ${rest.id}}"> <button type="button" class="btn btn-outline-primary btn-sm"> View
+                    <div style="margin-bottom: 5px;"><a href="#" th:href="@{'/viewrestdetails/' + ${rest.id}}">
+                        <button type="button" class="btn btn-outline-primary btn-sm"> View
                         Details </button> </a></div>
                 </td>
 

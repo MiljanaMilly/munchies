@@ -58,10 +58,10 @@
                             Details
                         </button>
                     </a>
-                        <a href="#" th:href="@{'/deleterest?id=' + ${rest.id}}">
+                        <a href="#" th:href="@{'/deleterest/' + ${rest.id}}">
                             <button type="button" class="btn btn-outline-primary btn-sm"> Delete</button>
                         </a>
-                        <a href="#" th:href="@{'/editrestaurant?id=' + ${rest.id}}">
+                        <a href="#" th:href="@{'/editrestaurant/' + ${rest.id}}">
                             <button type="button" class="btn btn-outline-primary btn-sm">Edit</button>
                         </a></div>
                 </td>

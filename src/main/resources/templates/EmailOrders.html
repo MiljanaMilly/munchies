@@ -7,29 +7,26 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 
-<div class="container">
-
-    <div class="card">
-        <div class="card-header text-center">
+<div style="width:100%; margin-right: 10px;">
+    <h3>You ordered from: </h3>
+    <h1 th:text="${order.getRestaurant().getName()}"></h1>
+    <h3>Order # : </h3>
+    <h3 th:text="${order.id}"></h3>
+    <table style="border:1px solid black;" id="orderItems">
+        <div>
             <h3>Ordered items: </h3>
-
         </div>
-    </div>
-
-    <table style="border:2px solid black;" id="orderItems">
-        <thead>
-        <tr scope="col" style="border:2px;">
+        <thead style="border:1px solid black;">
+        <tr style="border:2px;">
             <td>Creator</td>
             <td>Order Item</td>
             <td>Item Price</td>
         </tr>
         </thead>
-        <tbody style="border:2px;">
+        <tbody style="border:1px solid black;">
         <tr th:each="orderItem :  ${orders}">
             <td><p th:text="${orderItem.creator}"></p></td>
             <td><p th:text="${orderItem.name}"></p></td>
@@ -37,7 +34,9 @@
         </tr>
         </tbody>
     </table>
-    <div class="col-lg-4"><h3>Total price: <span id="totalRow"></span> &nbsp; din</h3></div>
+    <div>
+        <h3>Total price: <p th:text="${total}"></p> &nbsp; din</h3>
+    </div>
 
 </div>
 

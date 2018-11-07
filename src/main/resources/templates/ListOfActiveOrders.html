@@ -45,7 +45,7 @@
                 <td><p th:text="${active.orderTimeout}"></p></td>
                 <td><p th:text="${active.restaurant.name}"></p></td>
                 <td>
-                    <div ><a href="#" th:href="@{'/newgrouporder?id=' + ${active.id}}">
+                    <div><a href="#" th:href="@{'/newgrouporder/' + ${active.id}}">
                         <button type="button" class="btn btn-outline-primary btn-sm">View Group Order</button>
                     </a></div>
 
