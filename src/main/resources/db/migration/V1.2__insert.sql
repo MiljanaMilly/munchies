@@ -1,1 +1,0 @@
-alter table orders add column sent_email INT(1) DEFAULT 0;

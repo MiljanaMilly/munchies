@@ -37,6 +37,7 @@ CREATE TABLE if not exists `orders` (
   `id` bigint(200) primary key auto_increment NOT NULL,
   `creator` varchar(50) NOT NULL,
   `order_timeout` datetime NOT NULL,
+   sent_email INT(1) DEFAULT 0,
   `order_url` varchar(500),
   `restaurant_id` bigint(200),
   foreign key (restaurant_id) references restaurants(id)

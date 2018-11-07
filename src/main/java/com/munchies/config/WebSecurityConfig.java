@@ -11,7 +11,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.sql.DataSource;
 
 
 @Configuration
@@ -21,6 +25,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService customUserDetailsService;
+
+
+    @Autowired
+    private DataSource dataSource;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -62,7 +70,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .usernameParameter("email").passwordParameter("password")
             .failureUrl("/login?error").permitAll()
             .and()
-            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/home").permitAll();
+            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/home").deleteCookies("my-remember-me-cookie").permitAll().and()
+            .rememberMe()
+            .rememberMeCookieName("my-remember-me-cookie")
+            .tokenRepository(persistentTokenRepository())
+            .tokenValiditySeconds(24 * 60 * 60)
+            .and()
+            .exceptionHandling()
+    ;
+    }
+
+    PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl tokenRepositoryImpl = new JdbcTokenRepositoryImpl();
+        tokenRepositoryImpl.setDataSource(dataSource);
+        return tokenRepositoryImpl;
     }
 
 
