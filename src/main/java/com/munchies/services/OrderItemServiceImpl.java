@@ -28,14 +28,14 @@ public class OrderItemServiceImpl implements OrderItemService {
     private OrderItemMapper orderItemMapper;
 
 
-    public OrderItemDto saveOne(OrderItemDto orderItemDot) throws OrderIsNotActiveException, OrderNotExistsException {
-        Optional<Order> order = orderJpaRepository.findById(orderItemDot.getOrderId());
+    public OrderItemDto saveOne(OrderItemDto orderItemDto) throws OrderIsNotActiveException, OrderNotExistsException {
+        Optional<Order> order = orderJpaRepository.findById(orderItemDto.getOrderId());
         OrderItemDto savedDto = new OrderItemDto();
         if (order.isPresent()) {
             Date orderTimeout = order.get().getOrderTimeout();
             LocalDateTime dateTime = LocalDateTime.now();
             if (dateTime.isBefore(convertToLocalDateTime(orderTimeout))) {
-                OrderItem orderItem = orderItemMapper.mapOrderItemDtoToEntity(orderItemDot);
+                OrderItem orderItem = orderItemMapper.mapOrderItemDtoToEntity(orderItemDto);
                 orderItem.setOrder(order.get());
                 OrderItem saved = orderItemJpaRepository.save(orderItem);
                 savedDto = orderItemMapper.mapEntityToOrderItemDto(saved);
