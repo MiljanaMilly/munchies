@@ -10,9 +10,10 @@ import java.util.stream.Stream;
 
 @Service
 public interface StorageService {
+
     void init() throws StorageException;
 
-    String storeFile(MultipartFile file) throws StorageException;
+    String storeFileForNewRestaurant(MultipartFile file) throws StorageException;
 
     String store(MultipartFile file, Long id) throws StorageException;
 

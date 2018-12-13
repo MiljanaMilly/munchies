@@ -41,17 +41,35 @@ public class HomeController {
     @Autowired
     private OrderItemService orderItemService;
 
+    /**
+     * <h1>Welcome to Home Controller! </h1>
+     * This is the main controller for all functionality accessible to unauthenticated users;
+     * */
 
+    /**
+     * Contains a list of restaurants with restaurant details
+     *
+     * @return ModelAndView - ModelAndView object containing a list of restaurantDto objects {@link RestaurantDto}
+     */
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
-    public ModelAndView goHome(ModelAndView mav) {
+    public ModelAndView goHome() {
+        ModelAndView mav = new ModelAndView();
         List<RestaurantDto> restListDto = restaurantService.getAllRestListDto();
         mav.addObject("restaurants", restListDto);
         mav.setViewName("home");
         return mav;
     }
 
+    /**
+     *   Contains a log in form with "Remember me" option (Persistent token approach)
+     *   Error message appears if username/password are not correct or do not exist
+     *   @param user    New User object fed to the form {@link User}
+     *   @param error   If a login error occurs form receives an error parameter and a message is shown
+     *   @param mav     New ModelAndView object
+     *   @return ModelAndView
+     *    */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView loginPage(User user, @RequestParam(value = "error", required = false) String error,ModelAndView mav) {
+    public ModelAndView loginPage(User user, @RequestParam(value = "error", required = false) String error, ModelAndView mav) {
         //default error login url is /login?error - Web Security Config
         if (error != null) {
             mav.addObject("error", "Invalid username and/or password!");
@@ -61,12 +79,21 @@ public class HomeController {
         return mav;
     }
 
+    /**
+     * Page for registering new users
+     * @
+     *    */
     @GetMapping(value = "/signup")
     public String signupform(UserDto user, Model model) {
         model.addAttribute("us", user);
         return "signup";
     }
 
+    /**
+     * POST Sign Up Page - Register a new user
+     * Hibernate Validation for all fields
+     * FrontEnd JS validation against empty fields
+     * */
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public ModelAndView signup(@Valid @ModelAttribute("us") UserDto user, BindingResult bindingResult, UserDto newUser, ModelAndView mav) throws EmailExistsException {
         if (!bindingResult.hasErrors()) {
@@ -79,6 +106,13 @@ public class HomeController {
         return mav;
     }
 
+    /**
+     * GET Create New Group Order Page- Enter Creator name
+     * Simple form for creating the group order
+     * Successful creation saves group order to the DB and
+     * leads to the Group order Main Page
+     * */
+
     @RequestMapping(value = "/createnewgrouporder/{id}", method = RequestMethod.GET)
     public ModelAndView createNewGroupOrder(@PathVariable("id") Long id, ModelAndView mav, OrderDto order) {
         RestaurantDto restaurant = restaurantService.getOneRestDtoNoOrdersMapped(id);
@@ -88,22 +122,38 @@ public class HomeController {
         return mav;
     }
 
+    /**
+     * POST Create New Group order - Creator name is Saved
+     *                             + Timeout is set to 10 minutes from current time(Default)
+     *                             + chosen Restaurant ID is saved to the Order
+     *                             + Order is saved to DB and added to the model
+     * */
+
     @RequestMapping(value = "/createnewgrouporder", method = RequestMethod.POST)
     public String submitGroupOrder(@Valid @ModelAttribute("order") OrderDto order, BindingResult bindingResult, Model mav) {
         RestaurantDto r = restaurantService.getOneRestDtoNoOrdersMapped(order.getRestaurant().getId());
-    if (!bindingResult.hasErrors()) {
-        order.setRestaurant(r);
-        OrderDto go = orderService.save(order);
-        go.setOrderUrl("http://localhost:8080/newgrouporder/" + go.getId());
-        OrderDto groupOrder = orderService.save(go);
-        mav.addAttribute("grouporder", groupOrder);
-        mav.addAttribute("order", new OrderItem());
-        return "redirect:/newgrouporder/" + go.getId();
+        if (!bindingResult.hasErrors()) {
+            order.setRestaurant(r);
+            OrderDto go = orderService.save(order);
+            go.setOrderUrl("http://localhost:8080/newgrouporder/" + go.getId());
+            OrderDto groupOrder = orderService.save(go);
+            mav.addAttribute("grouporder", groupOrder);
+            mav.addAttribute("order", new OrderItem());
+            return "redirect:/newgrouporder/" + go.getId();
         } else {
-        mav.addAttribute("order", order);
-        return "/createnewgrouporder";
+            mav.addAttribute("order", order);
+            return "/createnewgrouporder";
+        }
     }
-    }
+
+    /**
+     * Get New Group Order Page - Main Group order Page
+     * Shows basic Group Order information
+     * Contains form for ordering individual items
+     * Counts down to group order timeout
+     * Shows table with current order items, their prices and total amount
+     * table with order items refreshes every 2 secs (Ajax Call)
+     * */
 
     @RequestMapping(value = "/newgrouporder/{id}", method = RequestMethod.GET)
     public ModelAndView getGroupOrderForm(@PathVariable("id") Long id, ModelAndView mav) {
@@ -118,6 +168,10 @@ public class HomeController {
         return mav;
 
     }
+
+    /**
+     *
+     * */
 
     @RequestMapping(value = "/newgrouporder", method = RequestMethod.POST)
     public ModelAndView submitOrderForm(@Valid @ModelAttribute("o") OrderItemDto o, BindingResult bindingResult, ModelAndView mav) throws OrderIsNotActiveException, OrderNotExistsException {

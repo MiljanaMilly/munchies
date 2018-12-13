@@ -94,11 +94,10 @@
                                placeholder="Menu Url" aria-describedby="inputGroupFileAddon01" th:field="*{file}">
                         <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                     </div>
-                    <p class="text-danger text-center"
-                       th:if="${#fields.hasErrors('file')}"
-                       th:errors="*{file}">Validation error</p>
-
                 </div>
+                <p class="text-danger text-center"
+                   th:if="${#fields.hasErrors('file')}"
+                   th:errors="*{file}">Validation error</p>
             </div>
             <br>
             <div class="form-row">

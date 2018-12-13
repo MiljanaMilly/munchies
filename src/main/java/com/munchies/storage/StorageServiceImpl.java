@@ -36,7 +36,7 @@ public class StorageServiceImpl implements StorageService {
     private RestaurantJpaRepository restaurantJpaRepository;
 
     @Override
-    public String storeFile(MultipartFile file) throws StorageException {
+    public String storeFileForNewRestaurant(MultipartFile file) throws StorageException {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try {
             if (file.getOriginalFilename().isEmpty()) {
