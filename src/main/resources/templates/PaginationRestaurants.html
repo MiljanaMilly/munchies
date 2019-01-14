@@ -18,16 +18,33 @@
 </div>
 <div class="container">
     <br>
-    <div class="dropdown" style="margin-right:10px;">
-        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
-            Dropdown button
+    <div>
+        <div class="dropdown" style="margin-right:10px;float:left;">
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown">
+                Page
         </button>
-        <div class="dropdown-menu">
+            <div class="dropdown-menu ">
             <a class="dropdown-item" th:href="@{/sortandpage(page=${page.number - 1},size='2')}"> 2 </a>
             <a class="dropdown-item" th:href="@{/sortandpage(page=${page.number - 1},size='5')}"> 5 </a>
             <a class="dropdown-item" th:href="@{/sortandpage(page=${page.number - 1},size='10')}"> 10 </a>
         </div>
     </div>
+        <div class="sorting" style="margin-right:10px; margin-left:10px; float:left;">
+            <a href="#" th:href="@{/sortandpage(page=${page.number - 1},size = ${pageNum}, sort = 'name,ASC')}">
+                <button type="button" class="btn btn-sm btn-outline-secondary" style="margin-right:10px;">
+                    ASC
+                </button>
+            </a>
+            <a href="#" th:href="@{/sortandpage(page=${page.number - 1},size = ${pageNum}, sort = 'name,DESC')}">
+                <button type="button" class="btn btn-sm btn-outline-secondary" style="margin-right:10px;">
+                    DESC
+                </button>
+            </a>
+
+        </div>
+        <div style="clear:both;"></div>
+    </div>
+
     <br>
     <table id="tablePagination" class="table table-bordered">
         <thead>

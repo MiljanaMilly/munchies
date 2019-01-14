@@ -18,9 +18,13 @@ import java.util.concurrent.Executor;
 /**
  * <h1>Greetings Earthlings!</h1>
  * <h3> Welcome to Munchies - Food ordering App developed as a part of my internship at ING Software Nis, Serbia </>
- * <p>This App is offering a central repository of restaurants. </p>
- * <p>Employees are able to see the a list of restaurants, restaurant details and make group orders.</p>
- * <ul>It consist of two distinct parts :
+ * <p>
+ *     This App is offering a central repository of restaurants to employees of a certain company.
+ *
+ *     It facilitates group food ordering!
+ * <p>
+ * Employees are able to see a list of restaurants, restaurant details and make group orders.
+ * <ul>It consists of two distinct parts :
  * <li>Administration portal
  * <li>and
  * <li>Employee portal  </ul>

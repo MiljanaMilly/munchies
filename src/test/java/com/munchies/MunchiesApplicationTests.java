@@ -15,27 +15,28 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest
+//
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@SpringBootTest
 public class MunchiesApplicationTests {
-
-
-    @Test
-    public void contextLoads() {
-
-    }
-
-    @Test
-    public void saveUser() {
-        User testUser = new User();
-        testUser.setFirstName("fdfgggg");
-        testUser.setLastName("Last sgsggName");
-        testUser.setEmail("ffwe@gmail.com");
-        testUser.setPassword("password");
-        testUser.setRoles(Arrays.asList(new Role("ADMIN")));
-        assertNotNull(testUser);
-
-    }
+//
+//
+//    @Test
+//    public void contextLoads() {
+//
+//    }
+//
+//    @Test
+//    public void saveUser() {
+//        User testUser = new User();
+//        testUser.setFirstName("fdfgggg");
+//        testUser.setLastName("Last sgsggName");
+//        testUser.setEmail("ffwe@gmail.com");
+//        testUser.setPassword("password");
+//        testUser.setRoles(Arrays.asList(new Role("ADMIN")));
+//        assertNotNull(testUser);
+//
+//    }
 
 
 }

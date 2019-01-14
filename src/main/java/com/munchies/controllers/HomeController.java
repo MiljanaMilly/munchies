@@ -13,8 +13,11 @@ import com.munchies.model.User;
 import com.munchies.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +28,10 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * <h1>Welcome to Home Controller! </h1>
+ * This is the main controller for all functionality accessible to unauthenticated users;
+ */
 
 @Controller
 public class HomeController {
@@ -41,14 +48,9 @@ public class HomeController {
     @Autowired
     private OrderItemService orderItemService;
 
-    /**
-     * <h1>Welcome to Home Controller! </h1>
-     * This is the main controller for all functionality accessible to unauthenticated users;
-     * */
 
     /**
      * Contains a list of restaurants with restaurant details
-     *
      * @return ModelAndView - ModelAndView object containing a list of restaurantDto objects {@link RestaurantDto}
      */
     @RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
@@ -81,7 +83,7 @@ public class HomeController {
 
     /**
      * Page for registering new users
-     * @
+     * @param user New User Object fed to the form {@Link User}
      *    */
     @GetMapping(value = "/signup")
     public String signupform(UserDto user, Model model) {
@@ -228,16 +230,24 @@ public class HomeController {
     }
 
     @GetMapping(value = "/sortandpage")
-    public ModelAndView getPageOfRest(@PageableDefault(size = 5) Pageable pageable) {
+    public ModelAndView getPageOfRest(@PageableDefault(size = 5, sort = "name") Pageable pageable) {
         ModelAndView mav = new ModelAndView();
         Page<Restaurant> restaurants = restaurantService.findAllPagingAndSorting(pageable);
         mav.addObject("page", restaurants);
+        mav.addObject("pageNum", pageable.getPageSize());
 //        List<RestaurantDto> restList = restaurantService.getAllRestListDto();
 //        mav.addObject("restList", restList);
+        System.out.println("page sort direction is " + pageable.getSort());
         mav.setViewName("PaginationRestaurants");
+        System.out.println("page num is" + pageable.getPageSize());
         return mav;
 
     }
+//    @GetMapping(value = "/sortPage")
+//    public ModelAndView getSortAsc( @PageableDefault(size = 5) Pageable pageable) {
+//        ModelAndView mav = new ModelAndView();
+//
+//    }
 
 
 }

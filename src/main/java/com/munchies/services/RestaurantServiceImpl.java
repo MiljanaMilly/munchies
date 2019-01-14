@@ -11,7 +11,9 @@ import com.munchies.services.dtoMappers.RestaurantMapper;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -131,6 +133,7 @@ public RestaurantDto saveOne(RestaurantDto restaurant) throws RestaurantExistsEx
 
     @Override
     public Page<Restaurant> findAllPagingAndSorting(Pageable pageable) {
+
         Page<Restaurant> restaurants = restaurantJpaRepository.findAll(pageable);
         return restaurants;
     }

@@ -19,6 +19,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 import java.util.List;
 
+/**
+ * <h1>Welcome to Admin Controller! </h1>
+ * This is the main controller for all functionality accessible to authenticated users;
+ */
 @Controller
 public class AdminController {
 

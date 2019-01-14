@@ -44,11 +44,11 @@ public class HomeRestController {
         return list;
     }
 
-    @RequestMapping(value = "/sortandpage", method = RequestMethod.GET)
-    public ResponseEntity<?> getOrders(Pageable pageable) {
-        Page<Restaurant> restaurants = restaurantService.findAllPagingAndSorting(pageable);
-        return new ResponseEntity(restaurants, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/sortandpage", method = RequestMethod.GET)
+//    public ResponseEntity<?> getOrders(Pageable pageable) {
+//        Page<Restaurant> restaurants = restaurantService.findAllPagingAndSorting(pageable);
+//        return new ResponseEntity(restaurants, HttpStatus.OK);
+//    }
 
 
 }
